@@ -33,6 +33,11 @@ google_tracking_id:
 google_site_verification: 
 disqus_shortname: "alex"
 
+# valine 评论插件配置
+valine:
+  leancloud_appid: "lPecgqbFAAuuCvD2R2fMNbbC-gzGzoHsz"
+  leancloud_appkey: "VSbc5y1DaHu1Sn5PSD1g8QMA"
+
 # Build settings
 markdown: kramdown
 gems:
