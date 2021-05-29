@@ -11,7 +11,7 @@ categories: Finance
 因此做个总结，希望若干年以后还能不忘初心，顺着笔记还能摸到瓜。^_^
 
 
-### 1. 风险中性测度下的股价
+#### 1. 风险中性测度下的股价
 
 假设 $W(t), 0 \leq t \leq T $是概率空间$ (\Omega, \mathcal{F}, \mathbb{P})$上的布朗运动，$\mathcal{F}(t), 0\leq t \leq T$是该布朗运动的filtration，考虑股价$S(t)$，其微分如下：
 
