@@ -1,9 +1,9 @@
 ---
 layout: post
-title: 关于风险中性测度下Black-Scholes-Merton Model推导的总结
-tags: [金融数学]
-date: 2021-05-27
-categories: 金融数学
+title: "关于风险中性测度下Black-Scholes-Merton Model推导的总结"
+tags: 金融数学
+date: 2021-05-27 22:00:00 +0545
+categories: Finance
 ---
 
 从2008年一次考证经历，第一次知道期权这货并看到期权定价的Black-Scholes-Merton公式开始，就被其深深迷住了，断断续续翻阅了许多书籍及文献资料，包括Hull那本及基础的数学分析、实分析及基于测度论的概率论等，以其能踩到看懂其背后原理的垫脚石。但由于大学专业和数学八竿子打不着，看起来很吃力，直到工作后于2015年左右遇见世图影印出版的《Stochastic Calculus for Finance》才看到完整的讲解，似懂非懂中看到第5章开头就放弃了，时间一直来到了2021年，趁COVID-19疫情期间工作之余继续怼，从头开始又来到了第5章，这次仿佛感觉看明白了。。。
