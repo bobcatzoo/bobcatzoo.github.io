@@ -17,19 +17,19 @@ title: MatJek
 description: > # this means to ignore newlines until "baseurl:"
   Material theme based on <a href="http://materializecss.com">Materialize.css</a> for jekyll sites
 baseurl: "/matjek"
-url: "https://shawnteoh.github.io"
+url: "https://bobcatzoo.github.io"
 permalink: /:year/:month/:day/:title
 repository: ShawnTeoh/matjek
 paginate: 5
 
 # MatJek specific configurations
-github_profile: "https://github.com/bobcatzoo"
-user: "Alex"
-user_email: "bobcatzoo@outlook.com"
-contact_url: ""
-google_tracking_id: ""
-google_site_verification: ""
-disqus_shortname: "AZ"
+#github_profile: "https://github.com/bobcatzoo"
+#user: "Alex"
+#user_email: "bobcatzoo@outlook.com"
+#contact_url: ""
+#google_tracking_id: ""
+#google_site_verification: ""
+#disqus_shortname: "AZ"
 
 # Build settings
 markdown: kramdown
