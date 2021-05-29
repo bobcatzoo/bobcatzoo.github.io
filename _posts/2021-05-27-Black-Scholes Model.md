@@ -4,16 +4,17 @@ title: "关于风险中性测度下Black-Scholes-Merton Model推导的总结"
 tags: 金融数学
 date: 2021-05-27 22:00:00 +0545
 categories: Finance
+comments: 1
 ---
 
-从2008年一次考证经历，第一次知道期权这货并看到期权定价的Black-Scholes-Merton公式开始，就被其深深迷住了，断断续续翻阅了许多书籍及文献资料，包括Hull那本及基础的数学分析、实分析及基于测度论的概率论等，以其能踩到看懂其背后原理的垫脚石。但由于大学专业和数学八竿子打不着，看起来很吃力，直到工作后于2015年左右遇见世图影印出版的《Stochastic Calculus for Finance》才看到完整的讲解，似懂非懂中看到第5章开头就放弃了，时间一直来到了2021年，趁COVID-19疫情期间工作之余继续怼，从头开始又来到了第5章，这次仿佛感觉看明白了。。。
+2008年一次考证经历，第一次知道了期权并看到期权定价的Black-Scholes-Merton公式开始，被其深深迷住，断断续续翻阅了许多书籍及文献资料，包括Hull那本及基础的数学分析、实分析及基于测度论的概率论等等，以其能踩到看懂其背后原理的垫脚石。但由于大学专业和数学不沾边，看起来很吃力，直到工作后于2015年左右遇见世图影印出版的《Stochastic Calculus for Finance》才看到完整的讲解，似懂非懂中看到第5章开头就因种种原因放弃了，时间一直来到了2021年，趁COVID-19疫情期间工作之余继续怼，从头开始又来到了第5章，这次感觉仿佛看明白了许多。。。
 
-因此做个总结，希望若干年以后还能不忘初心，顺着笔记还能摸到瓜。^_^
+因此做个总结，希望若干年以后还能不忘初心，顺着笔记还能摸到瓜。🍉
 
 
 #### 1. 风险中性测度下的股价
 
-假设 $W(t), 0 \leq t \leq T $是概率空间$ (\Omega, \mathcal{F}, \mathbb{P})$上的布朗运动，$\mathcal{F}(t), 0\leq t \leq T$是该布朗运动的filtration，考虑股价$S(t)$，其微分如下：
+假设 $W(t), 0 \leq t \leq T $是概率空间$ (\Omega, \mathcal{F}, \mathbb{P})$上的布朗运动，$\mathcal{F}(t), 0\leq t \leq T$是该布朗运动的域流，考虑股价$S(t)$，其微分如下：
 
 $$
 d S(t)=\alpha(t) S(t) d t+\sigma(t) S(t) d W(t), \quad 0 \leq t \leq T.  \tag{1.1}
@@ -50,7 +51,7 @@ d(D(t) S(t)) &=(\alpha(t)-R(t)) D(t) S(t) d t+\sigma(t) D(t) S(t) d W(t) \\
 \end{aligned} \tag{1.6}
 $$
 
-其中风险市场价格$\Theta(t)=\frac{\alpha(t)-R(t)}{\sigma(t)} $。
+其中定义风险的市场价格$\Theta(t)=\frac{\alpha(t)-R(t)}{\sigma(t)} $。
 
 根据Girsanov's Theorem，在概率测度$\widetilde{\mathbb{P}}$下，$d \widetilde W(t) = \Theta(t) d t+d W(t) $，因此公式1.6也可以写为
 
@@ -76,11 +77,15 @@ $$
 S(t)=S(0) \exp \left\{\int_{0}^{t} \sigma(s) d \widetilde{W}(s)+\int_{0}^{t}\left(R(s)-\frac{1}{2} \sigma^{2}(s)\right) d s\right\} \tag{1.10}
 $$
 
-### 2. 未完待续...
+#### 2. 未完待续...
 
 
 
 感谢妈咪叔LaTeX助力 [在线LaTeX](https://www.latexlive.com)
+
+参考:
+				[金融随机分析](https://book.douban.com/subject/3369848/)
+				[Stochastic Calculus for Finance II - Continuous-Time Models](https://book.douban.com/subject/2187921/)
 
 
 
