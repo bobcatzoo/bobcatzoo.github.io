@@ -28,7 +28,7 @@ paginate: 5 #每页显示5篇文章
 #github_profile: "https://github.com/bobcatzoo"
 user: "Alex"
 user_email: "bobcatzoo@outlook.com"
-contact_url: 
+contact_url: "https://forms.office.com/r/jMwZkxUzF9" #用于contact页面
 google_tracking_id: 
 google_site_verification: 
 disqus_shortname: "alex"
