@@ -13,7 +13,7 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: 见贤思齐焉,见不贤而内自省也.
+title: 见贤思齐焉，见不贤而内自省也。
 description: > # this means to ignore newlines until "baseurl:"
   基于 Jekyll 的 Github Pages 个人博客网站，记录工作生活与学习中的点点滴滴。。。🐱
 baseurl: ""
