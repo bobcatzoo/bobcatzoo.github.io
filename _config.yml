@@ -22,7 +22,7 @@ github_repo: "https://github.com/bobcatzoo/bobcatzoo.github.io"
 github_profile: "https://github.com/bobcatzoo"
 permalink: /:year/:month/:day/:title
 repository: 
-paginate: 5
+paginate: 5 #每页显示5篇文章
 
 # MatJek specific configurations
 #github_profile: "https://github.com/bobcatzoo"
@@ -32,6 +32,13 @@ contact_url:
 google_tracking_id: 
 google_site_verification: 
 disqus_shortname: "alex"
+
+douban_username:  # 你的豆瓣id
+twitter_username: realJarryCat
+github_username: 
+facebook_username: 
+weibo_username: 
+zhihu_username: tomcat-63-60
 
 # valine 评论插件配置
 valine:
