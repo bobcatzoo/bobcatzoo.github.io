@@ -1,10 +1,11 @@
+---
 layout: post
-title: # 随机金融分析第2册1.6测度变换笔记
+title: 金融随机分析第2册1.6测度变换笔记
 tags: 金融数学
 date: 2021-06-03 11:09:00 +0545
 categories: Finance
 comments: 1
-
+---
 
 ## 1 Introduction
 
@@ -465,3 +466,17 @@ fig.show()
 
 ## 3 总结
 对具有概率密度函数和概率分布函数的连续变量来说，测度变换类似于[换元积分法](https://zh.wikipedia.org/zh-cn/%E6%8D%A2%E5%85%83%E7%A7%AF%E5%88%86%E6%B3%95)。
+
+引用Reference：
+
+- [金融随机分析](https://book.douban.com/subject/3369848/)
+
+- [Stochastic Calculus for Finance Vol.2](https://www.springer.com/gp/book/9780387401010)
+
+- [维基百科](https://zh.wikipedia.org/wiki/Wikipedia:%E9%A6%96%E9%A1%B5)
+
+致谢Credit to:
+
+- [妈咪叔在线LaTeX](https://www.latexlive.com/)
+
+- [Plotly](https://plotly.com/python/)
