@@ -13,8 +13,8 @@ comments: 1
 
 
 
-#### 1 Introduction
 
+#### 1 Introduction
 
 
 ##### 1.1 Chapter 1 section 6 assert the following conclusions:
@@ -35,6 +35,7 @@ and now we have a meaningful equation, with both sides equal to zero, but the
 equation tells us nothing about the relationship among $\mathbb{P}$, $\widetilde{\mathbb{P}}$, and $Z$. Because $\mathbb{P}(\omega) = \widetilde{\mathbb{P}}(\omega) = 0$, the value os $Z(\omega)$ could be anything and (1.6.2) would still hold.
 
 However, (1.6.2) does capture the spirit of what we would like to accomplish. To change from $\mathbb{P}$ to $\widetilde{\mathbb{P}}$, **we need to reassign probabilities in $\Omega$ using $Z$ to tell us where in $\Omega$ we should revise the probability upward (where $Z > 1$) and where we should revise the probability downward (where $Z < 1$).** However, we should do this set-by-set, rather than $\omega$-by-$\omega$. The process is described by the following theorem.
+
 
 **Theorem 1.6.1.** Let $(\Omega, \mathcal{F}, \mathbb{P})$ be a probability space and let $Z$ be an almost surely nonnegative random variable with $\mathbb{E}Z = 1$. For $ A \subseteq \mathcal{F}$, define
 
@@ -58,16 +59,17 @@ for every nonnegative random variable $Y$.
 
 The $\widetilde{\mathbb{E}}$ appearing in (1.6.4) is expectation under the probability measure $\widetilde{\mathbb{P}}$ (i.e., $\widetilde{\mathbb{E}}X = \int_{\Omega} X(\omega) d \mathbb{P}(\omega)$).
 
+
 **Definition 1.6.3.** Let $\Omega$ be a nonemyty set and $\mathcal{F}$ a a-algebra of subsets of $\Omega$. Two probability measures $\mathbb{P}$ and $\widetilde{\mathbb{P}}$ on $(\Omega, \mathcal{F})$ are said to be equivalent if they agree which sets in $\Omega$ have probability zero.
+
 
 **Definition 1.6.5** Let $(\Omega, \mathcal{F}, \mathbb{P})$ be a probability space, let $\widetilde{\mathbb{P}}$ be another probability measure on $(\Omega, \mathcal{F})$ that is equivalent to $\mathbb{P}$, and let $Z$ be an almost surely positive random variable that relates $\mathbb{P}$ and $\widetilde{\mathbb{P}}$ via {1.6.3}. Then $Z$ is called the Radon-Nikodym derivative of $\widetilde{\mathbb{P}}$ with respect to $\mathbb{P}$, and we write
 
 $$
-Z=\frac{d \widetilde{\mathbb{P}}}{d \mathbb{P}}
+Z=\frac{d \widetilde{\mathbb{P}}}{d \mathbb{P}} \notag
 $$
 
 **Theorem 1.6.7 (Radon-Nikodym).** Let $\mathbb{P}$ and $\widetilde{\mathbb{P}}$ be equivalent probability measures defined on $(\Omega, \mathcal{F})$. Then there exists an almost surely positive random variable $Z$ such that $\mathbb{E}Z = 1$ and
-
 $$
 \widetilde{\mathbb{P}}(A)=\int_{A} Z(\omega) d \mathbb{P}(\omega) \text { for every } A \in \mathcal{F} \notag
 $$
@@ -79,23 +81,23 @@ $$
 [正态分布](https://zh.wikipedia.org/zh-cn/%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83)的[概率密度函数](https://zh.wikipedia.org/zh-cn/%E6%A9%9F%E7%8E%87%E5%AF%86%E5%BA%A6%E5%87%BD%E6%95%B8)是均值为$\mu$  方差为$\sigma ^{2}$(或标准差$\sigma$)是高斯函数的一个实例：
 
 $$
-f(x ; \mu, \sigma)=\frac{1}{\sigma \sqrt{2 \pi}} \exp \left(-\frac{(x-\mu)^{2}}{2 \sigma^{2}}\right)
+f(x ; \mu, \sigma)=\frac{1}{\sigma \sqrt{2 \pi}} \exp \left(-\frac{(x-\mu)^{2}}{2 \sigma^{2}}\right) \notag
 $$
 
 [累积分布函数](https://zh.wikipedia.org/zh-cn/%E7%B4%AF%E7%A7%AF%E5%88%86%E5%B8%83%E5%87%BD%E6%95%B0)是指随机变量$X$小于或等于$x$的概率，用概率密度函数表示为
 
 $$
-F(x ; \mu, \sigma)=\frac{1}{\sigma \sqrt{2 \pi}} \int_{-\infty}^{x} \exp \left(-\frac{(t-\mu)^{2}}{2 \sigma^{2}}\right) d t
+F(x ; \mu, \sigma)=\frac{1}{\sigma \sqrt{2 \pi}} \int_{-\infty}^{x} \exp \left(-\frac{(t-\mu)^{2}}{2 \sigma^{2}}\right) d t \notag
 $$
 
 如果一个随机变量$X$服从这个分布，我们写作$X \sim N(\mu ,\sigma ^{2})$. 如果$\mu = 0$并且$\sigma = 1$，这个分布被称为**标准正态分布**，这个分布能够简化为
 
 $$
-f(x)=\frac{1}{\sqrt{2 \pi}} \exp \left(-\frac{x^{2}}{2}\right)
+f(x)=\frac{1}{\sqrt{2 \pi}} \exp \left(-\frac{x^{2}}{2}\right) \notag
 $$
 
 $$
-F(x)=\int_{-\infty}^{x} f(t) d t = \frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{x} \exp \left(-\frac{t^{2}}{2}\right) d t
+F(x)=\int_{-\infty}^{x} f(t) d t = \frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{x} \exp \left(-\frac{t^{2}}{2}\right) d t \notag
 $$
 
 
@@ -111,7 +113,7 @@ $$
 其中概率密度函数(Probability Density Function)如下
 
 $$
-\varphi(x)=\frac{1}{\sqrt{2 \pi}} e^{-\frac{x^{2}}{2}}
+\varphi(x)=\frac{1}{\sqrt{2 \pi}} e^{-\frac{x^{2}}{2}} \notag
 $$
 
 我们取$B = \left(-\infty, b \right]$, 则得到如下熟悉的累积分布函数(Cumulative Distribution Function)
@@ -123,7 +125,7 @@ $$
 同时定义如下随机变量$Z(\omega)$
 
 $$
-Z(\omega)=\exp \left\{-\theta X(\omega)-\frac{1}{2} \theta^{2}\right\} \text { for all } \omega \in \Omega
+Z(\omega)=\exp \left\{-\theta X(\omega)-\frac{1}{2} \theta^{2}\right\} \text { for all } \omega \in \Omega \notag
 $$
 
 我们有
@@ -134,7 +136,7 @@ $$
 &=\frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{\infty} \exp \left\{-\frac{1}{2}\left(x^{2}+2 \theta x+\theta^{2}\right)\right\} d x \\
 &=\frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{\infty} \exp \left\{-\frac{1}{2}(x+\theta)^{2}\right\} d x \\
 &=\frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{\infty} \exp \left\{-\frac{1}{2} y^{2}\right\} d y
-\end{aligned}
+\end{aligned} \notag
 $$
 
 及
@@ -148,7 +150,7 @@ $$
 &=\frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{b-\theta} e^{-\theta x-\frac{1}{2} \theta^{2}} e^{-\frac{x^{2}}{2}} d x \\
 &=\frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{b-\theta} e^{-\frac{1}{2}(x+\theta)^{2}} d x \\
 &=\frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{b} e^{-\frac{1}{2} y^{2}} d y
-\end{aligned}
+\end{aligned} \notag
 $$
 
 即
@@ -160,7 +162,7 @@ $$
 满足Radon-Nikodym定理(1.6.7)且
 
 $$
-\widetilde{\mathbb{P}}\{Y \leq b\}=\frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{b} e^{-\frac{1}{2} y^{2}} d y
+\widetilde{\mathbb{P}}\{Y \leq b\}=\frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{b} e^{-\frac{1}{2} y^{2}} d y \notag
 $$
 
  因此随机变量$Y$在概率测度$\widetilde{\mathbb{P}}$下是标准正态随机变量。
@@ -244,7 +246,7 @@ fig.update_layout(height=500, width=800,
 
 fig.show()
 ```
-![avatar](https://github.com/bobcatzoo/bobcatzoo.github.io/blob/e0064cf29a9885c1ceb8d22cc51e08b3667c4a3c/assets/images/newplot0.png)
+<img src="./../assets/images/newplot0.png"/>
 
 将图像绘制在一张图上
 
