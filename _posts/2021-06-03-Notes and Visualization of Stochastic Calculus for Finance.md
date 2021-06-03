@@ -7,6 +7,11 @@ categories: Finance
 comments: 1
 ---
 
+
+
+本文主要对金融随机分析第2册第1张第6节测度变换进行总结，学习LaTeX数学公式的用法，同时借助[Plotly](https://plotly.com/python/)，练习图像绘制，便于更直观理解连续概率分布下的测度变换本质。
+
+
 ## 1 Introduction
 
 ### 1.1 Chapter 1 section 6 assert the following conclusions:
@@ -124,7 +129,17 @@ $$
 \end{aligned}
 $$
 
-即$\mathbb{E} Z =\frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{\infty} \exp \left\{-\frac{1}{2} y^{2}\right\} d y = 1$满足Radon-Nikodym定理(1.6.7)且$\widetilde{\mathbb{P}}\{Y \leq b\}=\frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{b} e^{-\frac{1}{2} y^{2}} d y$, 因此随机变量$Y$在概率测度$\widetilde{\mathbb{P}}$下是标准正态随机变量.
+即
+$$
+\mathbb{E} Z =\frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{\infty} \exp \left\{-\frac{1}{2} y^{2}\right\} d y = 1
+$$
+
+满足Radon-Nikodym定理(1.6.7)且
+$$
+\widetilde{\mathbb{P}}\{Y \leq b\}=\frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{b} e^{-\frac{1}{2} y^{2}} d y
+$$
+
+ 因此随机变量$Y$在概率测度$\widetilde{\mathbb{P}}$下是标准正态随机变量.
 
 ##  2 In Python's Perspective
 
