@@ -380,12 +380,13 @@ $$
 回顾以下**正态分布**$X$ ~ $N(\mu ,\sigma ^{2})$概率密度函数
 
 $$
-g(x ; \mu, \sigma)=\frac{1}{\sigma \sqrt{2 \pi}} \exp \left(-\frac{(x-\mu)^{2}}{2 \sigma^{2}}\right)
+f(x ; \mu, \sigma)=\frac{1}{\sigma \sqrt{2 \pi}} \exp \left(-\frac{(x-\mu)^{2}}{2 \sigma^{2}}\right)
 $$
 
 如果$\mu = 0$并且$\sigma = 1$，则这个分布简化为
+
 $$
-g(x)=\frac{1}{\sqrt{2 \pi}} \exp \left(-\frac{x^{2}}{2}\right)
+f(x)=\frac{1}{\sqrt{2 \pi}} \exp \left(-\frac{x^{2}}{2}\right)
 $$
 
 令
@@ -397,7 +398,7 @@ $$
 则
 
 $$
-c(x ; 0,1)= Z(x) \ast g(x)
+c(x ; 0,1)= Z(x) \ast f(x)
 $$
 
 创建标准柯西分布
