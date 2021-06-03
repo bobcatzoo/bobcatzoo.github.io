@@ -12,9 +12,9 @@ comments: 1
 本文主要对金融随机分析第2册第1张第6节测度变换进行总结，学习LaTeX数学公式的用法，同时借助[Plotly](https://plotly.com/python/)，练习图像绘制，便于更直观理解连续概率分布下的测度变换本质。
 
 
-## 1 Introduction
+#### 1 Introduction
 
-### 1.1 Chapter 1 section 6 assert the following conclusions:
+##### 1.1 Chapter 1 section 6 assert the following conclusions:
 
 We pick up the thread of Section 3.1 of Volume I, in which we used a positive random variable $Z$ to change probability measures on a space $\Omega$. We need to do this when we change from the actual probability measure $\mathbb{P}$ to the risk-neutral probability measure $\widetilde{\mathbb{P}}$ in models of financial markets. When $\Omega$ is uncountably infinite and $\mathbb{P}(\omega) = \widetilde{\mathbb{P}}(\omega) = 0$ for every $\omega \subseteq \Omega$, it no longer makes sense to write (3.1.1) of Chapter 3 of Volume I,
 $$
@@ -63,7 +63,7 @@ $$
 \widetilde{\mathbb{P}}(A)=\int_{A} Z(\omega) d \mathbb{P}(\omega) \text { for every } A \in \mathcal{F}
 $$
 
-### 1.2 正态分布简介
+##### 1.2 正态分布简介
 
 [正态分布](https://zh.wikipedia.org/zh-cn/%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83)的[概率密度函数](https://zh.wikipedia.org/zh-cn/%E6%A9%9F%E7%8E%87%E5%AF%86%E5%BA%A6%E5%87%BD%E6%95%B8)是均值为$\mu$  方差为$\sigma ^{2}$(或标准差$\sigma$)是高斯函数的一个实例：
 $$
@@ -84,7 +84,7 @@ $$
 F(x)=\int_{-\infty}^{x} f(t) d t = \frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{x} \exp \left(-\frac{t^{2}}{2}\right) d t
 $$
 
-### 1.3 正态随机变量的测度变换
+##### 1.3 正态随机变量的测度变换
 
 令$X$为标准正态随机变量,即
 $$
@@ -141,9 +141,9 @@ $$
 
  因此随机变量$Y$在概率测度$\widetilde{\mathbb{P}}$下是标准正态随机变量.
 
-##  2 In Python's Perspective
+####  2 In Python's Perspective
 
-### 2.1 准备工作
+##### 2.1 准备工作
 
 ```python
 import numpy as np
@@ -192,7 +192,7 @@ y_pdf = stats.norm.pdf(x, 0, 1) # 标准正态分布概率密度函数(Probabili
 y_cdf = stats.norm.cdf(x, 0, 1) # 标准正态分布累积分布函数(Cumulative Distribution Function)
 ```
 
-### 2.2 绘制标准正态分布的pdf和cdf图像
+##### 2.2 绘制标准正态分布的pdf和cdf图像
 
 ```python
 fig = make_subplots(rows=1, cols=2, shared_yaxes=True, horizontal_spacing=0.1)
@@ -230,7 +230,7 @@ fig.show()
 
 ![avatar](./../assets/images/newplot1.png)
 
-### 2.3 可视化将概率测度$\mathbb{P}$变换成$\widetilde{\mathbb{P}}$ 的$Z(\omega)$
+##### 2.3 可视化将概率测度$\mathbb{P}$变换成$\widetilde{\mathbb{P}}$ 的$Z(\omega)$
 
 $$
 d \widetilde{\mathbb{P}} = Z(x) {d \mathbb{P}} = Z(x) \varphi(x) d x = Z(x) \frac{1}{\sqrt{2 \pi}} e^{-\frac{x^{2}}{2}} d x
@@ -248,6 +248,7 @@ Z_omega = np.exp(-theta * x - 0.5 * theta ** 2)
 ```
 
 绘制$Z (\omega)$图像
+
 ```python
 # Initialize figure with subplots
 fig = go.Figure()
@@ -316,7 +317,7 @@ fig.show()
 
 ![avatar](./../assets/images/newplot3.png)
 
-### 2.4 正态分布与柯西分布的测度变换
+##### 2.4 正态分布与柯西分布的测度变换
 
 [柯西分布](https://zh.wikipedia.org/wiki/%E6%9F%AF%E8%A5%BF%E5%88%86%E5%B8%83)也叫作柯西-洛伦兹分布，它是以[奥古斯丁·路易·柯西](https://zh.wikipedia.org/wiki/%E5%A5%A7%E5%8F%A4%E6%96%AF%E4%B8%81%C2%B7%E8%B7%AF%E6%98%93%C2%B7%E6%9F%AF%E8%A5%BF)与[亨德里克·洛伦兹](https://zh.wikipedia.org/wiki/%E4%BA%A8%E5%BE%B7%E9%87%8C%E5%85%8B%C2%B7%E6%B4%9B%E4%BC%A6%E5%85%B9)名字命名的连续概率分布，其概率密度函数为
 
@@ -479,7 +480,7 @@ fig.show()
 
 ![avatar](./../assets/images/newplot7.png)
 
-## 3 总结
+#### 3 总结
 对具有概率密度函数和概率分布函数的连续变量来说，测度变换类似于[换元积分法](https://zh.wikipedia.org/zh-cn/%E6%8D%A2%E5%85%83%E7%A7%AF%E5%88%86%E6%B3%95)。
 
 引用Reference：
