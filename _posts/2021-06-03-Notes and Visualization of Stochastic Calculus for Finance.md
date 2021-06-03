@@ -246,7 +246,7 @@ fig.update_layout(height=500, width=800,
 
 fig.show()
 ```
-<img src="~/assets/images/newplot0.png"/>
+![newplot _0_.png](https://i.loli.net/2021/06/03/MYsxirewJaPmqHj.png)
 
 将图像绘制在一张图上
 
@@ -262,7 +262,7 @@ fig.update_layout(height=500, width=800, title_text=r"$\text{Normal Distribution
 fig.show()
 ```
 
-<img src="~/assets/images/newplot1.png"/>
+![newplot _1_.png](https://i.loli.net/2021/06/03/Gzq98B43D7Qgimv.png)
 
 
 
@@ -314,7 +314,7 @@ fig.update_layout(height=500, width=800, showlegend=True,
 fig.show()
 ```
 
-<img src="~/assets/images/newplot2.png"/>
+![newplot _2_.png](https://i.loli.net/2021/06/03/EWZNPUhqsGXLTn5.png)
 
 生成经过$Z (\omega)$变换后的新概率分布
 
@@ -352,7 +352,7 @@ fig.update_layout(height=500, width=800, title_text=r"$\text{Normal Distribution
 fig.show()
 ```
 
-<img src="~/assets/images/newplot3.png"/>
+![newplot _3_.png](https://i.loli.net/2021/06/03/sPBJOSdunYNkADw.png)
 
 
 
@@ -427,7 +427,7 @@ fig.update_layout(height=500, width=800, title_text=r"$\text{pdf and cdf of Stan
 fig.show()
 ```
 
-<img src="~/assets/images/newplot4.png"/>
+![newplot _4_.png](https://i.loli.net/2021/06/03/bunYMgwp1RJ9dS7.png)
 
 计算$Z (\omega) = 1$的临界点
 
@@ -469,7 +469,7 @@ fig.update_layout(height=600, width=800, title_text=r"$\text{Normal Distribution
 fig.show()
 ```
 
-<img src="~/assets/images/newplot5.png"/>
+![newplot _5_.png](https://i.loli.net/2021/06/03/vprA3VH6fnozi5X.png)
 
 将图像绘制在一张图上
 
@@ -501,7 +501,7 @@ fig.update_layout(height=500, width=800, title_text=r"$\text{Normal Distribution
 fig.show()
 ```
 
-<img src="~/assets/images/newplot6.png"/>
+![newplot _6_.png](https://i.loli.net/2021/06/03/NsXSyamEjYOTbV3.png)
 
 绘制标准柯西分布与标准正态分布的变换图像cdf
 
@@ -519,7 +519,7 @@ fig.update_layout(height=500, width=800, title_text="cdf of Cauchy and Normal di
 fig.show()
 ```
 
-<img src="~/assets/images/newplot7.png"/>
+![newplot _7_.png](https://i.loli.net/2021/06/03/qK4lBCNwyYDU9v5.png)
 
 
 
