@@ -1,4 +1,4 @@
-# Change of Measure - Visualization
+# 1.6 Change of Measure
 
 ## 1 Introduction
 
@@ -190,7 +190,7 @@ fig.update_layout(height=500, width=800,
 
 fig.show()
 ```
-插入图片
+![avatar](./../assets/images/newplot0.png)
 
 将图像绘制在一张图上
 
@@ -206,7 +206,7 @@ fig.update_layout(height=500, width=800, title_text=r"$\text{Normal Distribution
 fig.show()
 ```
 
-插入图片
+![avatar](./../assets/images/newplot1.png)
 
 ### 2.3 可视化将概率测度$\mathbb{P}$变换成$\widetilde{\mathbb{P}}$ 的$Z(\omega)$
 
@@ -254,7 +254,7 @@ fig.update_layout(height=500, width=800, showlegend=True,
 fig.show()
 ```
 
-图片
+![avatar](./../assets/images/newplot2.png)
 
 生成经过$Z (\omega)$变换后的新概率分布
 
@@ -292,7 +292,7 @@ fig.update_layout(height=500, width=800, title_text=r"$\text{Normal Distribution
 fig.show()
 ```
 
-插入图片
+![avatar](./../assets/images/newplot3.png)
 
 ### 2.4 正态分布与柯西分布的测度变换
 
@@ -363,7 +363,7 @@ fig.update_layout(height=500, width=800, title_text=r"$\text{pdf and cdf of Stan
 fig.show()
 ```
 
-插入图片
+![avatar](./../assets/images/newplot4.png)
 
 计算$Z (\omega) = 1$的临界点
 
@@ -405,7 +405,7 @@ fig.update_layout(height=600, width=800, title_text=r"$\text{Normal Distribution
 fig.show()
 ```
 
-插入图片
+![avatar](./../assets/images/newplot5.png)
 
 将图像绘制在一张图上
 
@@ -437,7 +437,7 @@ fig.update_layout(height=500, width=800, title_text=r"$\text{Normal Distribution
 fig.show()
 ```
 
-插入图片
+![avatar](./../assets/images/newplot6.png)
 
 绘制标准柯西分布与标准正态分布的变换图像cdf
 
@@ -455,7 +455,7 @@ fig.update_layout(height=500, width=800, title_text="cdf of Cauchy and Normal di
 fig.show()
 ```
 
-插入图片
+![avatar](./../assets/images/newplot7.png)
 
 ## 3 总结
 对具有概率密度函数和概率分布函数的连续变量来说，测度变换类似于[换元积分法](https://zh.wikipedia.org/zh-cn/%E6%8D%A2%E5%85%83%E7%A7%AF%E5%88%86%E6%B3%95)。
