@@ -1,10 +1,7 @@
 ---
+theme :
+  name : bootstrap-3
 layout: default
-css: ["page.css"]
 ---
-<div id="page-info">
-  <h3>{{page.title}}</h3>
-</div>
-<div class="row">
-  {{ content }}
-</div>
+{% include JB/setup %}
+{% include themes/bootstrap-3/page.html %}
