@@ -65,6 +65,7 @@ $$
 $$
 Z(t) =\exp \left\{-\int_{0}^{t} \Theta(u) d W(u)-\frac{1}{2} \int_{0}^{t} \Theta^{2}(u) d u\right\} \tag{1.7}
 $$
+
 $$
 \widetilde{W}(t) =W(t)+\int_{0}^{t} \Theta(u) d u \tag{1.8}
 $$
