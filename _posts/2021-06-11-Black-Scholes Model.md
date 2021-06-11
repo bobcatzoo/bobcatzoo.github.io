@@ -191,7 +191,8 @@ $$
 $$
 \begin{aligned}
 c(t, x) &=\frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{d_{-}(\tau, x)} e^{-r \tau}\left(x \exp \left\{-\sigma \sqrt{\tau} y+\left(r-\frac{1}{2} \sigma^{2}\right) \tau\right\}-K\right) e^{-\frac{1}{2} y^{2}} d y \\
-&=\frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{d_{-}(\tau, x)} x \exp \left\{-\frac{y^{2}}{2}-\sigma \sqrt{\tau} y-\frac{\sigma^{2} \tau}{2}\right\} d y - \frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{d_{-}(\tau, x)} e^{-r \tau} K e^{-\frac{1}{2} y^{2}} d y \\
+&=\frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{d_{-}(\tau, x)} x \exp \left\{-\frac{y^{2}}{2}-\sigma \sqrt{\tau} y-\frac{\sigma^{2} \tau}{2}\right\} d y \\
+&- \frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{d_{-}(\tau, x)} e^{-r \tau} K e^{-\frac{1}{2} y^{2}} d y \\
 &=\frac{x}{\sqrt{2 \pi}} \int_{-\infty}^{d_{-}(\tau, x)} \exp \left\{-\frac{1}{2}(y+\sigma \sqrt{\tau})^{2}\right\} d y-e^{-r \tau} K N\left(d_{-}(\tau, x)\right) \\
 &=\frac{x}{\sqrt{2 \pi}} \int_{-\infty}^{d_{-}(\tau, x)+\sigma \sqrt{\tau}} \exp \left\{-\frac{z^{2}}{2}\right\} d z-e^{-r \tau} K N\left(d_{-}(\tau, x)\right) \\
 &=x N\left(d_{+}(\tau, x)\right)-e^{-r \tau} K N\left(d_{-}(\tau, x)\right)
