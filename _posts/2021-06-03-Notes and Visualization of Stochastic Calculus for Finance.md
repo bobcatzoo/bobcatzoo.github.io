@@ -3,6 +3,7 @@ layout: post
 title: 金融随机分析第2册1.6测度变换笔记
 tags: 金融数学
 date: 2021-06-03 11:09:00 +0545
+author: "Alex"
 categories: Finance
 comments: true
 ---
@@ -70,11 +71,10 @@ Z=\frac{d \widetilde{\mathbb{P}}}{d \mathbb{P}} \notag
 $$
 
 **Theorem 1.6.7 (Radon-Nikodym).** Let $\mathbb{P}$ and $\widetilde{\mathbb{P}}$ be equivalent probability measures defined on $(\Omega, \mathcal{F})$. Then there exists an almost surely positive random variable $Z$ such that $\mathbb{E}Z = 1$ and
+
 $$
 \widetilde{\mathbb{P}}(A)=\int_{A} Z(\omega) d \mathbb{P}(\omega) \text { for every } A \in \mathcal{F} \notag
 $$
-
-
 
 ##### 1.2 正态分布简介
 
@@ -99,8 +99,6 @@ $$
 $$
 F(x)=\int_{-\infty}^{x} f(t) d t = \frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{x} \exp \left(-\frac{t^{2}}{2}\right) d t \notag
 $$
-
-
 
 ##### 1.3 正态随机变量的测度变换
 
@@ -222,10 +220,7 @@ y_pdf = stats.norm.pdf(x, 0, 1) # 标准正态分布概率密度函数(Probabili
 y_cdf = stats.norm.cdf(x, 0, 1) # 标准正态分布累积分布函数(Cumulative Distribution Function)
 ```
 
-
-
 ##### 2.2 绘制标准正态分布的pdf和cdf图像
-
 
 
 ```python
@@ -265,9 +260,7 @@ fig.show()
 ![newplot _1_.png](https://i.loli.net/2021/06/03/Gzq98B43D7Qgimv.png)
 
 
-
 ##### 2.3 可视化将概率测度$\mathbb{P}$变换成$\widetilde{\mathbb{P}}$ 的$Z(\omega)$
-
 
 $$
 d \widetilde{\mathbb{P}} = Z(x) {d \mathbb{P}} = Z(x) \varphi(x) d x = Z(x) \frac{1}{\sqrt{2 \pi}} e^{-\frac{x^{2}}{2}} d x
@@ -355,10 +348,7 @@ fig.show()
 ![newplot _3_.png](https://i.loli.net/2021/06/03/sPBJOSdunYNkADw.png)
 
 
-
 ##### 2.4 正态分布与柯西分布的测度变换
-
-
 
 [柯西分布](https://zh.wikipedia.org/wiki/%E6%9F%AF%E8%A5%BF%E5%88%86%E5%B8%83)也叫作柯西-洛伦兹分布，它是以[奥古斯丁·路易·柯西](https://zh.wikipedia.org/wiki/%E5%A5%A7%E5%8F%A4%E6%96%AF%E4%B8%81%C2%B7%E8%B7%AF%E6%98%93%C2%B7%E6%9F%AF%E8%A5%BF)与[亨德里克·洛伦兹](https://zh.wikipedia.org/wiki/%E4%BA%A8%E5%BE%B7%E9%87%8C%E5%85%8B%C2%B7%E6%B4%9B%E4%BC%A6%E5%85%B9)名字命名的连续概率分布，其概率密度函数为
 
@@ -521,7 +511,6 @@ fig.show()
 ```
 
 ![newplot _7_.png](https://i.loli.net/2021/06/03/qK4lBCNwyYDU9v5.png)
-
 
 
 #### 3 总结
