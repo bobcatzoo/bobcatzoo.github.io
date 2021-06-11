@@ -4,7 +4,7 @@ title: "风险中性测度下Black-Scholes-Merton Model理论推导及C++和Pyth
 tags: [金融数学,C++,Python]
 date: 2021-06-11 11:00:00 +0800
 categories: Finance
-comments: 1
+comments: true
 ---
 
 2008年的1次考证经历，第1次知道了期权并学到了期权定价的Black-Scholes-Merton公式，被其深深迷住，断断续续翻阅了许多书籍及文献资料，包括Hull那本及基础的数学分析、实分析及基于测度论的概率论等等，但由于大学专业和数学不相关，看起来很吃力，虽有收获但感觉却与​Black-Scholes-Merton公式渐行渐远，需要补习的基础知识太多。直到工作后于2015年左右开始读世图影印出版的*Stochastic Calculus for Finance II*方才有种醍醐灌顶的感觉，似懂非懂中看到第5章开头后就因种种原因放弃了。

@@ -4,7 +4,7 @@ title: 金融随机分析第2册1.6测度变换笔记
 tags: 金融数学
 date: 2021-06-03 11:09:00 +0545
 categories: Finance
-comments: 1
+comments: true
 ---
 
 
