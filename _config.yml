@@ -104,10 +104,10 @@ page-mathjax: false
 # Friends
 friends: [
     {
-    #     title: "Su",
-    #     href: "http://su.gallery/"
-    # },{
-        title: "realbobcat",
-        href: "https://realbobcat.github.io/"
+        title: "LaTeX Live",
+        href: "https://www.latexlive.com/"
+    },{
+        title: "Hux",
+        href: "https://huangxuan.me/"
     }
 ]
