@@ -19,6 +19,9 @@
       }
     }
   });
+  MathJax.Hub.Queue(function () {
+    $('.MathJax_Display').wrap("<div class='official'></div>");
+  });
 </script>
 <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG">
