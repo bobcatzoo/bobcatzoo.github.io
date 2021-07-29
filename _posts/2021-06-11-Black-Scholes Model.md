@@ -19,217 +19,236 @@ comments: true
 
 #### 1.1 概率测度$\mathbb{P}$下的股价过程
 
-假设 $W(t), 0 \leq t \leq T $是概率空间$ (\Omega, \mathcal{F}, \mathbb{P})$上的布朗运动，$\mathcal{F}(t), 0\leq t \leq T$是该布朗运动的域流，考虑股价$S(t)$，其微分如下：
+假设 $\small W(t), 0 \leq t \leq T $是概率空间$\small (\Omega, \mathcal{F}, \mathbb{P})$上的布朗运动，$\small \mathcal{F}(t), 0\leq t \leq T$是该布朗运动的域流，考虑股价$\small S(t)$，其微分如下：
 
 $$
-d S(t)=\alpha(t) S(t) d t+\sigma(t) S(t) d W(t), \quad 0 \leq t \leq T.  \tag{1.1}
+\small d S(t)=\alpha(t) S(t) d t+\sigma(t) S(t) d W(t), \quad 0 \leq t \leq T.  \tag{1.1}
 $$
 
-其中平均回报率$\alpha(t)$和股价波动率$\sigma(t)$为适应性过程，则$S(t)$满足以下等式：
+其中平均回报率$\small \alpha(t)$和股价波动率$\small \sigma(t)$为适应性过程，则$\small S(t)$满足以下等式：
 
 $$
-S(t)=S(0) \exp \left\{\int_{0}^{t} \sigma(s) d W(s)+\int_{0}^{t}\left[\alpha(s)-\frac{1}{2} \sigma^{2}(s)\right] d s\right\} \tag{1.2}
+\small S(t)=S(0) \exp \left\{\int_{0}^{t} \sigma(s) d W(s)+\int_{0}^{t}\left[\alpha(s)-\frac{1}{2} \sigma^{2}(s)\right] d s\right\} \tag{1.2}
 $$
 
-假设我们有适应性利率过程$R(t)$，定义折现过程
+假设我们有适应性利率过程$\small R(t)$，定义折现过程
 
 $$
-D(t)=e^{-\int_{0}^{t} R(s) d s} \tag{1.3}
+\small D(t)=e^{-\int_{0}^{t} R(s) d s} \tag{1.3}
 $$
 
 则
 
 $$
-d D(t)=-R(t) D(t) d t \tag{1.4}
+\small d D(t)=-R(t) D(t) d t \tag{1.4}
 $$
 
-$D(t)S(t)$及其微分$d (D(t)S(t))$分别为：
+$\small D(t)S(t)$及其微分$\small d (D(t)S(t))$分别为：
 
 $$
-D(t) S(t)=S(0) \exp \left\{\int_{0}^{t} \sigma(s) d W(s)+\int_{0}^{t}\left[\alpha(s)-R(s)-\frac{1}{2} \sigma^{2}(s)\right] d s\right\} \tag{1.5}
+\small D(t) S(t)=S(0) \exp \left\{\int_{0}^{t} \sigma(s) d W(s)+\int_{0}^{t}\left[\alpha(s)-R(s)-\frac{1}{2} \sigma^{2}(s)\right] d s\right\} \tag{1.5}
 $$
 
 $$
-\begin{aligned}
+\small \begin{aligned}
 d(D(t) S(t)) &=[\alpha(t)-R(t)] D(t) S(t) d t+\sigma(t) D(t) S(t) d W(t) \\
+\\
 &=\sigma(t) D(t) S(t)[\Theta(t) d t+d W(t)]
 \end{aligned} \tag{1.6}
 $$
 
-其中定义风险的市场价格$\Theta(t)=\frac{\alpha(t)-R(t)}{\sigma(t)} $。
+其中定义风险的市场价格$\small \Theta(t)=\frac{\alpha(t)-R(t)}{\sigma(t)} $。
 
 #### 1.2 *Girsanov Theorem*
 
-假设$W(t), 0 < t < T$是概率空间$(\Omega, \mathcal{F}, \mathbb{P})$上的布朗运动，$\mathcal{F}(t)$为该布朗运动的域流，$\Theta(t), 0 < t < T$为适应性过程。我们定义
+假设$\small W(t), 0 < t < T$是概率空间$\small (\Omega, \mathcal{F}, \mathbb{P})$上的布朗运动，$\small \mathcal{F}(t)$为该布朗运动的域流，$\small \Theta(t), 0 < t < T$为适应性过程。我们定义
 
 $$
-Z(t) =\exp \left\{-\int_{0}^{t} \Theta(u) d W(u)-\frac{1}{2} \int_{0}^{t} \Theta^{2}(u) d u\right\} \tag{1.7}
+\small Z(t) =\exp \left\{-\int_{0}^{t} \Theta(u) d W(u)-\frac{1}{2} \int_{0}^{t} \Theta^{2}(u) d u\right\} \tag{1.7}
 $$
 
 $$
-\widetilde{W}(t) =W(t)+\int_{0}^{t} \Theta(u) d u \tag{1.8}
+\small \widetilde{W}(t) =W(t)+\int_{0}^{t} \Theta(u) d u \tag{1.8}
 $$
 
 并假设
 
 $$
-\mathbb{E} \int_{0}^{T} \Theta^{2}(u) Z^{2}(u) d u<\infty \tag{1.9}
+\small \mathbb{E} \int_{0}^{T} \Theta^{2}(u) Z^{2}(u) d u<\infty \tag{1.9}
 $$
 
-让$Z = Z(T)$。那么$\mathbb{E}Z = 1$且在由
+让$\small Z = Z(T)$。那么$\small \mathbb{E}Z = 1$且在由
 
 $$
-\widetilde{\mathbb{P}}(A) = \int_{A}Z(\omega) d \mathbb{P}(\omega) \quad \text{对所有} A \in \mathcal{F}. \tag{1.10}
+\small \widetilde{\mathbb{P}}(A) = \int_{A}Z(\omega) d \mathbb{P}(\omega) \quad \text{对所有} A \in \mathcal{F}. \tag{1.10}
 $$
 
-定义的概率测度$\widetilde{\mathbb{P}}$下，$\widetilde{W}(t), 0 < t < T$是布朗运动。$\Box$
+定义的概率测度$\small \widetilde{\mathbb{P}}$下，$\small \widetilde{W}(t), 0 < t < T$是布朗运动。$\small \Box$
 
 #### 1.3 概率测度$\widetilde{\mathbb{P}}$下的股价过程
 
-根据*Girsanov Theorem*，在概率测度$\widetilde{\mathbb{P}}$下，$d \widetilde W(t) = \Theta(t) d t+d W(t) $，因此公式$(1.6)$也可以写为
+根据*Girsanov Theorem*，在概率测度$\widetilde{\mathbb{P}}$下，$\small d \widetilde W(t) = \Theta(t) d t+d W(t) $，因此公式$(1.6)$也可以写为
 
 $$
-d (D(t)S(t)) = \sigma(t) D(t) S(t) d \widetilde W(t) \tag{1.11}
+\small d (D(t)S(t)) = \sigma(t) D(t) S(t) d \widetilde W(t) \tag{1.11}
 $$
 
 两边同时积分
 
 $$
-D(t) S(t)=S(0)+\int_{0}^{t} \sigma(u) D(u) S(u) d \widetilde{W}(u) \tag{1.12}
+\small D(t) S(t)=S(0)+\int_{0}^{t} \sigma(u) D(u) S(u) d \widetilde{W}(u) \tag{1.12}
 $$
 
-由于在概率测度$ \widetilde{\mathbb{P}}$下，$\int_{0}^{t} \sigma(u) D(u) S(u) d  \widetilde{W}(u)$是伊藤过程，因此是一个鞅。
+由于在概率测度$\small \widetilde{\mathbb{P}}$下，$\small \int_{0}^{t} \sigma(u) D(u) S(u) d  \widetilde{W}(u)$是伊藤过程，因此是一个鞅。
 
 **因此我们称*Girsanov Theorem*下的概率测度$\widetilde{\mathbb{P}}$为风险中性测度(risk-neutral measure)**。
 
-将$d \widetilde W(t) = \Theta(t) d t+d W(t) $带入公式$(1.1)$，可以得到在概率测度$\widetilde{\mathbb{P}}$下，公式$(1.1)$和$(1.2)$分别可以改写成公式$(1.13)$和公式$(1.14)$的形式
+将$\small d \widetilde W(t) = \Theta(t) d t+d W(t) $带入公式$(1.1)$，可以得到在概率测度$\widetilde{\mathbb{P}}$下，公式$(1.1)$和$(1.2)$分别可以改写成公式$(1.13)$和公式$(1.14)$的形式
 
 $$
-d S(t)= R(t) S(t) d t+\sigma(t) S(t) d \widetilde {W}(t) \tag{1.13}
+\small d S(t)= R(t) S(t) d t+\sigma(t) S(t) d \widetilde {W}(t) \tag{1.13}
 $$
 
 $$
-S(t)=S(0) \exp \left\{\int_{0}^{t} \sigma(s) d \widetilde{W}(s)+\int_{0}^{t}\left[R(s)-\frac{1}{2} \sigma^{2}(s)\right] d s\right\} \tag{1.14}
+\small S(t) = S(0) \exp \left\{\int_{0}^{t} \sigma(s) d \widetilde{W}(s)+\int_{0}^{t}\left[R(s)-\frac{1}{2} \sigma^{2}(s)\right] d s\right\} \tag{1.14}
 $$
 
 ### 2. 风险中性测度下投资组合的价值过程
 
-假设投资者初始资本为$X(0)$，在任意时间$t, 0 < t < T $持有$\Delta(t)$份股票，同时以利率$R(t)$投资或借贷于货币市场，以维持自融资状态，则投资组合价值的微分为
+假设投资者初始资本为$\small X(0)$，在任意时间$\small t, 0 < t < T $持有$\small \Delta(t)$份股票，同时以利率$\small R(t)$投资或借贷于货币市场，以维持自融资状态，则投资组合价值的微分为
 
 $$
-\begin{aligned}
-d X(t) &=\Delta(t) d S(t)+R(t)(X(t)-\Delta(t) S(t)) d t \\
+\small \begin{aligned}
+d X(t) &=\Delta(t) d S(t)+R(t) \left[ X(t)-\Delta(t) S(t) \right] d t \\
+\\
 &=\Delta(t) [\alpha(t) S(t) d t+\sigma(t) S(t) d W(t)]+R(t)[X(t)-\Delta(t) S(t)] d t \\
+\\
 &=R(t) X(t) d t+\Delta(t)[\alpha(t)-R(t)] S(t) d t+\Delta(t) \sigma(t) S(t) d W(t) \\
+\\
 &=R(t) X(t) d t+\Delta(t) \sigma(t) S(t)[\Theta(t) d t+d W(t)]
 \end{aligned} \tag{2.1}
 $$
 
-根据$\text{Ito}$乘法法则，由公式$(1.4)$和$(1.6)$可得
+根据$\small \text{Ito}$乘法法则，由公式$(1.4)$和$(1.6)$可得
 
 $$
-\begin{aligned}
+\small \begin{aligned}
 d(D(t) X(t)) &=\Delta(t) \sigma(t) D(t) S(t)[\Theta(t) d t+d W(t)] \\
+\\
 &=\Delta(t) d(D(t) S(t)) \\
+\\
 &=\Delta(t) \sigma(t) D(t) S(t) d \widetilde W(t)
 \end{aligned} \tag{2.2}
 $$
 
-由此投资者有两种选择：1、以利率$R(t)$投资于货币市场，2、在风险中性测度$\widetilde{\mathbb{P}}$下投资于平均回报率为$R(t)$的股票。但由于在风险中性测度$\widetilde{\mathbb{P}}$下，投资组合的折现价值$D(t)X(t)$是鞅，因此不管投资者如何选择，其投资组合的平均回报率均为为$R(t)$。
+由此投资者有两种选择：
+
+1. 以利率$\small R(t)$投资于货币市场；
+
+2. 在风险中性测度$\small \widetilde{\mathbb{P}}$下投资于平均回报率为$\small R(t)$的股票。
+
+但由于在风险中性测度$\small \widetilde{\mathbb{P}}$下，投资组合的折现价值$\small D(t)X(t)$是鞅，因此不管投资者如何选择，其投资组合的平均回报率均为为$\small R(t)$。
 
 ### 3. 风险中性测度下的期权定价
 
-我们令$\mathcal{F}(T)$可测的随机变量$V(T)$表示在时刻$T$衍生证券空头的潜在支付(*payoff*) $(S(T)-K)^+$，投资者为了对冲看涨期权空头即未来所面临的潜在支出$V(T)$，那么其持有的投资组合$X(t)$需要使以下等式几乎必然成立(*almost surely*)
+我们令$\small \mathcal{F}(T)$可测的随机变量$\small V(T)$表示在时刻$\small T$衍生证券空头的潜在支付(*payoff*) $\small (S(T)-K)^+$，投资者为了对冲看涨期权空头即未来所面临的潜在支出$\small V(T)$，那么其持有的投资组合$\small X(t)$需要使以下等式几乎必然成立(*almost surely*)
 
 $$
-X(T) = V(T) \tag{3.1}
+\small X(T) = V(T) \tag{3.1}
 $$
 
-我们先假设公式$(3.1)$成立，并由此确定初始资本$X(0)$和$\Delta t$过程。由$D(t)X(t)$在测度$\widetilde{\mathbb{P}}$是鞅的事实我们有
+我们先假设公式$(3.1)$成立，并由此确定初始资本$\small X(0)$和$\small \Delta t$过程。由$\small D(t)X(t)$在测度$\small \widetilde{\mathbb{P}}$是鞅的事实我们有
 
 $$
-D(t) X(t)=\widetilde{\mathbb{E}}[D(T) X(T) \mid \mathcal{F}(t)]=\widetilde{\mathbb{E}}[D(T) V(T) \mid \mathcal{F}(t)] \tag{3.2}
+\small D(t) X(t)=\widetilde{\mathbb{E}}[D(T) X(T) \mid \mathcal{F}(t)]=\widetilde{\mathbb{E}}[D(T) V(T) \mid \mathcal{F}(t)] \tag{3.2}
 $$
 
-$X(t)$表示在时刻$t$为完全对冲衍生证券支付$V(T)$所持有的投资组合价值，我们将其称之为衍生证券在时刻$t$的价格并用$V(t)$表示，那么公式$(3.2)$可以写成
+$\small X(t)$表示在时刻$t$为完全对冲衍生证券支付$\small V(T)$所持有的投资组合价值，我们将其称之为衍生证券在时刻 $t$ 的价格并用$\small V(t)$表示，那么公式$(3.2)$可以写成
 
 $$
-D(t) V(t)=\widetilde{\mathbb{E}}[D(T) V(T) \mid \mathcal{F}(t)], 0 \leq t \leq T \tag{3.3}
+\small D(t) V(t)=\widetilde{\mathbb{E}}[D(T) V(T) \mid \mathcal{F}(t)], 0 \leq t \leq T \tag{3.3}
 $$
 
-由于$D(t)$是$\mathcal{F}(t)$可测的，因此我们可以将其移到公式右侧，得到
+由于$\small D(t)$是$\small \mathcal{F}(t)$可测的，因此我们可以将其移到公式右侧，得到
 
 $$
-V(t)=\widetilde{\mathbb{E}}\left[e^{-\int_{t}^{T} R(u) d u} V(T) \mid \mathcal{F}(t)\right], 0 \leq t \leq T \tag{3.4}
+\small V(t)=\widetilde{\mathbb{E}}\left[e^{-\int_{t}^{T} R(u) d u} V(T) \mid \mathcal{F}(t)\right], 0 \leq t \leq T \tag{3.4}
 $$
 
 我们将公式$(3.3)$和$(3.4)$成为连续时间下风险中性定价公式(*risk-neutral pricing formula*)。
 
 ### 4. 推导$\text{Black-Scholes-Merton}$公式
 
-为简单起见，我们假设$\sigma(t)$和$R(t)$分别为常数$\sigma$和$r$，则公式$(3.4)$简化为
+为简单起见，我们假设$\small \sigma(t)$和$\small R(t)$分别为常数 $\sigma$ 和 $r$，则公式$(3.4)$简化为
 
 $$
-\widetilde{\mathbb{E}}\left[e^{-r(T-t)}(S(T)-K)^{+} \mid \mathcal{F}(t)\right] \tag{4.1}
+\small \widetilde{\mathbb{E}}\left[e^{-r(T-t)}(S(T)-K)^{+} \mid \mathcal{F}(t)\right] \tag{4.1}
 $$
 
-公式$(4.1)$仅依赖于时刻$t$和股价$S(t)$，由于几何布朗运动是马尔可夫过程，因此存在$c(t, S(t))$满足
+公式$(4.1)$仅依赖于时刻$t$和股价$\small S(t)$，由于几何布朗运动是马尔可夫过程，因此存在$\small c(t, S(t))$满足
 
 $$
-c(t, S(t)) = \widetilde{\mathbb{E}}\left[e^{-r(T-t)}(S(T)-K)^{+} \mid \mathcal{F}(t)\right] \tag{4.2}
+\small c(t, S(t)) = \widetilde{\mathbb{E}}\left[e^{-r(T-t)}(S(T)-K)^{+} \mid \mathcal{F}(t)\right] \tag{4.2}
 $$
 
 公式$(1.10)$简化为
 
 $$
-S(t)=S(0) \exp \left\{\sigma \widetilde{W}(t)+\left(r-\frac{1}{2} \sigma^{2}\right) t\right\} \tag{4.3}
+\small S(t) = S(0) \exp \left\{\sigma \widetilde{W}(t)+\left(r-\frac{1}{2} \sigma^{2}\right) t\right\} \tag{4.3}
 $$
 
-则$S(T)$等于
+则$\small S(T)$等于
 
 $$
-\begin{aligned}
+\small \begin{aligned}
 S(T) &=S(t) \exp \left\{\sigma(\widetilde{W}(T)-\widetilde{W}(t))+\left(r-\frac{1}{2} \sigma^{2}\right) \tau\right\} \\
+\\
 &=S(t) \exp \left\{-\sigma \sqrt{\tau} Y+\left(r-\frac{1}{2} \sigma^{2}\right) \tau\right\}
 \end{aligned} \tag{4.4}
 $$
 
-其中$\tau = T - t$，$Y$是标准正态随机变量
+其中$\small \tau = T - t$，$\small Y$是标准正态随机变量
 
 $$
-Y = - \frac{\widetilde{W}(T) - \widetilde{W}(t)} {\sqrt{T-t}} \tag{4.5}
+\small Y = - \frac{\widetilde{W}(T) - \widetilde{W}(t)} {\sqrt{T-t}} \tag{4.5}
 $$
 
 公式$(4.2)$可以写成如下形式
 
 $$
-\begin{aligned}
-c(t, x) &=\widetilde{\mathbb{E}}\left[e^{-r \tau}\left(x \exp \left\{-\sigma \sqrt{\tau} Y+\left(r-\frac{1}{2} \sigma^{2}\right) \tau\right\}-K\right)^{+}\right] \\
-&=\frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{\infty} e^{-r \tau}\left(x \exp \left\{-\sigma \sqrt{\tau} y+\left(r-\frac{1}{2} \sigma^{2}\right) \tau\right\}-K\right)^{+} e^{-\frac{1}{2} y^{2}} d y
+\small \begin{aligned}
+c(t, x) &= \widetilde{\mathbb{E}}\left[e^{-r \tau}\left(x \exp \left\{-\sigma \sqrt{\tau} Y+\left(r-\frac{1}{2} \sigma^{2}\right) \tau\right\}-K\right)^{+}\right] \\
+\\
+&= \frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{\infty} e^{-r \tau}\left[ x \exp \left\{-\sigma \sqrt{\tau} y+\left(r-\frac{1}{2} \sigma^{2}\right) \tau\right\}-K\right]^{+} e^{-\frac{1}{2} y^{2}} d y
 \end{aligned} \tag{4.6}
 $$
 
 其中被积函数
 
 $$
-\left(x \exp \left\{-\sigma \sqrt{\tau} y+\left(r-\frac{1}{2} \sigma^{2}\right) \tau\right\}-K\right)^{+} \tag{4.7}
+\small \left[ x \exp \left\{-\sigma \sqrt{\tau} y+\left(r-\frac{1}{2} \sigma^{2}\right) \tau\right\}-K\right]^{+} \tag{4.7}
 $$
 
 为正，当且仅当
 
 $$
-y<d_{-}(\tau, x)=\frac{1}{\sigma \sqrt{\tau}}\left[\log \frac{x}{K}+\left(r-\frac{1}{2} \sigma^{2}\right) \tau\right] \tag{4.8}
+\small y < d_{-}(\tau, x)=\frac{1}{\sigma \sqrt{\tau}}\left[\log \frac{x}{K}+\left(r-\frac{1}{2} \sigma^{2}\right) \tau\right] \tag{4.8}
 $$
 
 由此
 
 $$
-\begin{aligned}
+\small \begin{aligned}
 c(t, x) &=\frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{d_{-}(\tau, x)} e^{-r \tau}\left(x \exp \left\{-\sigma \sqrt{\tau} y+\left(r-\frac{1}{2} \sigma^{2}\right) \tau\right\}-K\right) e^{-\frac{1}{2} y^{2}} d y \\
+\\
 &=\frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{d_{-}(\tau, x)} x \exp \left\{-\frac{y^{2}}{2}-\sigma \sqrt{\tau} y-\frac{\sigma^{2} \tau}{2}\right\} d y \\
+\\
 &- \frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{d_{-}(\tau, x)} e^{-r \tau} K e^{-\frac{1}{2} y^{2}} d y \\
+\\
 &=\frac{x}{\sqrt{2 \pi}} \int_{-\infty}^{d_{-}(\tau, x)} \exp \left\{-\frac{1}{2}(y+\sigma \sqrt{\tau})^{2}\right\} d y-e^{-r \tau} K N\left(d_{-}(\tau, x)\right) \\
+\\
 &=\frac{x}{\sqrt{2 \pi}} \int_{-\infty}^{d_{-}(\tau, x)+\sigma \sqrt{\tau}} \exp \left\{-\frac{z^{2}}{2}\right\} d z-e^{-r \tau} K N\left(d_{-}(\tau, x)\right) \\
+\\
 &=x N\left(d_{+}(\tau, x)\right)-e^{-r \tau} K N\left(d_{-}(\tau, x)\right)
 \end{aligned} \tag{4.9}
 $$
@@ -237,50 +256,50 @@ $$
 其中
 
 $$
-d_+(\tau, x) = d_-(\tau, x) + \sigma \sqrt{\tau} = d_{-}(\tau, x)=\frac{1}{\sigma \sqrt{\tau}}\left[\log \frac{x}{K}+\left(r+\frac{1}{2} \sigma^{2}\right) \tau\right] \tag{4.10}
+\small d_+(\tau, x) = d_-(\tau, x) + \sigma \sqrt{\tau} = d_{-}(\tau, x)=\frac{1}{\sigma \sqrt{\tau}}\left[\log \frac{x}{K}+\left(r+\frac{1}{2} \sigma^{2}\right) \tau\right] \tag{4.10}
 $$
 
 由此我们得到了欧式看涨期权定价公式
 
 $$
-\text{BSM}(\tau, x, K, r, \sigma) = x N\left(d_{+}(\tau, x)\right)-e^{-r \tau} K N\left(d_{-}(\tau, x)\right) \tag{4.11}
+\small \text{BSM}(\tau, x, K, r, \sigma) = x N\left(d_{+}(\tau, x)\right)-e^{-r \tau} K N\left(d_{-}(\tau, x)\right) \tag{4.11}
 $$
 
 ### 5. 欧式期权定价公式
 
-根据上述对$\text{Black-Scholes-Merton}$期权定价公式的推导，对于当前股价为$S_0$，行权价格为$K$，行权期为$T$，无风险利率为常数$r$，股价波动率为常数$\sigma$的看涨期权，其期权费$c(S_0, K, T, r, \sigma)$为：
+根据上述对$\text{Black-Scholes-Merton}$期权定价公式的推导，对于当前股价为$\small S_0$，行权价格为$\small K$，行权期为$\small T$，无风险利率为常数$r$，股价波动率为常数$\sigma$的看涨期权，其期权费$\small c(S_0, K, T, r, \sigma)$为：
 
 $$
-c(S_0, K, T, r, \sigma)=N\left(d_{1}\right) S_{0}-N\left(d_{2}\right) K \exp (-r T) \tag{5.1}
+\small c(S_0, K, T, r, \sigma)=N\left(d_{1}\right) S_{0}-N\left(d_{2}\right) K \exp (-r T) \tag{5.1}
 $$
 
 其中
 
 $$
-d_{1}=\frac{1}{\sigma \sqrt{T}}\left(\log \left(\frac{S_0}{K}\right)+\left(r+\frac{\sigma^{2}}{2}\right) \sqrt{T}\right) \tag{5.2}
+\small d_{1} = \frac{1}{\sigma \sqrt{T}}\left(\log \left(\frac{S_0}{K}\right)+\left(r+\frac{\sigma^{2}}{2}\right) \sqrt{T}\right) \tag{5.2}
 $$
 
 $$
-d_{2}=\frac{1}{\sigma \sqrt{T}}\left(\log \left(\frac{S_0}{K}\right)+\left(r-\frac{\sigma^{2}}{2}\right) \sqrt{T}\right) \tag{5.3}
+\small d_{2} = \frac{1}{\sigma \sqrt{T}}\left(\log \left(\frac{S_0}{K}\right)+\left(r-\frac{\sigma^{2}}{2}\right) \sqrt{T}\right) \tag{5.3}
 $$
 
-$N(x)$为标准正态分布累积分布函数：
+$\small N(x)$为标准正态分布累积分布函数：
 
 $$
-N(x)=\frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{x} \exp \left(-\frac{t^{2}}{2}\right) d t \tag{5.4}
+\small N(x) = \frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{x} \exp \left(-\frac{t^{2}}{2}\right) d t \tag{5.4}
 $$
 
-对应看跌期权费$p(S_0, K, T, r, \sigma)$为:
+对应看跌期权费$\small p(S_0, K, T, r, \sigma)$为:
 
 $$
-p(S_0, K, T, r, \sigma)=N\left(-d_{2}\right) K \exp (-r T)-N\left(-d_{1}\right) S_0 \tag{5.5}
+\small p(S_0, K, T, r, \sigma)=N\left(-d_{2}\right) K \exp (-r T)-N\left(-d_{1}\right) S_0 \tag{5.5}
 $$
 
 ### 6. 期权定价的C++实现 
 
 #### 6.1 实现$N(x)$函数 - *From Scratch to Boost Library*
 
-定价公式$(1)$-$(5)$中涉及$N(x)$、$\exp(x)$和$\log(x)$等3个函数，其中$\exp(x)$和$\log(x)$已在标准库`<cmath>`中实现，可以直接使用。因此只剩$N(x)$需要我们在标准库外自己实现或寻求其他库的支持。我们按照如下三种方式分别进行实现：
+定价公式$(1)$-$(5)$中涉及$\small N(x)$、$\small \exp(x)$和$\small \log(x)$等3个函数，其中$\small \exp(x)$和$\small \log(x)$已在标准库`<cmath>`中实现，可以直接使用。因此只剩$\small N(x)$需要我们在标准库外自己实现或寻求其他库的支持。我们按照如下三种方式分别进行实现：
 
 - 多项式逼近法
 - 数值积分法
@@ -288,12 +307,12 @@ $$
 
 ##### 6.1.1 多项式逼近法
 
-如$x > 0$，定义$k = 1/(1 + 0.2316419x)$，则$N(x)$可用如下关于$k$多项式进行逼近
+如$x > 0$，定义$\small k = 1/(1 + 0.2316419x)$，则$\small N(x)$可用如下关于$k$多项式进行逼近
 $$
-1 − \frac{1}{\sqrt{2 \pi}} \exp(-\frac{x^2} {2}) k(0.319381530 + k(−0.356563782 + k(1.781477937\\ + k(−1.821255978 + 1.330274429k)))) \tag{6.1}
+\small 1 − \frac{1}{\sqrt{2 \pi}} \exp(-\frac{x^2} {2}) k(0.319381530 + k(−0.356563782 + k(1.781477937\\ + k(−1.821255978 + 1.330274429k)))) \tag{6.1}
 $$
 
-借助$N(x) + N(-x) = 1$可以求得$N(-x)$即$x < 0$时$N(x)$的值。
+借助$\small N(x) + N(-x) = 1$可以求得$\small N(-x)$即$x < 0$时$\small N(x)$的值。
 
 C++实现如下：
 
@@ -315,19 +334,19 @@ double normcdf_poly(double x)
 
 ##### 6.1.2 数值积分法
 
-对于实数域上$\mathbb R \to \mathbb R$的黎曼积分
+对于实数域上$\small \mathbb R \to \mathbb R$的黎曼积分
 
 $$
-F(b) - F(a) = \int_{a}^{b} f(x) d x \tag{6.2}
+\small F(b) - F(a) = \int_{a}^{b} f(x) d x \tag{6.2}
 $$
 
-令$\Delta x = \frac{(b-a)}{N}$，根据黎曼积分定义，我们可以用以下矩形的面积和逼近$\int_{a}^{b} f(x) d x$：
+令$\small \Delta x = \frac{(b-a)}{N}$，根据黎曼积分定义，我们可以用以下矩形的面积和逼近$\small \int_{a}^{b} f(x) d x$：
 
 $$
-\lim_{N \to \infty} \sum_{i=0}^{N-1} f\left(a+(i+\frac{1}{2}) \Delta x\right) \Delta x \tag{6.3}
+\small \lim_{N \to \infty} \sum_{i=0}^{N-1} f\left(a+(i+\frac{1}{2}) \Delta x\right) \Delta x \tag{6.3}
 $$
 
-只要$N$取值足够大即可很好的逼近积分值，可以通过定义$f(x) = x ^ 2 + 1$进行简单验证，C++实现如下：
+只要$\small N$取值足够大即可很好的逼近积分值，可以通过定义$\small f(x) = x ^ 2 + 1$进行简单验证，C++实现如下：
 
 ```cpp
 #include <iostream>
@@ -370,13 +389,13 @@ int main()
 下面我们考虑如何用数值积分法逼近
 
 $$
-N(x)=\frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{x} \exp \left(-\frac{t^{2}}{2}\right) d t
+\small N(x)=\frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{x} \exp \left(-\frac{t^{2}}{2}\right) d t
 $$
 
-由于积分下限为$- \infty$，我们需要考虑进行变量替换，定义$t = x + 1 - \frac{1} {s}$，则$N(x)$等价于如下积分：
+由于积分下限为$\small - \infty$，我们需要考虑进行变量替换，定义$t = x + 1 - \frac{1} {s}$，则$\small N(x)$等价于如下积分：
 
 $$
-\frac{1} {\sqrt {2 \pi}} \int_{0}^{1} \frac{1}{s^{2}} \exp \left(-\frac{\left(x+1-\frac{1}{s}\right)^{2}}{2}\right) \mathrm{d} s \tag{6.4}
+\small \frac{1} {\sqrt {2 \pi}} \int_{0}^{1} \frac{1}{s^{2}} \exp \left(-\frac{\left(x+1-\frac{1}{s}\right)^{2}}{2}\right) \mathrm{d} s \tag{6.4}
 $$
 
 C++实现如下：
@@ -420,7 +439,7 @@ double normcdf_boost(double x)
 
 #### 6.2 期权费计算的C++实现
 
-实现$N(x)$后，计算公式$(1)$中欧式看涨期权$c(S_0, K, T, r, \sigma)$的障碍就清除了。下面我们分别定义`blackScholesCallPrice`和`blackScholesPutPrice`函数完成计算$c(S_0, K, T, r, \sigma)$和$p(S_0, K, T, r, \sigma)$。
+实现$\small N(x)$后，计算公式$(1)$中欧式看涨期权$\small c(S_0, K, T, r, \sigma)$的障碍就清除了。下面我们分别定义`blackScholesCallPrice`和`blackScholesPutPrice`函数完成计算$\small c(S_0, K, T, r, \sigma)$和$\small p(S_0, K, T, r, \sigma)$。
 
 ```cpp
 double blackScholesCallPrice(double K, double T, double S_t, double vol, double r)
@@ -600,7 +619,7 @@ int main()
 其中看涨-看跌期权平价公式为
 
 $$
-S_0 - \exp(-rT)K = c(S_0, K, T, r, \sigma) - p(S_0, K, T, r, \sigma) \tag{6.5}
+\small S_0 - \exp(-rT)K = c(S_0, K, T, r, \sigma) - p(S_0, K, T, r, \sigma) \tag{6.5}
 $$
 
 ### 7. 期权定价的Python实现
