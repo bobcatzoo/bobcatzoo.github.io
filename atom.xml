@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <title type="text">Zookeeper</title>
     <subtitle type="html">MemE is a powerful and highly customizable GoHugo theme for personal blogs.</subtitle>
-    <updated>2021-08-01T23:20:30&#43;05:45</updated>
+    <updated>2021-08-01T23:31:09&#43;05:45</updated>
     <id>https://bobcatzoo.github.io/</id>
     <link rel="alternate" type="text/html" href="https://bobcatzoo.github.io/" />
     <link rel="self" type="application/atom&#43;xml" href="https://bobcatzoo.github.io/atom.xml" />
@@ -20,7 +20,7 @@
             <title type="text">金融随机分析第2册1.6测度变换笔记</title>
             <link rel="alternate" type="text/html" href="https://bobcatzoo.github.io/posts/notes-and-visualization-of-scff/" />
             <id>https://bobcatzoo.github.io/posts/notes-and-visualization-of-scff/</id>
-            <updated>2021-08-01T23:19:26&#43;05:45</updated>
+            <updated>2021-08-01T23:30:23&#43;05:45</updated>
             <published>2021-06-03T11:09:00&#43;05:45</published>
             <author>
                     <name>Alex</name>
@@ -769,7 +769,23 @@ c(x ; 0,1)= Z(x) \ast f(x)
             
                 
                     
+                        
+                            
+                            
+                            
+                                <category scheme="https://bobcatzoo.github.io/categories/finance/" term="Finance" label="Finance" />
+                            
+                        
+                    
                 
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://bobcatzoo.github.io/tags/%E9%87%91%E8%9E%8D%E6%95%B0%E5%AD%A6/" term="金融数学" label="金融数学" />
+                            
+                        
                     
                 
             
@@ -779,7 +795,7 @@ c(x ; 0,1)= Z(x) \ast f(x)
             <title type="text">Black-Scholes-Merton Model</title>
             <link rel="alternate" type="text/html" href="https://bobcatzoo.github.io/posts/black-scholes-model/" />
             <id>https://bobcatzoo.github.io/posts/black-scholes-model/</id>
-            <updated>2021-08-01T23:18:35&#43;05:45</updated>
+            <updated>2021-08-01T23:30:06&#43;05:45</updated>
             <published>2020-06-11T23:48:25&#43;08:00</published>
             <author>
                     <name>Alex</name>
@@ -1780,7 +1796,23 @@ S_0 - \exp(-rT)K = c(S_0, K, T, r, \sigma) - p(S_0, K, T, r, \sigma) \tag{6.5}
             
                 
                     
+                        
+                            
+                            
+                            
+                                <category scheme="https://bobcatzoo.github.io/categories/finance/" term="Finance" label="Finance" />
+                            
+                        
+                    
                 
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://bobcatzoo.github.io/tags/%E9%87%91%E8%9E%8D%E6%95%B0%E5%AD%A6/" term="金融数学" label="金融数学" />
+                            
+                        
                     
                 
             

@@ -23,7 +23,7 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright>
         
-        <lastBuildDate>Sun, 01 Aug 2021 23:20:30 &#43;0545</lastBuildDate>
+        <lastBuildDate>Sun, 01 Aug 2021 23:31:09 &#43;0545</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://bobcatzoo.github.io/rss.xml" />
         
@@ -777,7 +777,23 @@ c(x ; 0,1)= Z(x) \ast f(x)
                 
                     
                         
+                            
+                                
+                                
+                                
+                                    <category domain="https://bobcatzoo.github.io/categories/finance/">Finance</category>
+                                
+                            
+                        
                     
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://bobcatzoo.github.io/tags/%E9%87%91%E8%9E%8D%E6%95%B0%E5%AD%A6/">金融数学</category>
+                                
+                            
                         
                     
                 
@@ -1781,7 +1797,23 @@ S_0 - \exp(-rT)K = c(S_0, K, T, r, \sigma) - p(S_0, K, T, r, \sigma) \tag{6.5}
                 
                     
                         
+                            
+                                
+                                
+                                
+                                    <category domain="https://bobcatzoo.github.io/categories/finance/">Finance</category>
+                                
+                            
+                        
                     
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://bobcatzoo.github.io/tags/%E9%87%91%E8%9E%8D%E6%95%B0%E5%AD%A6/">金融数学</category>
+                                
+                            
                         
                     
                 
