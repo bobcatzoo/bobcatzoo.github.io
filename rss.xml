@@ -23,7 +23,7 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright>
         
-        <lastBuildDate>Sun, 19 Sep 2021 16:01:47 &#43;0545</lastBuildDate>
+        <lastBuildDate>Sun, 19 Sep 2021 16:27:29 &#43;0545</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://bobcatzoo.github.io/rss.xml" />
         
@@ -125,8 +125,7 @@
 &lt;span class=&#34;n&#34;&gt;plot_random_walks&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;steps&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;random_walks&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;​ &lt;br&gt;
-&lt;img src=&#34;output_9_0.png&#34; alt=&#34;png&#34;&gt;
+&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://bobcatzoo.github.io/images/output_9_0.png&#34; alt=&#34;png&#34;&gt;
 ​&lt;/p&gt;
 &lt;h3 id=&#34;325-scaled-symmetric-random-walk&#34;&gt;3.2.5 Scaled Symmetric Random Walk&lt;/h3&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -192,9 +191,7 @@
 &lt;span class=&#34;n&#34;&gt;plot_random_walks&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;steps&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;random_walks&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;​ &lt;br&gt;
-&lt;img src=&#34;output_16_0.png&#34; alt=&#34;png&#34;&gt;
-​&lt;/p&gt;
+&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://bobcatzoo.github.io/images/output_16_0.png&#34; alt=&#34;png&#34;&gt;&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -231,9 +228,7 @@
 &lt;span class=&#34;n&#34;&gt;plt&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;grid&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;​ &lt;br&gt;
-&lt;img src=&#34;output_19_0.png&#34; alt=&#34;png&#34;&gt;
-​&lt;/p&gt;
+&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://bobcatzoo.github.io/images/output_19_0.png&#34; alt=&#34;png&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;326-limiting-distribution-of-the-scaled-random-walk&#34;&gt;3.2.6 Limiting Distribution of the Scaled Random Walk&lt;/h3&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -281,9 +276,7 @@
 &lt;span class=&#34;n&#34;&gt;plt&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;grid&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;​ &lt;br&gt;
-&lt;img src=&#34;output_23_0.png&#34; alt=&#34;png&#34;&gt;
-​&lt;/p&gt;
+&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://bobcatzoo.github.io/images/output_23_0.png&#34; alt=&#34;png&#34;&gt;&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -402,9 +395,7 @@ S_n(t) = S(0) u_n ^ {H_{nt}} d_n ^ {T_{nt}} = S(0) \ \left( 1 + \frac{\sigma}{\s
 &lt;span class=&#34;n&#34;&gt;plot_random_walks&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;steps&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;S_t&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;​ &lt;br&gt;
-&lt;img src=&#34;output_32_0.png&#34; alt=&#34;png&#34;&gt;
-​&lt;/p&gt;
+&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://bobcatzoo.github.io/images/output_32_0.png&#34; alt=&#34;png&#34;&gt;&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -445,9 +436,7 @@ S_n(t) = S(0) u_n ^ {H_{nt}} d_n ^ {T_{nt}} = S(0) \ \left( 1 + \frac{\sigma}{\s
 &lt;span class=&#34;n&#34;&gt;plt&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;grid&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;​ &lt;br&gt;
-&lt;img src=&#34;output_34_0.png&#34; alt=&#34;png&#34;&gt;
-​&lt;/p&gt;
+&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://bobcatzoo.github.io/images/output_34_0.png&#34; alt=&#34;png&#34;&gt;&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -500,7 +489,7 @@ theoretical_std = 65.827761
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;​ &lt;br&gt;
-&lt;img src=&#34;output_37_0.png&#34; alt=&#34;png&#34;&gt;
+&lt;img src=&#34;https://bobcatzoo.github.io/images/output_37_0.png&#34; alt=&#34;png&#34;&gt;
 ​&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
