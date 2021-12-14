@@ -26,3 +26,5 @@ titles:
 key: page-about
 ---
 让流浪的足迹在荒漠里写下永久的回忆
+
+![jpg]({{"/assets/images/about/about.jpg" | absolute_url}})
