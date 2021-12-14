@@ -1,0 +1,865 @@
+I"�f<p>金融随机分析(Stochastic Calculus for Finance II Continuous-Time Models)第3章部分章节可视化笔记</p>
+
+<h2 id="32-scaled-random-walks">3.2 Scaled Random Walks</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">time</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="321-symmetric-random-walk">3.2.1 Symmetric Random Walk</h3>
+
+\[X_j = 1 \ \ \text{if} \ \omega_j = H , \ \ X_j = -1 \ \ \text{if} \ \omega_j = T\]
+
+\[M_0 = 0, \ M_k = \sum_{j=1}^{k} X_j, \ \text{for} \ k = 1, 2, ...\]
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">t</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">steps</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">t</span><span class="p">)</span>
+<span class="n">random_walks</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="n">random_walks</span><span class="p">.</span><span class="n">shape</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(20,)
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="n">random_walks</span><span class="p">.</span><span class="n">mean</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="n">random_walks</span><span class="p">.</span><span class="n">var</span><span class="p">())</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.4
+0.8399999999999999
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">random_walks</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">]),</span><span class="n">random_walks</span><span class="p">)</span>
+<span class="n">random_walks</span> <span class="o">=</span> <span class="n">random_walks</span><span class="p">.</span><span class="n">cumsum</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">plot_random_walks</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">random_walk</span><span class="p">):</span>
+    <span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">random_walk</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">"Time"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">"Location"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="n">grid</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plot_random_walks</span><span class="p">(</span><span class="n">steps</span><span class="p">,</span> <span class="n">random_walks</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="http://localhost:4000/assets/images/SCFF03/output_11_0.png" alt="png" />
+​</p>
+
+<h3 id="325-scaled-symmetric-random-walk">3.2.5 Scaled Symmetric Random Walk</h3>
+
+<p>将对称随机游动缩小$n$倍，并保证$nt$为正整数，则有</p>
+
+\[W ^ {(n)} (t) = \frac{1}{\sqrt{n}} M_{nt}\]
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">nstep</span> <span class="o">=</span> <span class="mi">100</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">steps</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">nstep</span><span class="p">),</span> <span class="n">t</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">steps</span><span class="p">.</span><span class="n">shape</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(2001,)
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">random_walks</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">nstep</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">nstep</span><span class="o">*</span><span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">random_walks</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">]),</span><span class="n">random_walks</span><span class="p">)</span>
+<span class="n">random_walks</span> <span class="o">=</span> <span class="n">random_walks</span><span class="p">.</span><span class="n">cumsum</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">random_walks</span><span class="p">.</span><span class="n">shape</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(2001,)
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plot_random_walks</span><span class="p">(</span><span class="n">steps</span><span class="p">,</span> <span class="n">random_walks</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="http://localhost:4000/assets/images/SCFF03/output_19_0.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">nwalks</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">random_walks</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">nstep</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">nwalks</span><span class="p">,</span> <span class="n">nstep</span><span class="o">*</span><span class="n">t</span><span class="p">))</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">random_walks</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nwalks</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span><span class="n">random_walks</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">random_walks</span> <span class="o">=</span> <span class="n">random_walks</span><span class="p">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">random_walks</span><span class="p">.</span><span class="n">shape</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(10, 2001)
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">random_walks</span><span class="p">)):</span>
+    <span class="n">plot_random_walks</span><span class="p">(</span><span class="n">steps</span><span class="p">,</span> <span class="n">random_walks</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">grid</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="http://localhost:4000/assets/images/SCFF03/output_23_0.png" alt="png" /></p>
+
+<h3 id="326-limiting-distribution-of-the-scaled-random-walk">3.2.6 Limiting Distribution of the Scaled Random Walk</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">nstep</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">steps</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">nstep</span><span class="p">),</span> <span class="n">t</span><span class="p">)</span>
+<span class="n">nwalks</span> <span class="o">=</span> <span class="mi">10000</span>
+
+<span class="n">random_walks</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">nstep</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">nwalks</span><span class="p">,</span> <span class="n">nstep</span><span class="o">*</span><span class="n">t</span><span class="p">))</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">random_walks</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nwalks</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span><span class="n">random_walks</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">random_walks</span> <span class="o">=</span> <span class="n">random_walks</span><span class="p">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">random_walks</span><span class="p">.</span><span class="n">shape</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(10000, 20001)
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">random_walks_final</span> <span class="o">=</span> <span class="n">random_walks</span><span class="p">[:,</span> <span class="n">nstep</span><span class="o">*</span><span class="n">t</span><span class="p">]</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">hist</span><span class="p">(</span><span class="n">random_walks_final</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">random_walks_final</span><span class="p">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">color</span><span class="o">=</span><span class="s">'r'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">"Final location"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">"Counts"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">grid</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="http://localhost:4000/assets/images/SCFF03/output_27_0.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="n">random_walks_final</span><span class="p">.</span><span class="n">mean</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="n">random_walks_final</span><span class="p">.</span><span class="n">var</span><span class="p">())</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-0.0257725629303726
+20.436329775000004
+</code></pre></div></div>
+
+<h3 id="327-log-normal-distribution-as-the-limit-of-the-binomial-model">3.2.7 Log-Normal Distribution as the Limit of the Binomial Model</h3>
+
+<h4 id="首先我们考虑下theorem-322提及的r--0时特殊情形">首先，我们考虑下<strong>Theorem 3.2.2</strong>提及的$r = 0$时特殊情形</h4>
+
+<p>假设估价上升因子为$u_n = 1 + \frac{\sigma}{\sqrt{n}}$，上升概率为$\tilde{p} = \frac{1 + r - d_n}{u_n - d_n} = \frac{\frac{\sigma}{\sqrt{n}}}{2 \frac{\sigma}{\sqrt{n}}} = \frac{1}{2}$，下降因子为$d_n = 1 - \frac{\sigma}{\sqrt{n}}$，下降概率为$\tilde{q} = \frac{u_n - 1 - r}{u_n - d_n} = \frac{\frac{\sigma}{\sqrt{n}}}{2 \frac{\sigma}{\sqrt{n}}} = \frac{1}{2}$。</p>
+
+<p>可求得</p>
+
+\[nt = H_{nt} + T_{nt}\]
+
+\[M_{nt} = H_{nt} - T_{nt}\]
+
+\[H_{nt} = \frac{1}{2} (nt + M_{nt})\]
+
+\[T_{nt} = \frac{1}{2} (nt - M_{nt})\]
+
+<p>股价$S_{n} (t)$可以表示为$S(0)$为起点，上升$H_{nt}$次和下降$T_{nt}$次以后的金额即：</p>
+
+\[S_n(t) = S(0) u_n ^ {H_{nt}} d_n ^ {T_{nt}} = S(0) \ \left( 1 + \frac{\sigma}{\sqrt{n}} \right) ^ {\frac{1}{2} (nt + M_{nt})} \left( 1 - \frac{\sigma}{\sqrt{n}} \right) ^ {\frac{1}{2} (nt - M_{nt})}\]
+
+<p>根据<strong>Theorem 3.2.2</strong>，当$n \to \infty$时:</p>
+
+\[\lim_{n \to \infty} S_n(t) = S_0 \exp \left( \sigma W(t) - \frac{1}{2} \sigma ^2 t \right)\]
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">nstep</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">t</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">nwalks</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">sigma</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="n">S_0</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">u_n</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">sigma</span><span class="o">/</span><span class="n">np</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">nstep</span><span class="p">)</span>
+<span class="n">d_n</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">sigma</span><span class="o">/</span><span class="n">np</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">nstep</span><span class="p">)</span>
+<span class="n">p</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">q</span> <span class="o">=</span> <span class="mf">0.5</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">steps</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">nstep</span><span class="p">),</span> <span class="n">t</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">X_nt</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">nwalks</span><span class="p">,</span><span class="n">nstep</span><span class="o">*</span><span class="n">t</span><span class="p">))</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="n">M_nt</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nwalks</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">X_nt</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">M_nt</span> <span class="o">=</span> <span class="n">M_nt</span><span class="p">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">M_nt</span><span class="p">.</span><span class="n">shape</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(10, 1001)
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">H_nt</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">nstep</span><span class="o">*</span><span class="n">t</span> <span class="o">+</span> <span class="n">M_nt</span><span class="p">)</span>
+<span class="n">T_nt</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">nstep</span><span class="o">*</span><span class="n">t</span> <span class="o">-</span> <span class="n">M_nt</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">S_t</span> <span class="o">=</span> <span class="n">S_0</span> <span class="o">*</span> <span class="nb">pow</span><span class="p">(</span><span class="n">u_n</span><span class="p">,</span> <span class="n">H_nt</span><span class="p">)</span> <span class="o">*</span> <span class="nb">pow</span><span class="p">(</span><span class="n">d_n</span><span class="p">,</span> <span class="n">T_nt</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nwalks</span><span class="p">):</span>
+    <span class="n">plot_random_walks</span><span class="p">(</span><span class="n">steps</span><span class="p">,</span> <span class="n">S_t</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">steps</span><span class="p">,</span> <span class="n">S_t</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s">'r'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">grid</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="http://localhost:4000/assets/images/SCFF03/output_40_0.png" alt="png" /></p>
+
+<blockquote>
+  <p>$\sigma$的定义如下，注意此$\sigma$非随机游走模拟终值分布的$\sigma$</p>
+</blockquote>
+
+\[\frac{1}{T_2 - T_1} \lim_{j=0}^{n-1} \left( \log \frac{S(t_{j+1})}{S(t_j)} \right) ^2 \ \approx \ \sigma ^ 2\]
+
+<blockquote>
+  <p>以下我们随机选择一条路径进行计算验证</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">i</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randint</span><span class="p">(</span><span class="n">nwalks</span><span class="p">)</span>
+<span class="n">walks</span> <span class="o">=</span> <span class="n">S_t</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+<span class="n">walks_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">walks</span><span class="p">)</span>
+<span class="n">walks_list_</span> <span class="o">=</span> <span class="p">[</span><span class="n">walks_list</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="n">walks_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">walks_list</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)]</span>
+<span class="n">walks</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">walks_list_</span><span class="p">)</span>
+<span class="n">walks</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">walks</span><span class="p">)</span>
+<span class="n">walks</span> <span class="o">=</span> <span class="n">walks</span> <span class="o">*</span> <span class="n">walks</span>
+<span class="n">sigma</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">walks</span><span class="p">)</span> <span class="o">/</span> <span class="n">t</span><span class="p">)</span>
+<span class="n">sigma</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.0500004166729163
+</code></pre></div></div>
+
+<blockquote>
+  <p>$\sigma$的金额与我们前面设定的金额一致。</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">random</span>
+
+<span class="n">nwalks</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">random_walks</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">choice</span><span class="p">([</span><span class="n">u_n</span><span class="p">,</span> <span class="n">d_n</span><span class="p">],</span> <span class="n">p</span><span class="o">=</span><span class="p">[</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">nwalks</span><span class="p">,</span> <span class="n">nstep</span><span class="o">*</span><span class="n">t</span><span class="p">))</span>
+<span class="n">random_walks</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">ones</span><span class="p">((</span><span class="n">nwalks</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span><span class="n">random_walks</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">random_walks_cumprod</span> <span class="o">=</span> <span class="n">random_walks</span><span class="p">.</span><span class="n">cumprod</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">paths</span> <span class="o">=</span> <span class="n">random_walks_cumprod</span><span class="p">[:,</span> <span class="n">nstep</span><span class="o">*</span><span class="n">t</span><span class="p">]</span>
+<span class="n">paths</span> <span class="o">=</span> <span class="n">paths</span> <span class="o">*</span> <span class="n">S_0</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bins</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">hist</span><span class="p">(</span><span class="n">paths</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">bins</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">paths</span><span class="p">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">color</span><span class="o">=</span><span class="s">'r'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">"Final location"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">"Counts"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">grid</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="http://localhost:4000/assets/images/SCFF03/output_45_0.png" alt="png" /></p>
+
+<p><a href="https://zh.wikipedia.org/wiki/%E5%87%A0%E4%BD%95%E5%B8%83%E6%9C%97%E8%BF%90%E5%8A%A8">几何布朗运动</a>及其均值与方差（详细推导见以下3.8节）:</p>
+
+\[S_t = S_0 \exp \left( \sigma W(t) + (r - \frac{\sigma^2}{2})t\right) \tag{1.31}\]
+
+\[\mathbb{E} (S_t) = S_0 e ^ {r t}\]
+
+\[\mathbb{Var}(S_t) = S_0 ^ 2 e ^ {2 r t} \left( e ^ {\sigma ^ 2 t} - 1\right)\]
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sample_mean</span> <span class="o">=</span> <span class="n">paths</span><span class="p">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">theoretical_mean</span> <span class="o">=</span> <span class="n">S_0</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">r</span><span class="o">*</span><span class="n">t</span><span class="p">)</span>
+
+<span class="n">sample_std</span> <span class="o">=</span> <span class="n">paths</span><span class="p">.</span><span class="n">std</span><span class="p">()</span>
+<span class="n">theoretical_std</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">S_0</span> <span class="o">*</span> <span class="n">S_0</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">r</span><span class="o">*</span><span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">sigma</span> <span class="o">*</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"sample_mean = %f"</span> <span class="o">%</span> <span class="n">sample_mean</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"theoretical_mean = %f"</span> <span class="o">%</span> <span class="n">theoretical_mean</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"sample_std = %f"</span> <span class="o">%</span> <span class="n">sample_std</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"theoretical_std = %f"</span> <span class="o">%</span> <span class="n">theoretical_std</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sample_mean = 99.950854
+theoretical_mean = 100.000000
+sample_std = 15.860752
+theoretical_std = 15.910860
+</code></pre></div></div>
+
+<p>将终值金额取对数，绘制其直方图并比较其均值和方差与理论值的一致性。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">log_paths</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">paths</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">hist</span><span class="p">(</span><span class="n">log_paths</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">bins</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">log_paths</span><span class="p">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">color</span><span class="o">=</span><span class="s">'r'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">"Final location"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">"Counts"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">grid</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="http://localhost:4000/assets/images/SCFF03/output_49_0.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sample_mean</span> <span class="o">=</span> <span class="n">log_paths</span><span class="p">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">theoretical_mean</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">S_0</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">r</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">sigma</span><span class="p">)</span> <span class="o">*</span> <span class="n">t</span>
+
+<span class="n">sample_var</span> <span class="o">=</span> <span class="n">log_paths</span><span class="p">.</span><span class="n">var</span><span class="p">()</span>
+<span class="n">theoretical_var</span> <span class="o">=</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">t</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"sample_mean = %f"</span> <span class="o">%</span> <span class="n">sample_mean</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"theoretical_mean = %f"</span> <span class="o">%</span> <span class="n">theoretical_mean</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"sample_var = %f"</span> <span class="o">%</span> <span class="n">sample_var</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"theoretical_var = %f"</span> <span class="o">%</span> <span class="n">theoretical_var</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sample_mean = 4.592218
+theoretical_mean = 4.592670
+sample_var = 0.024949
+theoretical_var = 0.025000
+</code></pre></div></div>
+
+<p>通过计算可知，模拟结果的均值及方差与理论值较为吻合。</p>
+
+<h4 id="其次我们考虑exercise-38涉及的一般情形">其次，我们考虑Exercise 3.8涉及的一般情形</h4>
+
+<p>我们用$n$期二叉树模型模拟单位时间间隔内的股价变化，单位时间内的利率为$r_n = \frac{r}{n}$，假设上升因子为$u_n = e ^ {\frac{\sigma}{\sqrt{n}}}$，下降因子为$d_n = e ^ {-\frac{\sigma}{\sqrt{n}}}$。则</p>
+
+\[\tilde{p}_n = \frac{1+r_n-d_n}{u_n-d_n} = \frac{1+\frac{r}{n} - e ^ {-\sigma/ \sqrt{n}}} {e ^ {\sigma/ \sqrt{n}} - e ^ {-\sigma/ \sqrt{n}}} \tag{1.21}\]
+
+\[\tilde{q}_n = \frac{u_n-1-r_n}{u_n-d_n} = \frac{e ^ {\sigma/ \sqrt{n}} -1 -\frac{r}{n}} {e ^ {\sigma/ \sqrt{n}} - e ^ {-\sigma/ \sqrt{n}}}   \tag{1.22}\]
+
+<p>选取$t = t_1 - t_0$，满足$nt$为整数，我们用$nt$期二叉树模拟$t$时间内的股价。定义</p>
+
+\[M_{nt,n} = \sum_{k=1}^{nt} X_{k,n} \tag{1.23}\]
+
+<p>其中$X_{1,n}, X_{2,n} … X_{n,n}$为独立同分布随机变量，满足</p>
+
+\[\widetilde{\mathbb{P}}(X_{k,n} = 1) = \tilde{p}_n,\ \ \widetilde{\mathbb{P}}(X_{k,n} = -1) = \tilde{q}_n, \ k = 1,2,...n.\]
+
+<p>记$nt$次二叉树模拟内出现股价上升的次数为$H_{nt}$，出现下降的次数为$T_{nt}$，则$nt = H_{nt} + T_{nt}$，$M_{nt,n} = H_{nt} - T_{nt}$。由此可得：</p>
+
+\[H_{nt} = \frac{1}{2}(nt + M_{nt,n})\]
+
+\[T_{nt} = \frac{1}{2}(nt - M_{nt,n})\]
+
+<p>$t$时刻股价经过$nt$期二叉树模拟后可由下式得出</p>
+
+\[\begin{aligned}
+S_n(t) &amp;= S_0 u_{n}^{H_{nt,n}} d_{n}^{T_{nt,n}} \\
+\\
+&amp;= S_0 u_{n}^{\frac{1}{2}(nt + M_{nt,n})} d_{n}^{\frac{1}{2}(nt - M_{nt,n})} \\
+\\
+&amp;= S_0 \exp \left(\frac{\sigma}{2\sqrt{n}}(nt + M_{nt,n})\right) \exp \left(-\frac{\sigma}{2\sqrt{n}}(nt - M_{nt,n})\right) \\
+\\
+&amp;= S_0 \exp \left(\frac{\sigma}{\sqrt{n}}M_{nt,n} \right)
+\end{aligned} \tag{1.24}\]
+
+<p>如果我们能求得$n \to \infty$时$\frac{\sigma}{\sqrt{n}}M_{nt,n}$的分布$\chi$，则股价$S(t)$的分布也就随之可以确定。根据习题提示，我们分4步进行证明。</p>
+
+\[\blacksquare \Box \square \square\]
+
+<h5 id="1-根据矩生成函数与概率分布的一一对应关系我们可以考虑求解frac1sqrtnm_ntn的矩生成函数varphi_nu然后再求其极限">1. 根据矩生成函数与概率分布的一一对应关系，我们可以考虑求解$\frac{1}{\sqrt{n}}M_{nt,n}$的矩生成函数$\varphi_n(u)$，然后再求其极限。</h5>
+
+\[\begin{aligned}
+\varphi_n(u) &amp;= \widetilde{\mathbb{E}} \left( e ^ {u \frac{1}{\sqrt{n}}M_{nt,n}} \right) \\
+\\
+&amp;= \left[ \widetilde{\mathbb{E}} \left( e ^ {u \frac{1}{\sqrt{n}}X_{1,n}} \right) \right] ^{nt} \\
+\\
+&amp;= \left( e^{\frac{u}{\sqrt{n}} \tilde{p}_n} + e^{-\frac{u}{\sqrt{n}} \tilde{q}_n} \right) ^{nt} \\
+\\
+&amp;= \left[ e^{\frac{u}{\sqrt{n}}} \left(\frac{1+\frac{r}{n} - e ^ {-\sigma/ \sqrt{n}}} {e ^ {\sigma/ \sqrt{n}} - e ^ {-\sigma/ \sqrt{n}}}\right) +  e^{-\frac{u}{\sqrt{n}}} \left(\frac{e ^ {\sigma/ \sqrt{n}}-1-\frac{r}{n}} {e ^ {\sigma/ \sqrt{n}} - e ^ {-\sigma/ \sqrt{n}}}\right)\right] ^{nt}
+\end{aligned} \tag{1.25}\]
+
+<h5 id="2-上式关于离散变量n的极限转换为关于连续变量x的极限">2. 上式关于离散变量$n$的极限转换为关于连续变量$x$的极限。</h5>
+
+<p>选取$x = \frac{1}{\sqrt{n}}$，则</p>
+
+\[\lim_{n \to \infty}\varphi_n(u) = \lim_{x \to 0}\varphi_{\frac{1}{x^2}}(u)\]
+
+\[\lim_{x \to 0} \varphi_{\frac{1}{x^2}}(u) = \left[ e^{ux} \left(\frac{1+rx^2 - e ^ {-\sigma x}} {e ^ {\sigma x} - e ^ {-\sigma x}}\right) +  e^{-ux} \left(\frac{e ^ {\sigma x}-1-rx^2} {e ^ {\sigma x} - e ^ {-\sigma x}}\right)\right] ^{\frac{t}{x^2}} \tag{1.26}\]
+
+<h5 id="3-由于指数函数不易求极限我们转而求其对数函数log-left-varphi_frac1x2u-right">3. 由于指数函数不易求极限，我们转而求其对数函数$\log \left[ \varphi_{\frac{1}{x^2}}(u) \right]$</h5>
+
+<p>通过观察分母的形式，我们考虑构造双曲函数，然后利用双曲函数的以下性质：</p>
+
+\[\text{sinh}z = \frac{e^z - e^{-z}}{2}\]
+
+\[\text{cosh}z = \frac{e^z + e^{-z}}{2}\]
+
+\[\text{sinh}(A-B) = \text{sinh}A \text{cosh}B - \text{cosh}A\text{sinh}B\]
+
+<p>对公式(1.26)进行化简如下：</p>
+
+\[\begin{aligned}
+\lim_{x \to 0} \log \left[\varphi_{\frac{1}{x^2}}(u)\right] &amp;= \lim_{x \to 0} \frac{t}{x^2} \log \left[ e^{ux} \left(\frac{1+rx^2 - e ^ {-\sigma x}} {e ^ {\sigma x} - e ^ {-\sigma x}}\right) +  e^{-ux} \left(\frac{e ^ {\sigma x}-1-rx^2} {e ^ {\sigma x} - e ^ {-\sigma x}}\right)\right] \\
+\\
+&amp;= \lim_{x \to 0} \frac{t}{x^2} \log \left[ \frac{(1+rx^2)e^{ux} + e^{(u-\sigma)x}} {e^{\sigma x} - e^{-\sigma x}} + \frac{e^{(\sigma-u)x} - (1+rx^2)e^{-ux}} {e^{\sigma x} - e^{-\sigma x}} \right] \\
+\\
+&amp;= \lim_{x \to 0} \frac{t}{x^2} \log \left[ \frac{(1+rx^2) (e^{ux}-e^{-ux}) + e^{(\sigma-u)x} - e^{-(\sigma-u)x}} {e^{\sigma x} - e^{-\sigma x}} \right] \\
+\\
+&amp;= \lim_{x \to 0} \frac{t}{x^2} \log \left[ \frac{(1+rx^2) \cdot 2 \cdot \text{sinh}ux + 2 \cdot \text{sinh}(\sigma-u)x} {2 \cdot \text{sinh}\sigma x} \right] \\
+\\
+&amp;= \lim_{x \to 0} \frac{t}{x^2} \log \left[ \frac{(1+rx^2) \text{sinh}ux + \text{sinh}(\sigma-u)x} {\text{sinh}\sigma x}\right] \\
+\\
+&amp;= \lim_{x \to 0} \frac{t}{x^2} \log \left[ \frac{(1+rx^2)\text{sinh}ux + \text{sinh}\sigma x \cdot \text{cosh}ux -\text{cosh}\sigma x \cdot \text{sinh}ux} {\text{sinh}\sigma x} \right] \\
+\\
+&amp;= \lim_{x \to 0} \frac{t}{x^2} \log \left[ \text{cosh}ux + \frac{(1+rx^2-\text{cosh}\sigma x) \text{sinh}ux} {\text{sinh}\sigma x}\right]
+\end{aligned} \tag{1.27}\]
+
+<p>然后利用以下双曲函数的泰勒级数展开式:</p>
+
+\[\text{sinh} z = z + O(z^3)\]
+
+\[\text{cosh} = 1 + \frac{z^2}{2} + O(z^4)\]
+
+<p>对公式(1.27)继续化简:</p>
+
+\[\begin{aligned}
+\lim_{x \to 0} \log \left[\varphi_{\frac{1}{x^2}}(u)\right] &amp;= \lim_{x \to 0} \frac{t}{x^2} \log \left[ \text{cosh}ux + \frac{(1+rx^2-\text{cosh}\sigma x) \text{sinh}ux} {\text{sinh}\sigma x}\right] \\
+\\
+&amp;= \lim_{x \to 0} \frac{t}{x^2} \log \left[ 1 + \frac{(ux)^2}{2} + O(x^4) + \frac{[ 1+rx^2 - 1 - \frac{(\sigma x)^2}{2} + O(x^4) ]\cdot[ux+O(x^3)]} {\sigma x + O(x^3)} \right] \\
+\\
+&amp;= \lim_{x \to 0} \frac{t}{x^2} \log \left[ 1 + \frac{u^2x^2}{2} + \frac{(r-\frac{\sigma ^2}{2})ux^3 + O(x^5)} {\sigma x + O(x^3)} + O(x^4) \right] \\
+\\
+&amp;= \lim_{x \to 0} \frac{t}{x^2} \log \left[ 1 + \frac{u^2x^2}{2} + \frac{(r-\frac{\sigma ^2}{2})ux^3 (1+O(x^2))} {\sigma x(1 + O(x^2))} + O(x^4) \right] \\
+\\
+&amp;= \lim_{x \to 0} \frac{t}{x^2} \log \left[ 1 + \frac{u^2x^2}{2} + \frac{rux^2}{\sigma} - \frac{\sigma ux^2}{2}+ O(x^4) \right]
+\end{aligned} \tag{1.28}\]
+
+<h5 id="4-利用-textlog1x--x--ox2-进一步化简上式">4. 利用 $\text{log}(1+x) = x + O(x^2)$ 进一步化简上式</h5>
+
+\[\begin{aligned}
+\lim_{x \to 0} \log \left[\varphi_{\frac{1}{x^2}}(u) \right]&amp;= \lim_{x \to 0} \frac{t}{x^2} \left[ \frac{u^2x^2}{2} + \frac{rux^2}{\sigma} - \frac{\sigma ux^2}{2}+ O(x^4) \right] \\
+\\
+&amp;= t \left( \frac{u^2}{2} + \frac{ru}{\sigma} - \frac{\sigma u}{2}\right) \\
+\\
+&amp;= \frac{t}{2}u^2 + t \left( \frac{r}{\sigma}-\frac{\sigma}{2} \right)u
+\end{aligned} \tag{1.29}\]
+
+<p>由公式(1.29)可得当$n \to \infty$时,</p>
+
+\[\varphi_n(u) \to \exp \left( \frac{t}{2}u^2 + t ( \frac{r}{\sigma}-\frac{\sigma}{2} )u \right)\]
+
+\[\Box \square \square \blacksquare\]
+
+<p>我们知道正态随机变量$X$的矩生成函数为</p>
+
+\[\varphi_X(u) = \exp \left( \frac{\sigma^2}{2}u^2 + \mu u \right) \tag{1.30}\]
+
+<p>其中$\mu$为均值，$\sigma$为标准差。由此，我们可以得出当$n \to \infty$时，$\frac{1}{\sqrt{n}}M_{nt,n}$趋近于均值为$(\frac{r}{\sigma}-\frac{\sigma}{2})t$，标准差为$\sqrt{t}$的正态分布。亦即$\frac{\sigma}{\sqrt{n}}M_{nt,n}$趋近于均值为$(r-\frac{\sigma^2}{2})t$，标准差为$\sigma \sqrt{t}$的正态分布。而这正与分布$\sigma W(t) + (r - \frac{\sigma^2}{2})t,\ W(t)$为布朗运动相吻合，因此我们可以将$\lim_{n \to \infty} S_n(t) = S_t$写成如下形式</p>
+
+\[S_t = S_0 \exp \left( \sigma W(t) + (r - \frac{\sigma^2}{2})t\right) \tag{1.31}\]
+
+<p>下面我们继续求$dS_t$即股价变动的表达式，令</p>
+
+\[X_t = \sigma W(t) + (r - \frac{\sigma^2}{2})t\]
+
+\[f(X_t) = S_t= S_0 e^{X_t}\]
+
+<p>则</p>
+
+\[{f}'(X_t) = {f}''(X_t) = f(X_t)\]
+
+\[d X_t = \sigma d W(t) + (r - \frac{\sigma^2}{2}) d t\]
+
+\[d X_t d X_t = \sigma^2 d t\]
+
+<p>根据伊藤公式可得:</p>
+
+\[\begin{aligned}
+d S_t &amp;= {f}'(X_t) d X_t + \frac{1}{2} {f}''(X_t) d X_t d X_t \\
+\\
+&amp;= S_t d X_t + \frac{1}{2} S_t d X_t d X_t \\
+\\
+&amp;= \sigma S_t d W(t) + r S_t dt - \frac{\sigma^2}{2}S_t dt + \frac{\sigma^2}{2}S_t dt\\
+\\
+&amp;= \sigma S_t d W(t) + r S_t dt
+\end{aligned} \tag{1.32}\]
+
+<p>这样，我们就通过公式(1.31)求得了公式(1.32)，反之，我们也可以由公式(1.32)求得公式(1.31)，即二者互相等价。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">nstep</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">npaths</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">r</span> <span class="o">=</span> <span class="mf">0.03</span>
+<span class="n">sigma</span> <span class="o">=</span> <span class="mf">0.2</span>
+<span class="n">S_0</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">t</span> <span class="o">=</span> <span class="mi">8</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">r_n</span> <span class="o">=</span> <span class="n">r</span> <span class="o">/</span> <span class="n">nstep</span>
+<span class="n">u_n</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">sigma</span> <span class="o">/</span> <span class="n">np</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">nstep</span><span class="p">))</span>
+<span class="n">d_n</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">sigma</span> <span class="o">/</span> <span class="n">np</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">nstep</span><span class="p">))</span>
+<span class="n">p_n</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">r_n</span> <span class="o">-</span> <span class="n">d_n</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">u_n</span> <span class="o">-</span> <span class="n">d_n</span><span class="p">)</span>
+<span class="n">q_n</span> <span class="o">=</span> <span class="p">(</span><span class="n">u_n</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">r_n</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">u_n</span> <span class="o">-</span> <span class="n">d_n</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="s">"r_n = %f"</span> <span class="o">%</span> <span class="n">r_n</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"u_n = %f"</span> <span class="o">%</span> <span class="n">u_n</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"d_n = %f"</span> <span class="o">%</span> <span class="n">d_n</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"p_n = %f"</span> <span class="o">%</span> <span class="n">p_n</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"q_n = %f"</span> <span class="o">%</span> <span class="n">q_n</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>r_n = 0.000030
+u_n = 1.006345
+d_n = 0.993695
+p_n = 0.500791
+q_n = 0.499209
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span> <span class="c1">#用于计算array中数值出现次数
+</span><span class="kn">import</span> <span class="nn">time</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">simples</span> <span class="o">=</span> <span class="mi">10000000</span>
+<span class="n">risk_neutral_probability</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">choice</span><span class="p">([</span><span class="n">u_n</span><span class="p">,</span> <span class="n">d_n</span><span class="p">],</span> <span class="n">p</span><span class="o">=</span><span class="p">[</span><span class="n">p_n</span><span class="p">,</span> <span class="n">q_n</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">simples</span><span class="p">))</span>
+
+<span class="n">simple_pn</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">risk_neutral_probability</span><span class="p">)[</span><span class="n">u_n</span><span class="p">]</span> <span class="o">/</span> <span class="n">simples</span>
+<span class="n">simple_qn</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">risk_neutral_probability</span><span class="p">)[</span><span class="n">d_n</span><span class="p">]</span> <span class="o">/</span><span class="n">simples</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"simple_pn = %f"</span> <span class="o">%</span> <span class="n">simple_pn</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"simple_qn = %f"</span> <span class="o">%</span> <span class="n">simple_qn</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>simple_pn = 0.500771
+simple_qn = 0.499229
+</code></pre></div></div>
+
+<p>步数足够大时，样本概率分布趋近于理论计算的风险中性概率</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span>
+
+<span class="n">steps</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">nstep</span><span class="p">),</span> <span class="n">t</span><span class="p">)</span> 
+<span class="n">rnp</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">choice</span><span class="p">([</span><span class="n">u_n</span><span class="p">,</span> <span class="n">d_n</span><span class="p">],</span> <span class="n">p</span><span class="o">=</span><span class="p">[</span><span class="n">p_n</span><span class="p">,</span> <span class="n">q_n</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">npaths</span><span class="p">,</span> <span class="n">nstep</span><span class="o">*</span><span class="n">t</span><span class="p">))</span>
+<span class="n">rnp</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">ones</span><span class="p">((</span><span class="n">npaths</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">rnp</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">rnp_cumpd</span> <span class="o">=</span> <span class="n">rnp</span><span class="p">.</span><span class="n">cumprod</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">paths</span> <span class="o">=</span> <span class="n">rnp_cumpd</span><span class="p">[:,</span> <span class="n">nstep</span><span class="o">*</span><span class="n">t</span><span class="p">]</span>
+<span class="n">paths</span> <span class="o">=</span> <span class="n">paths</span> <span class="o">*</span> <span class="n">S_0</span>
+
+<span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">end</span><span class="o">-</span><span class="n">start</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1.7295098304748535
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">paths</span><span class="p">.</span><span class="n">shape</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(10000,)
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="n">paths</span><span class="p">.</span><span class="n">mean</span><span class="p">())</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>125.57620060471794
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">hist</span><span class="p">(</span><span class="n">paths</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">bins</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">paths</span><span class="p">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">color</span><span class="o">=</span><span class="s">'r'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">"Final location"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">"Counts"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">grid</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="http://localhost:4000/assets/images/SCFF03/output_86_0.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sample_mean</span> <span class="o">=</span> <span class="n">paths</span><span class="p">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">theoretical_mean</span> <span class="o">=</span> <span class="n">S_0</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">r</span><span class="o">*</span><span class="n">t</span><span class="p">)</span>
+
+<span class="n">sample_std</span> <span class="o">=</span> <span class="n">paths</span><span class="p">.</span><span class="n">std</span><span class="p">()</span>
+<span class="n">theoretical_std</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">S_0</span> <span class="o">*</span> <span class="n">S_0</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">r</span><span class="o">*</span><span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">sigma</span> <span class="o">*</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"sample_mean = %f"</span> <span class="o">%</span> <span class="n">sample_mean</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"theoretical_mean = %f"</span> <span class="o">%</span> <span class="n">theoretical_mean</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"sample_std = %f"</span> <span class="o">%</span> <span class="n">sample_std</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"theoretical_std = %f"</span> <span class="o">%</span> <span class="n">theoretical_std</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sample_mean = 125.576201
+theoretical_mean = 127.124915
+sample_std = 75.941466
+theoretical_std = 78.068337
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">log_paths</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">paths</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">hist</span><span class="p">(</span><span class="n">log_paths</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">bins</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">log_paths</span><span class="p">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">color</span><span class="o">=</span><span class="s">'r'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">"Final location"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">"Counts"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">grid</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="http://localhost:4000/assets/images/SCFF03/output_88_0.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sample_mean</span> <span class="o">=</span> <span class="n">log_paths</span><span class="p">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">theoretical_mean</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">S_0</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">r</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">sigma</span><span class="p">)</span> <span class="o">*</span> <span class="n">t</span>
+
+<span class="n">sample_var</span> <span class="o">=</span> <span class="n">log_paths</span><span class="p">.</span><span class="n">var</span><span class="p">()</span>
+<span class="n">theoretical_var</span> <span class="o">=</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">t</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"sample_mean = %f"</span> <span class="o">%</span> <span class="n">sample_mean</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"theoretical_mean = %f"</span> <span class="o">%</span> <span class="n">theoretical_mean</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"sample_var = %f"</span> <span class="o">%</span> <span class="n">sample_var</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"theoretical_var = %f"</span> <span class="o">%</span> <span class="n">theoretical_var</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sample_mean = 4.677318
+theoretical_mean = 4.685170
+sample_var = 0.311049
+theoretical_var = 0.320000
+</code></pre></div></div>
+
+<p>通过计算可知，在$r \neq 0$的一般情况下，模拟结果的均值及方差与理论值较为吻合。</p>
+
+<h2 id="37-reflection-principle">3.7 Reflection Principle</h2>
+
+<h3 id="371-理论结果">3.7.1 理论结果</h3>
+
+<p><strong>定理3.7.1</strong> 对于所有$m \neq 0$，随机变量$\tau_m$具有累积分布函数：</p>
+
+\[\begin{aligned}
+\mathbb{P}(\tau_m \leq t ) &amp;= 2 \mathbb{P}(W(t) &gt;= m) \\
+\\
+&amp;= \frac{2}{\sqrt{2 \pi t}} \int_{m}^{\infty} e^{-\frac{x^2}{2t}} dx \\
+\\
+&amp;= \int_{\frac{\left| m \right|}{\sqrt{t}}}^{\infty} e^{-\frac{y^2}{2}} dy = 2 \left[ 1 - \Phi(\frac{\left| m \right|}{\sqrt{t}}) \right], \qquad t \geq 0
+\end{aligned}\]
+
+<p>以及概率密度：</p>
+
+\[f_{\tau_m} = \frac{d}{dt} \mathbb{P}(\tau_m \leq t) = \frac{\left| m \right|}{t\sqrt{2\pi t}} e^{-\frac{m^2}{2t}}, \quad t \geq 0\]
+
+<blockquote>
+  <p>其中$\tau_m$表示布朗运动首次到达水平$m$的时间</p>
+</blockquote>
+
+<h3 id="372-python模拟">3.7.2 Python模拟</h3>
+
+<h4 id="1-生成布朗运动路径">1. 生成布朗运动路径</h4>
+
+<blockquote>
+  <p>如以下生成的(npath * nstep)维矩阵超出内存，可用2.6小节循环方法解决</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">npaths</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">nstep</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">t</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">steps</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">nstep</span><span class="p">),</span> <span class="n">t</span><span class="p">)</span>
+<span class="n">paths</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">nstep</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">npaths</span><span class="p">,</span> <span class="n">nstep</span><span class="o">*</span><span class="n">t</span><span class="p">))</span>
+<span class="n">paths</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">npaths</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">paths</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">paths</span> <span class="o">=</span> <span class="n">paths</span><span class="p">.</span><span class="n">cumsum</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>通过不断修改npath和nstep的值，可以发现nstep的值对最终结果即模拟的$\mathbb{P}(\tau_m \leq t )$值更具影响力，也就是说nstep越大，则每条路径的波动次数越多，每次波动幅度也越小，越符合布朗运动的特性。</p>
+</blockquote>
+
+<h4 id="2-检验终值分布的均值标准差及直方图">2. 检验终值分布的均值、标准差及直方图</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mean</span> <span class="o">=</span> <span class="n">paths</span><span class="p">[:,</span><span class="n">nstep</span><span class="o">*</span><span class="n">t</span><span class="p">].</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">var</span> <span class="o">=</span> <span class="n">paths</span><span class="p">[:,</span><span class="n">nstep</span><span class="o">*</span><span class="n">t</span><span class="p">].</span><span class="n">var</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"sample_mean = %f"</span> <span class="o">%</span> <span class="n">mean</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"sample_var = %f"</span> <span class="o">%</span> <span class="n">var</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sample_mean = 0.002820
+sample_var = 2.979638
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">hist</span><span class="p">(</span><span class="n">paths</span><span class="p">[:,</span><span class="n">nstep</span><span class="o">*</span><span class="n">t</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'r'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">grid</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="http://localhost:4000/assets/images/SCFF03/output_103_0.png" alt="png" /></p>
+
+<h4 id="3-求-tau_m-leq-t-的概率即在时间-t-内路径达到或超过m的条数">3. 求 $\tau_{m} \leq t$ 的概率，即在时间 $t$ 内路径达到或超过m的条数</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">m</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">actual_prob</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">paths</span><span class="p">.</span><span class="nb">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">m</span><span class="p">)</span> <span class="o">/</span> <span class="n">npaths</span>
+<span class="n">actual_prob</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.2485
+</code></pre></div></div>
+
+<h4 id="4-tau_m-leq-t-的理论概率">4. $\tau_{m} \leq t$ 的理论概率</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="n">st</span>
+
+<span class="n">theoretical_prob</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">st</span><span class="p">.</span><span class="n">norm</span><span class="p">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">m</span><span class="o">/</span><span class="n">np</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">theoretical_prob</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.24821307898992373
+</code></pre></div></div>
+
+<blockquote>
+  <p>实际值与理论值的差异百分率</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">np</span><span class="p">.</span><span class="nb">abs</span><span class="p">(</span><span class="n">actual_prob</span> <span class="o">-</span> <span class="n">theoretical_prob</span><span class="p">)</span> <span class="o">/</span> <span class="n">theoretical_prob</span> <span class="o">*</span> <span class="mi">100</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.11559463797953867
+</code></pre></div></div>
+
+<h4 id="5-循环方法">5. 循环方法</h4>
+
+<blockquote>
+  <p>如以上步骤1中生成的<code class="language-plaintext highlighter-rouge">[npath, nstep*t]</code>维矩阵超出内存，可用以下循环形式解决</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">npaths</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">nstep</span> <span class="o">=</span> <span class="mi">10000</span>
+
+<span class="n">path_max</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">npaths</span><span class="p">):</span>
+    <span class="n">paths_</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">nstep</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">nstep</span><span class="o">*</span><span class="n">t</span><span class="p">))</span>
+    <span class="n">paths_</span> <span class="o">=</span> <span class="n">paths_</span><span class="p">.</span><span class="n">cumsum</span><span class="p">()</span>
+    <span class="n">path_max</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">paths_</span><span class="p">.</span><span class="nb">max</span><span class="p">())</span>
+<span class="n">path_max</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">path_max</span><span class="p">)</span>
+<span class="n">actual_prob</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">path_max</span> <span class="o">&gt;=</span> <span class="n">m</span><span class="p">)</span> <span class="o">/</span> <span class="n">npaths</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">actual_prob</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">theoretical_prob</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nb">abs</span><span class="p">(</span><span class="n">actual_prob</span> <span class="o">-</span> <span class="n">theoretical_prob</span><span class="p">)</span> <span class="o">/</span> <span class="n">theoretical_prob</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.2489
+0.24821307898992373
+0.2767465005758886
+</code></pre></div></div>
+
+<h4 id="6-对称性">6. 对称性</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">actual_prob</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">paths</span><span class="p">.</span><span class="nb">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="o">-</span><span class="n">m</span><span class="p">)</span> <span class="o">/</span> <span class="n">npaths</span>
+<span class="n">actual_prob</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.2522
+</code></pre></div></div>
+
+<h3 id="373-小规模示例">3.7.3 小规模示例</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">npaths</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">nstep</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">t</span> <span class="o">=</span> <span class="mi">5</span>
+
+<span class="n">steps</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">nstep</span><span class="p">),</span> <span class="n">t</span><span class="p">)</span>
+<span class="n">paths</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">nstep</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">npaths</span><span class="p">,</span> <span class="n">nstep</span><span class="o">*</span><span class="n">t</span><span class="p">))</span>
+<span class="n">paths</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">npaths</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">paths</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">paths</span> <span class="o">=</span> <span class="n">paths</span><span class="p">.</span><span class="n">cumsum</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mean</span> <span class="o">=</span> <span class="n">paths</span><span class="p">[:,</span><span class="n">nstep</span><span class="o">*</span><span class="n">t</span><span class="p">].</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">var</span> <span class="o">=</span> <span class="n">paths</span><span class="p">[:,</span><span class="n">nstep</span><span class="o">*</span><span class="n">t</span><span class="p">].</span><span class="n">var</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"sample_mean = %f"</span> <span class="o">%</span> <span class="n">mean</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"sample_var = %f"</span> <span class="o">%</span> <span class="n">var</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sample_mean = 0.077913
+sample_var = 2.815512
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">npaths</span><span class="p">):</span>
+    <span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">steps</span><span class="p">,</span> <span class="n">paths</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">steps</span><span class="p">,</span> <span class="n">paths</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">color</span> <span class="o">=</span> <span class="s">'b'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'r'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">axhline</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'r'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">grid</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>​  <br />
+<img src="http://localhost:4000/assets/images/SCFF03/output_118_0.png" alt="png" />
+​</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">m</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">actual_prob</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">paths</span><span class="p">.</span><span class="nb">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">m</span><span class="p">)</span> <span class="o">/</span> <span class="n">npaths</span>
+<span class="n">actual_prob</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.3
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">theoretical_prob</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">st</span><span class="p">.</span><span class="n">norm</span><span class="p">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">m</span><span class="o">/</span><span class="n">np</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">theoretical_prob</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.37109336952269745
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">actual_prob</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">paths</span><span class="p">.</span><span class="nb">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="o">-</span><span class="n">m</span><span class="p">)</span> <span class="o">/</span> <span class="n">npaths</span>
+<span class="n">actual_prob</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.3
+</code></pre></div></div>
+
+<h3 id="38-番外">3.8 番外</h3>
+
+<h3 id="381-对数正态分布">3.8.1 对数正态分布</h3>
+
+<p>在概率论与统计学中，任意随机变量的<code class="language-plaintext highlighter-rouge">对数</code>服从<code class="language-plaintext highlighter-rouge">正态分布</code>，则这个随机变量服从的分布称为<code class="language-plaintext highlighter-rouge">对数正态分布</code>。即如果$Y$是正态分布的随机变量，则$\exp(Y)$为对数正态分布；同样，如果$X$是对数正态分布，则$\ln(X)$为正态分布。如果一个变量可以看做是许多很小独立因子的乘积，则这个变量可以看做是<a href="https://zh.wikipedia.org/wiki/%E5%AF%B9%E6%95%B0%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83">对数正态分布</a>。一个典型的例子是股票投资的长期收益率，他可以看作是每天收益率的乘积。</p>
+
+<p>对于$Y \sim N(\mu, \sigma)$，$X = e ^ Y$，对数正态分布$X$的概率密度函数为</p>
+
+\[f(x; \mu, \sigma) = \frac{1}{\sqrt{2 \pi} x \sigma} e ^ {-\frac{(\ln x - \mu) ^ 2}{2 \sigma ^ 2}} \ \ \text{for} \ \sigma \geq 0 \ \text{and} \ -\infty \leq \mu \leq \infty .\]
+
+<p>其值域为$x \in [0, +\infty)$</p>
+
+<p>其期望值及方差分别为</p>
+
+\[\mathbb{E}(X) = e ^ {\mu + \sigma ^ 2 / 2}\]
+
+\[\mathbb{Var}(X) = (e ^ {\sigma ^ 2} - 1) e ^ {2 \mu + \sigma ^ 2}\]
+
+<h3 id="382-几何布朗运动">3.8.2 几何布朗运动</h3>
+
+<p>由上面3.2.7节我们知道估价过程服从<a href="https://zh.wikipedia.org/wiki/%E5%87%A0%E4%BD%95%E5%B8%83%E6%9C%97%E8%BF%90%E5%8A%A8">几何布朗运动</a>，即</p>
+
+\[S_t = S_0 \exp \left( \sigma W(t) + (r - \frac{\sigma^2}{2})t\right) \tag{1.31}\]
+
+<p>将上式做对数变换后即得</p>
+
+\[\ln \left( \frac{S_t}{S_0} \right) = \sigma W(t) + (r - \frac{\sigma^2}{2})t\]
+
+<p>$Y = \ln \left( \frac{S_t}{S_0} \right)$服从正态分布，且$Y \sim N \left( (r - \frac{\sigma^2}{2})t, \ \sigma \sqrt{t} \right)$ 即$\hat{\mu} = (r - \frac{\sigma^2}{2})t$， $\hat{\sigma} = \sigma \sqrt{t}$</p>
+
+<p>将$\hat{\mu}$和$\hat{\sigma}$分别带入对数正态分布的期望和方差公式，即得</p>
+
+\[\mathbb{E}(e ^ Y) = e ^ {\hat{\mu} + \hat{\sigma} ^ 2 / 2}\]
+
+\[\mathbb{Var}(e ^ Y) = (e ^ {\hat{\sigma} ^ 2} - 1) e ^ {2 \hat{\mu} + \hat{\sigma} ^ 2}\]
+
+<p>进一步整理后即可得到：</p>
+
+\[\mathbb{E} (S_t) = S_0 e ^ {r t}\]
+
+\[\mathbb{Var}(S_t) = S_0 ^ 2 e ^ {2 r t} \left( e ^ {\sigma ^ 2 t} - 1\right)\]
+
+<p>全文完$\blacksquare$</p>
+
+<p>致谢：</p>
+
+<p>妈咪叔LaTeX助力 <a href="https://www.latexlive.com">在线LaTeX</a></p>
+
+<p>参考:</p>
+
+<p><a href="https://book.douban.com/subject/2187921/">Stochastic Calculus for Finance II - Continuous-Time Models</a></p>
+
+<p><a href="https://zh.wikipedia.org/wiki/Wikipedia:%E9%A6%96%E9%A1%B5">维基百科</a></p>
+:ET
