@@ -118,11 +118,11 @@ sharing:
 ## => Comments
 ##############################
 comments:
-  provider: false # false (default), "disqus", "gitalk", "valine", "custom"
+  provider: "disqus" # false (default), "disqus", "gitalk", "valine", "custom"
 
   ## Disqus
   disqus:
-    shortname: # the Disqus shortname for the site
+    shortname: https-github-com-bobcatzoo-bobcatzoo-github-io # the Disqus shortname for the site
 
   ## Gitalk
   # please refer to https://github.com/gitalk/gitalk for more info.
@@ -223,5 +223,3 @@ plugins:
   - jekyll-paginate
   - jekyll-sitemap
   - jemoji
-
-theme: jekyll-text-theme
