@@ -19,6 +19,6 @@ $$
 
 
 
-![](/img/in-post/interests.png)
+![](/img/in-post/interests.jpg)
 
 关于拜占庭及奥斯曼土耳其两大帝国史的一切。
