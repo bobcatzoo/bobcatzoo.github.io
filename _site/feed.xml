@@ -5,15 +5,13 @@
     <description>概率，数据，markdown，gis，历史</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 29 Sep 2023 07:56:37 +0545</pubDate>
-    <lastBuildDate>Fri, 29 Sep 2023 07:56:37 +0545</lastBuildDate>
+    <pubDate>Fri, 29 Sep 2023 08:00:18 +0545</pubDate>
+    <lastBuildDate>Fri, 29 Sep 2023 08:00:18 +0545</lastBuildDate>
     <generator>Jekyll v4.3.2</generator>
     
       <item>
         <title>Black-Scholes-Merton期权定价公式推导</title>
-        <description>&lt;h2 id=&quot;black-scholes-merton期权定价公式推导&quot;&gt;Black-Scholes-Merton期权定价公式推导&lt;/h2&gt;
-
-&lt;p&gt;10几年前上大学期间，因为机缘巧合结识了期权，对期权的定价无疑充满了金融学和数学的集体智慧，初学时囿于知识所限，只知定价公式，无法从头开始进行推导，后来学习了《Stochastic Calculus for Finance》，对其大致过程有了初步了解，书中对期权定价公式导出的基本思路是基于无风险套利原则在货币市场和股票市场进行复制对冲未来行权风险，涉及具体方法主要分两种方法（i）导出BSM偏微分方程，然后直接求解析解（p153-159），比较可惜的是，导出偏微分方程后，未给出方程求解过程而是一笔带过直接给出了解析解，让人意犹未尽，（ii）借助风险中性测度进行推导（p210-220），相比于求解偏微分方程所涉及的技巧，该种方法相对简单直观。&lt;/p&gt;
+        <description>&lt;p&gt;10几年前上大学期间，因为机缘巧合结识了期权，对期权的定价无疑充满了金融学和数学的集体智慧，初学时囿于知识所限，只知定价公式，无法从头开始进行推导，后来学习了《Stochastic Calculus for Finance》，对其大致过程有了初步了解，书中对期权定价公式导出的基本思路是基于无风险套利原则在货币市场和股票市场进行复制对冲未来行权风险，涉及具体方法主要分两种方法（i）导出BSM偏微分方程，然后直接求解析解（p153-159），比较可惜的是，导出偏微分方程后，未给出方程求解过程而是一笔带过直接给出了解析解，让人意犹未尽，（ii）借助风险中性测度进行推导（p210-220），相比于求解偏微分方程所涉及的技巧，该种方法相对简单直观。&lt;/p&gt;
 
 &lt;p&gt;本文主要针对方法（i），先后参考了《期权定价的数学模型和方法》（第二版）第五章，给出了BSM偏微分方程的求解过程，但美中不足是对热传导方程基本解一笔带过，少了傅里叶变换求解过程（p81）。于是又参考了《数学物理方程》（第二版）季孝达等编第四章（p137-138）对热传导方程的求解方法，虽然对其中的傅里叶变换还理解不深，但完整的思路算是齐了。以下就将散落在这三本书里的知识汇总在一起，对方法（i）做一个相对完整的注记。&lt;/p&gt;
 
