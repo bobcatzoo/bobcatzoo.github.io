@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="description" content="概率，数据，markdown，gis，历史">
+    <meta name="keywords" content="Alex，见贤思齐，概率，历史，拜占庭">
+    <meta name="theme-color" content="#000000">
+
+    <!-- Open Graph -->
+    <meta property="og:title"
+        content="Black-Scholes-Merton期权定价公式推导 - 见贤思齐的博客 | Alex Blog">
+    
+    <meta property="og:type" content="article">
+    <meta property="og:description" content="Black-Scholes-Merton期权定价公式推导
+">
+    
+    <meta property="article:published_time" content=" 2023-09-29T00:00:00Z">
+    
+    
+    <meta property="article:author" content="Alex">
+    
+    
+    <meta property="article:tag" content="金融数学">
+    
+    <meta property="article:tag" content="期权定价">
+    
+    
+    <meta property="og:image" content="http://localhost:4000/img/avatar-hux-ny.jpg">
+    <meta property="og:url" content="http://localhost:4000/2023/09/29/Black-Scholes-Merton%E6%9C%9F%E6%9D%83%E5%AE%9A%E4%BB%B7%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/">
+    <meta property="og:site_name" content="见贤思齐的博客 | Alex Blog">
+
+    <title>Black-Scholes-Merton期权定价公式推导 - 见贤思齐的博客 | Alex Blog</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="http://localhost:4000/2023/09/29/Black-Scholes-Merton%E6%9C%9F%E6%9D%83%E5%AE%9A%E4%BB%B7%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href=" /css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href=" /css/hux-blog.min.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet"
+        type="text/css">
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+
+    <!-- Google AdSense -->
+    <script data-ad-client="ca-pub-6487568398225121" async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({
+              tex2jax: {
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+                inlineMath: [['$','$'], ['\\(','\\)']],
+                processEscapes: true
+              },
+              TeX: {
+                equationNumbers: {
+                  autoNumber: "AMS"
+                }
+              }
+            });
+          </script>
+          
+          <script type="text/javascript" async
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_CHTML">
+          </script>
+
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+        
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Alex Blog</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div id="huxblog_navbar">
+                <div class="navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="/">Home</a>
+                        </li>
+                        
+                        
+                        
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                        
+                        
+                        <li>
+                            <a href="/archive/">Archive</a>
+                        </li>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <li class="search-icon">
+                            <a href="javascript:void(0)">
+                                <i class="fa fa-search"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <script>
+        // Drop Bootstarp low-performance Navbar
+        // Use customize navbar with high-quality material design animation
+        // in high-perf jank-free CSS3 implementation
+        var $body = document.body;
+        var $toggle = document.querySelector('.navbar-toggle');
+        var $navbar = document.querySelector('#huxblog_navbar');
+        var $collapse = document.querySelector('.navbar-collapse');
+
+        var __HuxNav__ = {
+            close: function () {
+                $navbar.className = " ";
+                // wait until animation end.
+                setTimeout(function () {
+                    // prevent frequently toggle
+                    if ($navbar.className.indexOf('in') < 0) {
+                        $collapse.style.height = "0px"
+                    }
+                }, 400)
+            },
+            open: function () {
+                $collapse.style.height = "auto"
+                $navbar.className += " in";
+            }
+        }
+
+        // Bind Event
+        $toggle.addEventListener('click', function (e) {
+            if ($navbar.className.indexOf('in') > 0) {
+                __HuxNav__.close()
+            } else {
+                __HuxNav__.open()
+            }
+        })
+
+        /**
+         * Since Fastclick is used to delegate 'touchstart' globally
+         * to hack 300ms delay in iOS by performing a fake 'click',
+         * Using 'e.stopPropagation' to stop 'touchstart' event from 
+         * $toggle/$collapse will break global delegation.
+         * 
+         * Instead, we use a 'e.target' filter to prevent handler
+         * added to document close HuxNav.  
+         *
+         * Also, we use 'click' instead of 'touchstart' as compromise
+         */
+        document.addEventListener('click', function (e) {
+            if (e.target == $toggle) return;
+            if (e.target.className == 'icon-bar') return;
+            __HuxNav__.close();
+        })
+    </script>
+    <!-- Search -->
+<div class="search-page">
+  <div class="search-icon-close-container">
+    <span class="search-icon-close">
+      <i class="fa fa-chevron-down"></i>
+    </span>
+  </div>
+  <div class="search-main container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <form></form>
+        <input type="text" id="search-input" placeholder="$ grep...">
+        </form>
+        <div id="search-results" class="mini-post-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/home-bg.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+
+
+
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/home-bg.jpg');
+        background: ;
+    }
+
+    
+</style>
+
+<header class="intro-header" >
+
+    <div class="header-mask"></div>
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/archive/?tag=%E9%87%91%E8%9E%8D%E6%95%B0%E5%AD%A6" title="金融数学">金融数学</a>
+                        
+                        <a class="tag" href="/archive/?tag=%E6%9C%9F%E6%9D%83%E5%AE%9A%E4%BB%B7" title="期权定价">期权定价</a>
+                        
+                    </div>
+                    <h1>Black-Scholes-Merton期权定价公式推导</h1>
+                    
+                    <h2 class="subheading">BSM偏微分方程求解</h2>
+                    <span class="meta">Posted by Alex on September 29, 2023</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <!-- Multi-Lingual -->
+                
+
+				<h2 id="black-scholes-merton期权定价公式推导">Black-Scholes-Merton期权定价公式推导</h2>
+
+<p>10几年前上大学期间，因为机缘巧合结识了期权，对期权的定价无疑充满了金融学和数学的集体智慧，初学时囿于知识所限，只知定价公式，无法从头开始进行推导，后来学习了《Stochastic Calculus for Finance》，对其大致过程有了初步了解，书中对期权定价公式导出的基本思路是基于无风险套利原则在货币市场和股票市场进行复制对冲未来行权风险，涉及具体方法主要分两种方法（i）导出BSM偏微分方程，然后直接求解析解（p153-159），比较可惜的是，导出偏微分方程后，未给出方程求解过程而是一笔带过直接给出了解析解，让人意犹未尽，（ii）借助风险中性测度进行推导（p210-220），相比于求解偏微分方程所涉及的技巧，该种方法相对简单直观。</p>
+
+<p>本文主要针对方法（i），先后参考了《期权定价的数学模型和方法》（第二版）第五章，给出了BSM偏微分方程的求解过程，但美中不足是对热传导方程基本解一笔带过，少了傅里叶变换求解过程（p81）。于是又参考了《数学物理方程》（第二版）季孝达等编第四章（p137-138）对热传导方程的求解方法，虽然对其中的傅里叶变换还理解不深，但完整的思路算是齐了。以下就将散落在这三本书里的知识汇总在一起，对方法（i）做一个相对完整的注记。</p>
+
+<h3 id="一投资组合价值演化">一、投资组合价值演化</h3>
+
+<p>假设投资人A在初始时刻仅靠出售欧式看涨期权，获得期权费然后在货币市场和股票市场进行组合投资以对冲未来期权行权风险，即确保该组合价值在行权日等于$(S_T - K)^+$.</p>
+
+<p>假设投资人A在时刻$t$的投资组合价值为$X_t$，该组合投资于固定利率为$r$的货币市场（比如银行存款等）和股票市场（简化为一只股票$S_t$），该股票由几何布朗运动驱动即：
+\(d S_t = \alpha S_t dt + \sigma S_t d W_t \tag{1.1}\)
+或
+\(\frac{d S_t}{S_t} = \alpha dt + \sigma d W_t \tag{1.2}\)</p>
+
+<blockquote>
+  <p>公式$\text{(1.1)}$由正收益项$\alpha S_t dt$和随机波动项$\sigma S_t dW_t$构成。可以理解为瞬时股票收益$\frac{d S_t}{S_t}$隐含一个正的收益项$\alpha dt$，同时包含一个波动项$\sigma d W_t$，两者叠加后的效果就是股票价格围绕一个向上的趋势上下波动。而且由于股票市场风险要高于货币市场，因此满足$\alpha &gt; r$。</p>
+</blockquote>
+
+<p>假设在时刻$t$，投资人A持有$\Delta_t$份额的股票，$\Delta_t$可以是随机的(random)，但由布朗运动$W_t, t \geq 0$的的域流（信息流）决定，该投资组合剩余金额$X_t - \Delta_t S_t$ 投资于货币市场。</p>
+
+<p>该投资组合随时间的变动$d X_t$由两部分构成：</p>
+
+<p>（i）股票市场资本所得$\Delta_t (S_t + d S_t) - \Delta_t S_t = \Delta_t dS_t$ ,</p>
+
+<p>（ii）货币市场利息收益$r (X_t - \Delta_t S_t) dt$，</p>
+
+<p>即：
+\(\begin{equation}
+\begin{aligned}
+d X_t &amp;= \Delta_t dS_t + r (X_t - \Delta_t S_t) dt \\
+&amp;= \Delta_t (\alpha S_t dt + \sigma S_t dW_t) + r (X_t - \Delta_t S_t) dt \\
+&amp;= r X_t dt + \Delta_t (\alpha - r) S_t dt + \Delta_t \sigma S_t d W_t
+\end{aligned}
+\tag{1.3}
+\end{equation}\)</p>
+
+<blockquote>
+  <p>$d X_t$由以下三部分构成：</p>
+
+  <ol>
+    <li>投资组合$X_t$基于利率$r$的隐含固定收益$r X_t dt$；</li>
+    <li>股票市场的风险溢价(risk premium $\alpha - r$)收益$\Delta_t (\alpha - r) S_t dt$；</li>
+    <li>$\Delta_t$份额股票的波动收益$\Delta_t \sigma S_t d W_t$；</li>
+  </ol>
+</blockquote>
+
+<p>下面我们考虑下按照连续复利折现后的股价$e^{-rt} S_t$和投资组合价值$e^{-rt} X_t$的微分。</p>
+
+<blockquote>
+  <p>假设$f(t, x) = e^{-rt}x$，则$f_t(t, x) = -r e^{-rt} x$，$f_x(t, x) = e^{-rt}$，$f_{xx}(t, x) = 0$，</p>
+</blockquote>
+
+<p>根据伊藤公式
+\(d f(t, X_t) = f_t(t, X_t) dt + f_x(t, X_t) dX_t + \frac{1}{2} f_{xx}(t, X_t) dX_t dX_t \tag{1.4}\)</p>
+
+<p>可得：
+\(\begin{equation}
+\begin{aligned}
+d (e^{-rt} S_t) &amp;= d f(t, S_t) \\
+&amp;= f_t(t, S_t) dt + f_x(t, S_t) dS_t + \frac{1}{2}f_{xx}(t, S_t) dS_t dS_t \\
+&amp;= -r e^{-rt} S_t dt + e^{-rt} dS_t \\
+&amp;= -r e^{-rt} S_t dt + e^{-rt} \alpha S_t dt + e^{-rt} \sigma S_t dW_t \\
+&amp;= e^{-rt} (\alpha - r) S_t dt + e^{-rt} \sigma S_t dW_t
+\end{aligned}
+\tag{1.5}
+\end{equation}\)</p>
+
+\[\begin{equation}
+\begin{aligned}
+d (e^{-rt} X_t) &amp;= d f(t, X_t) \\
+&amp;= f_t(t, X_t) dt + f_x(t, X_t) dX_t + \frac{1}{2}f_{xx}(t, X_t) dX_t dX_t \\
+&amp;= -r e^{-rt} X_t dt + e^{-rt} dX_t \\
+&amp;= \left[-r e^{-rt} X_t dt + e^{-rt} r X_t dt\right] + e^{-rt} \Delta_t (\alpha - r) S_t dt + e^{-rt} \Delta_t \sigma S_t d W_t \\
+&amp;= \Delta_t e^{-rt} (\alpha - r) S_t dt + \Delta_t e^{-rt} \sigma S_t d W_t \\
+&amp;= \Delta_t d(e^{-rt} S_t)
+\end{aligned}
+\tag{1.6}
+\end{equation}\]
+
+<p>由于货币市场收益也是按照连续复利进行计算，所以对其进行折现后为初始值常数，不会对折现投资组合价值变动（微分）产生影响，此即公式$\text{(1.5)}$所反映的：折现投资组合价值变动$d (e^{-rt} X_t)$仅取决于折现股票价格变动$d (e^{-rt} S_t)$。</p>
+
+<h3 id="二期权价值价格演化">二、期权价值（价格）演化</h3>
+
+<p>我们考虑在行权日期$T$支付为$(S_T - K)^+$的欧式看涨期权，假设在时刻$t$其价格由函数$c(t, S_t)$决定，下面我们分别对对$c(t, S_t)$和其折现过程$e^{-rt} c(t, S_t)$求微分：
+\(\begin{equation}
+\begin{aligned}
+d c(t, S_t) &amp;= c_t(t, S_t) dt + c_x(t, S_t) dS_t + \frac{1}{2} c_{xx}(t, S_t) dS_t dS_t \\
+&amp;= c_t(t, S_t) dt + c_x(t, S_t) [\alpha S_t dt + \sigma S_t dW_t] + \frac{1}{2} c_{xx}(t, S_t) \sigma^2 S_t^2 dt \\
+&amp;= \big[c_t(t, S_t) + \alpha S_t c_x(t, S_t) + \frac{1}{2} \sigma^2 S_t^2 c_{xx}(t, S_t)\big]dt + \sigma S_t c_x(t, S_t) dW_t
+\end{aligned}
+\tag{2.1}
+\end{equation}\)</p>
+
+\[\begin{equation}
+\begin{aligned}
+d e^{-rt} c(t, S_t) &amp;= df\big(t, c(t, S_t)\big) \\
+&amp;= f_t\big(t, c(t, S_t)\big) dt \\
+&amp; + f_x\big(t, c(t, S_t)\big) dc(t, S_t) + \frac{1}{2} f_{xx}\big(t, c(t, S_t)\big) dc(t, S_t) dc(t, S_t) \\
+&amp;= -r e^{-rt} c(t, S_t) dt + e^{-rt} d c(t, S_t) \\
+&amp;= -r e^{-rt} c(t, S_t) dt \\
+&amp; + e^{-rt} \left\{ \big[c_t(t, S_t) + \alpha S_t c_x(t, S_t) + \frac{1}{2} \sigma^2 S_t^2 c_{xx}(t, S_t)\big]dt + \sigma S_t c_x(t, S_t) dW_t \right\} \\
+&amp;= e^{-rt} \big[ -rc(t, S_t) + c_t(t, S_t) + \alpha S_t c_x(t, S_t) + \frac{1}{2} \sigma^2 S_t^2 c_{xx}(t, S_t) \big]dt \\
+&amp; + e^{-rt} \sigma S_t c_x(t, S_t) dW_t
+\end{aligned}
+\tag{2.2}
+\end{equation}\]
+
+<h3 id="三投资组合价值与期权价值的等价">三、投资组合价值与期权价值的等价</h3>
+
+<p>我们的投资始于在时刻$t=0$时卖出期权（short option）获得$c(0 ,S_0)$，然后投资于货币市场和股票市场形成投资组合$X_0$，满足及时立刻行权也无套利$c(0, S_0) = X_0 = (S_0 - K)^+$，同时为了保证我们的期权买卖交易在任意时刻$t, t \in (0, T]$无套利，还需要满足：</p>
+
+<p>\(\begin{aligned}
+&amp; c(t, S_t) = X_t \\\
+&amp; e^{-rt}c(t, S_t) = e^{-rt} X_t
+\end{aligned}  \tag{3.1}\)</p>
+<blockquote>
+  <p>例如我们可以假设存在一个时空穿越者B，其时间总比现实中的投资者A快$t$，也就是他总能提前准确获知未来的信息，但其投资行为也必须满足无套利原则，则他会告诉你上式必须满足，否则市场就会存在套利。比如$c(t, S_t) \geq X_t$，那么投资者B就可以告诉投资者A在时刻$t=0$卖出看涨期权，获得$e^{-rt}c(t, S_t)$，同时抽走$e^{-rt}c(t, S_t) - e^{-rt} X_t$，仅用$\left( e^{-rt}c(t, S_t) - \left[ e^{-rt}c(t, S_t) - e^{-rt} X_t \right]\right) == e^{-rt} X_t = X_0$投资于货币市场和股票市场进行对冲卖出看涨期权的交易行为，即投资者A在时刻$t=0$获得了无风险收益$e^{-rt}c(t, S_t) - e^{-rt} X_t$。</p>
+</blockquote>
+
+<p>如满足：
+\(d\left(e^{-rt} X_t\right) = d \left(e^{-rt}c(t, S_t)\right) \quad \text{ for all } t \in [0, T] \tag{3.2}\)
+则上式必然成立。展开公式$\text{(3.2)}$并约减掉两边的$e^{-rt}$得到如下公式：
+\(\begin{equation}
+\begin{aligned}
+&amp; \Delta_t (\alpha - r) S_t dt + \Delta_t \sigma S_t d W_t \\
+&amp; = \big[ -rc(t, S_t) + c_t(t, S_t) + \alpha S_t c_x(t, S_t) + \frac{1}{2} \sigma^2 S_t^2 c_{xx}(t, S_t) \big]dt \\
+&amp; + \sigma S_t c_x(t, S_t) dW_t
+\end{aligned}
+\tag{3.3}
+\end{equation}\)</p>
+
+<p>首先令$dW_t$项系数相等，得到德尔塔对冲法则（<strong><em>delta -hedging rule</em></strong>）：
+\(\Delta_t = c_x(t, S_t) \quad \text{for all } t \in [0, T]. \tag{3.4}\)
+即在任意时刻$t$，持有股票份额$\Delta_t$等于期权价格对股价的偏导数$c_x(t, S_t)$。</p>
+
+<p>然后再令$dt$项系数相等，并将公式$\text{(3.4)}$带入其中，得到：
+\(\begin{equation}
+\begin{aligned}
+&amp; c_x(t,S_t) (\alpha - r) S_t = -rc(t, S_t) + c_t(t, S_t) + \alpha S_t c_x(t, S_t) \\
+&amp; + \frac{1}{2} \sigma^2 S_t^2 c_{xx}(t, S_t) \quad \text{for all } t \in [0, T]. 
+\end{aligned}
+\tag{3.5}
+\end{equation}\)</p>
+
+\[-r c_x(t,S_t) S_t = -rc(t, S_t) + c_t(t, S_t) + \frac{1}{2} \sigma^2 S_t^2 c_{xx}(t, S_t) \tag{3.6}\]
+
+\[rc(t, S_t) = c_t(t, S_t) + r S_t c_x(t,S_t) +  \frac{1}{2} \sigma^2 S_t^2 c_{xx}(t, S_t)  \quad \text{for all } t \in [0, T]. \tag{3.7}\]
+
+<p>将$S_t$用哑变量$x$代替，便得到了BSM偏微分方程;</p>
+
+\[\left\{
+\begin{aligned}
+&amp; rc(t, x)  = c_t(t, x) + r x c_x(t,x) +  \frac{1}{2} \sigma^2 x^2 c_{xx}(t, x)   \quad \text{for all } t \in [0, T], x \geq 0.\\\
+&amp; c(T, x)  = (x - K)^+.
+\end{aligned}  \tag{3.8}
+\right.\]
+
+<p>下面我们通过适当变换将公式$\text{(3.8)}$写成常见的热传导方程形式并进行求解：
+\(\left\{
+\begin{aligned}
+&amp; \frac{\partial u}{\partial t} = a^2 \frac{\partial^2 u}{\partial x^2},   \quad t &gt; 0,  -\infty &lt; x &lt; \infty.\\\
+&amp; u\vert_{t = 0} = \varphi(x).
+\end{aligned}  \tag{3.9}
+\right.\)</p>
+
+<h3 id="四bsm偏微分方程求解">四、BSM偏微分方程求解</h3>
+
+<p>我们先将BSM偏微分方程转换为常规的热传导方程形式，然后借助傅里叶变换对其进行求解。</p>
+
+<h4 id="bsm方程转换">BSM方程转换</h4>
+
+<p>为方便起见，将$\text{(3.8)}$作如下替换：$c(t, x)$简写成$V(t,S_t)$，并用偏导数$\frac{\partial V}{\partial S}$形式取代$c_x(t, x)$得到：
+\(\left\{
+\begin{aligned}
+&amp; \frac{\partial V}{\partial t} + \frac{1}{2}\sigma^2 S^2 \frac{\partial^2 V}{\partial S^2} + r S \frac{\partial V}{\partial S} - r V = 0 \quad 0 \leq S \leq \infty,  0 \leq t \leq T.\\\ 
+&amp; V\vert_{t =T} = (S_T - K)^+.
+\end{aligned}  \tag{4.1}
+\right.\)
+对$V(t,S_t)$做如下变量替换
+\(\begin{aligned}
+&amp; x = \ln S \\
+&amp; \tau = T-t
+\end{aligned} \tag{4.2}\)
+计算$V(\tau, x)$的各阶偏导数如下：
+\(\frac{\partial V}{\partial t} = \frac{\partial V}{\partial \tau} \frac{\partial \tau}{\partial t} = -\frac{\partial V}{\partial \tau} \tag{4.3}\\
+\frac{\partial V}{\partial S} = \frac{\partial V}{\partial x} \frac{\partial x}{\partial S} = \frac{1}{S} \frac{\partial V}{\partial x} \\
+\frac{\partial^2 V}{\partial S^2} = \frac{\partial \frac{\partial V}{\partial S}}{\partial S} = -\frac{1}{S^2} \frac{\partial V}{\partial x} + \frac{1}{S} \frac{\partial^2 V}{\partial x^2} \frac{\partial x}{\partial S} = \frac{1}{S^2} \frac{\partial^2 V}{\partial x^2} - \frac{1}{S^2} \frac{\partial V}{\partial x}\)
+将上述公式带入$\text{(4.1)}$得到：
+\(\left\{
+\begin{aligned}
+&amp; \frac{\partial V}{\partial \tau} - \frac{\sigma^2}{2} \frac{\partial^2 V}{\partial x^2} - (r - \frac{\sigma^2}{2}) \frac{\partial V}{\partial x} + r V = 0 \quad 0 \leq S \leq \infty,  0 \leq t \leq T.\\\ 
+&amp; V\vert_{\tau = 0} = (e^x - K)^+.
+\end{aligned}  \tag{4.4}
+\right.\)
+然后再做如下函数变化：
+\(V(\tau, x) = V = u e^{\alpha \tau + \beta x} = u(\tau, x) e^{\alpha \tau + \beta x} \tag{4.5}\)</p>
+
+\[\begin{aligned}
+&amp; \frac{\partial V}{\partial \tau} = e^{\alpha \tau + \beta x} \frac{\partial u}{\partial \tau} + e^{\alpha \tau + \beta x} \alpha u = e^{\alpha \tau + \beta x} (\frac{\partial u}{\partial \tau} + \alpha u) \\
+&amp; \frac{\partial V}{\partial x} = e^{\alpha \tau + \beta x} (\frac{\partial u}{\partial x} + \beta u) \\
+&amp; \frac{\partial^2 V}{\partial x^2} = e^{\alpha \tau + \beta x} (\frac{\partial^2 u}{\partial x^2} + 2 \beta \frac{\partial u}{\partial x} +\beta^2 u)
+\end{aligned}  \tag{4.6}\]
+
+<p>将以上公式带入$\text{(4.4)}$并消去$e^{\alpha \tau + \beta x}$得到：
+\(e^{\alpha \tau + \beta x} (\frac{\partial u}{\partial \tau} + \alpha u) - \frac{\sigma^2}{2} e^{\alpha \tau + \beta x} (\frac{\partial^2 u}{\partial x^2} + 2 \beta \frac{\partial u}{\partial x} +\beta^2 u) \\ - (r - \frac{\sigma^2}{2}) e^{\alpha \tau + \beta x} (\frac{\partial u}{\partial x} + \beta u) + r e^{\alpha \tau + \beta x} u = 0 \tag{4.7}\)</p>
+
+\[\frac{\partial u}{\partial \tau} - \frac{\sigma^2}{2} \frac{\partial^2 u}{\partial x^2} - (\beta \sigma^2 + r - \frac{\sigma^2}{2}) \frac{\partial u}{\partial x} + \left(r - \beta(r - \frac{\sigma^2}{2}) - \frac{\sigma^2}{2} \beta^2 + \alpha \right) u = 0
+\tag{4.8}\]
+
+<p>通过选取适当的$\alpha$和$\beta$的值，消去$\frac{\partial u}{\partial x}$和$u$项，即：
+\((\beta \sigma^2 + r - \frac{\sigma^2}{2}) = 0 \quad \rightarrow \quad \beta = \frac{1}{2} - \frac{r}{\sigma^2} \tag{4.9}\\
+\left(r - \beta(r - \frac{\sigma^2}{2}) - \frac{\sigma^2}{2} \beta^2 + \alpha \right) = 0 \quad \rightarrow \quad \alpha = -r + \beta(r - \frac{\sigma^2}{2}) + \frac{\sigma^2}{2} \beta^2 = -r - \frac{1}{2 \sigma^2}(r - \frac{\sigma^2}{2})^2\)
+则$\text{(4.8)}$变换为$\text{(4.10)}$形式的的常规热传导方程：
+\(\left\{
+\begin{aligned}
+&amp; \frac{\partial u}{\partial \tau} = \frac{\sigma^2}{2} \frac{\partial^2 u}{\partial x^2},   \quad 0 \leq \tau \leq T,  0 &lt; x &lt; \infty.\\\
+&amp; u\vert_{\tau = 0} = e ^{-\beta x} V \vert_{\tau = 0} = e ^{-\beta x} (e ^x - K)
+ ^+ .
+ \end{aligned}  \tag{4.10}
+\right.\)
+接下来便是求解该方程得到$u(\tau, x)$的解析表达式，然后利用$V(\tau, x) = u(\tau, x) e^{\alpha \tau + \beta x}$求得$V(\tau, x)$。</p>
+
+<h4 id="bsm方程求解">BSM方程求解</h4>
+
+<p>在偏微分方程（或者叫数学物理方程）理论中，有成熟的傅里叶变换方法可以求解上述热传导方程，为了简化傅里叶变换公式的呈现，我们将边界条件进行简写如下：
+\(\begin{equation}
+\begin{aligned}
+u(\tau, x)\vert_{\tau = 0} &amp;= e ^{-\beta x} V \vert_{\tau = 0} \\
+&amp;= e ^{-\beta x} (e ^x - K)^+ \\
+&amp;= \varphi(x).
+\end{aligned} \tag{4.11}
+\end{equation}\)
+记$\mathcal{F}$为傅里叶变换算符，$\mathcal{F^\text{-1}}$为傅里叶逆变换算符，$u(\tau, x)$的傅里叶变换为：
+\(\widehat{u}(\tau, \lambda) = \mathcal{F}[u(\tau, x)] = \int^{+\infty}_{-\infty} u(\tau, x) e^{-i \lambda x} dx \tag{4.12}\)
+对$\text{(4.10)}$方程两边进行傅里叶变换得到<strong>像函数</strong>$\widehat u(\tau, \lambda)$满足的常微分方程初值问题：
+\(\left\{
+\begin{aligned}
+&amp; \frac{\text{d} \widehat{u}}{\text{d}\tau} = \frac{\sigma^2}{2} (i \lambda)^2 \widehat{u} = -\frac{\sigma^2}{2} \lambda^2 \widehat{u},   \quad 0 \leq \tau \leq T,  0 &lt; x &lt; \infty.\\\
+&amp; \widehat{u}\vert_{\tau = 0} = \widehat \varphi(\lambda).
+\end{aligned}  \tag{4.13}
+\right.\)
+上述傅里叶变换将偏微分方程变成关于$\widehat u(\tau, \lambda)$的常微分方程。求解此方程可得像函数：
+\(\widehat u(\tau, \lambda) = \widehat \varphi (\lambda) e ^{-\frac{\sigma^2}{2} \lambda^2 \tau} \tag{4.14}\)
+对上述像函数进行傅里叶逆变换，并进行卷积运算可得：
+\(\begin{equation}
+\begin{aligned}
+u(\tau, x) &amp;= \mathcal{F^\text{-1}} [\widehat \varphi (\lambda) e^{-\frac{\sigma^2}{2} \lambda^2 \tau}] \\
+&amp;= \mathcal{F^\text{-1}} [\widehat \varphi (\lambda)] * \mathcal{F^\text{-1}} [e^{-\frac{\sigma^2}{2} \lambda^2 \tau}]  \\
+&amp;= \varphi(x) * \frac{1}{\sigma \sqrt{2 \pi \tau}} \exp(-\frac{x^2}{2 \sigma^2 \tau}) \\
+&amp;= \frac{1}{\sigma \sqrt{2 \pi \tau}} \int^{+\infty}_{-\infty} \varphi(\xi) \exp(-\frac{(x-\xi)^2}{2 \sigma^2 \tau}) d\xi
+\end{aligned}
+\tag{4.15}
+\end{equation}\)
+其中：
+\(\begin{equation}
+\begin{aligned}
+\mathcal{F^\text{-1}} [e^{-\frac{\sigma^2}{2} \lambda^2 \tau}] &amp;= \frac{1}{2 \pi} \int^{\infty}_{-\infty} e^{-\frac{\sigma^2}{2} \lambda^2 \tau} e^{i \lambda x} d\lambda \\
+&amp;= \frac{1}{\pi} \int^{+\infty}_{0} e^{-\frac{\sigma^2}{2} \lambda^2 \tau} \cos(\lambda x) d\lambda \\
+&amp;= \frac{1}{\sigma \sqrt{2 \pi \tau}} \exp(-\frac{x^2}{2 \sigma^2 \tau})
+\end{aligned} \tag{4.16}
+\end{equation}\)
+将初值$\varphi(\xi)= e ^{-\beta \xi} (e ^\xi - K)^+$带入$\text{(4.15)}$得到：
+\(\begin{equation}
+\begin{aligned}
+u(\tau, x) &amp;= \frac{1}{\sigma \sqrt{2 \pi \tau}} \int^{+\infty}_{-\infty} \exp(-\frac{(x-\xi)^2}{2 \sigma^2 \tau}) \left[e ^{-\beta \xi} (e ^\xi - K)^+ \right] d\xi \\
+&amp;= \frac{1}{\sigma \sqrt{2 \pi \tau}} \int^{+\infty}_{\ln K} \exp(-\frac{(x-\xi)^2}{2 \sigma^2 \tau}) \left[e ^{(1-\beta) \xi} - K e^{-\beta \xi} \right] d\xi
+\end{aligned}
+\tag{4.17}
+\end{equation}\)</p>
+
+<p>然后将$\alpha = -r - \frac{1}{2 \sigma^2}(r - \frac{\sigma^2}{2})^2$和$\beta = \frac{1}{2} - \frac{r}{\sigma^2}$带入$V(\tau, x) = u(\tau, x) e^{\alpha \tau + \beta x}$得到：
+\(\begin{equation}
+\begin{aligned}
+V(\tau, x) &amp;= \exp(-r \tau - \frac{1}{2 \sigma^2}(r - \frac{\sigma^2}{2})^2 \tau - \frac{1}{\sigma^2}(r - \frac{\sigma^2}{2}) x) u(\tau, x) \\
+&amp;= I_1 + I_2
+\end{aligned}
+\tag{4.18}
+\end{equation}\)
+其中：
+\(\begin{equation}
+\begin{aligned}
+I_1 &amp;= \frac{1}{\sigma \sqrt{2 \pi \tau}} \int^{+\infty}_{\ln K} \exp(-r \tau - \frac{1}{2 \sigma^2}(r - \frac{\sigma^2}{2})^2 \tau - \frac{1}{\sigma^2}(r - \frac{\sigma^2}{2}) x) \exp(-\frac{(x-\xi)^2}{2 \sigma^2 \tau}) \exp \bigg( {(1-\beta) \xi} \bigg) d\xi \\
+&amp;= \frac{1}{\sigma \sqrt{2 \pi \tau}} \int^{+\infty}_{\ln K} \exp(-r \tau - \frac{1}{2 \sigma^2}(r - \frac{\sigma^2}{2})^2 \tau - \frac{1}{\sigma^2}(r - \frac{\sigma^2}{2}) x) \exp(-\frac{(x-\xi)^2}{2 \sigma^2 \tau}) \exp \bigg( \left[ 1+\frac{1}{\sigma^2}(r - \frac{\sigma^2}{2}) \right] \xi \bigg) d\xi \\
+&amp;= \frac{e^{-r \tau}}{\sigma \sqrt{2 \pi \tau}} \int^{+\infty}_{\ln K} \exp( - \frac{1}{2 \sigma^2}(r - \frac{\sigma^2}{2})^2 \tau - \frac{1}{\sigma^2}(r - \frac{\sigma^2}{2}) x -\frac{(x-\xi)^2}{2 \sigma^2 \tau} + \left[ \xi +\frac{1}{\sigma^2}(r - \frac{\sigma^2}{2}) \xi \right] )d\xi \\
+&amp;= \frac{e^{-r \tau}}{\sigma \sqrt{2 \pi \tau}} \int^{+\infty}_{\ln K} \exp(-\frac{(x-\xi)^2}{2 \sigma^2 \tau} - \frac{1}{\sigma^2}(r - \frac{\sigma^2}{2})(x - \xi) - \frac{1}{2 \sigma^2}(r - \frac{\sigma^2}{2})^2 \tau + \xi) d\xi \\
+&amp;= \frac{e^{-r \tau}}{\sigma \sqrt{2 \pi \tau}} \int^{+\infty}_{\ln K} \exp(-\frac{1}{2 \sigma^2 \tau} \left[(x-\xi)^2 + 2 (r - \frac{\sigma^2}{2}) \tau (x - \xi) + (r - \frac{\sigma^2}{2})^2 \tau^2 \right] + \xi) d\xi \\
+&amp;= \frac{e^{-r \tau}}{\sigma \sqrt{2 \pi \tau}} \int^{+\infty}_{\ln K} \exp(-\frac{1}{2 \sigma^2 \tau} \left[(x-\xi) + (r - \frac{\sigma^2}{2}) \tau \right] + \xi) d\xi \\
+\end{aligned}
+\tag{4.19}
+\end{equation}\)
+令$\eta = x-\xi + (r - \frac{\sigma^2}{2}) \tau$并带入$\text{(4.19)}$：
+\(\begin{equation}
+\begin{aligned}
+I_1 &amp;= \frac{e^{-r \tau}}{\sigma \sqrt{2 \pi \tau}} \int^{-\infty}_{x - \ln K + (r - \frac{\sigma^2}{2}) \tau} - \exp(-\frac{\eta^2}{2 \sigma^2 \tau} + (x - \eta + (r - \frac{\sigma^2}{2}) \tau)) d\eta \\
+&amp;= \frac{1}{\sigma \sqrt{2 \pi \tau}} \int^{x - \ln K + (r - \frac{\sigma^2}{2}) \tau}_{-\infty} e^x \exp(-\frac{\eta^2}{2 \sigma^2 \tau} - \eta - \frac{\sigma^2}{2} \tau) d\eta \\
+&amp;= \frac{1}{\sigma \sqrt{2 \pi \tau}} \int^{x - \ln K + (r - \frac{\sigma^2}{2}) \tau}_{-\infty} e^x \exp(-\frac{\eta^2 + 2 \sigma^2 \tau \eta + (\sigma^2 \tau)^2}{2 \sigma^2 \tau}) d\eta \\
+&amp;= \frac{e^x}{\sigma \sqrt{2 \pi \tau}} \int^{x - \ln K + (r - \frac{\sigma^2}{2}) \tau}_{-\infty} \exp(-\frac{(\eta + \sigma^2 \eta)^2}{2 \sigma^2 \tau}) d\eta
+\end{aligned}
+\tag{4.20}
+\end{equation}\)
+令
+\(\omega = \frac{\eta + \sigma^2 \tau}{\sigma \sqrt{\tau}} \tag{4.21}\\
+N(x) = \frac{1}{\sqrt{2\pi}} \int^{x}_{-\infty} \exp(-\frac{\omega^2}{2}) d\omega\)
+带入$\text{(4.20)}$，求得：
+\(\begin{equation}
+\begin{aligned}
+I_1 &amp;= \frac{e^x}{\sigma \sqrt{2 \pi \tau}} \int^{\frac{x - \ln K + (r + \frac{\sigma^2}{2}) \tau}{\sigma \sqrt{\tau}}}_{-\infty} \sigma \sqrt{\tau} \exp(-\frac{\omega^2}{2}) d\omega \\
+&amp;= e^x N(\frac{x - \ln K + (r + \frac{\sigma^2}{2}) \tau}{\sigma \sqrt{\tau}})
+\end{aligned}
+\tag{4.22}
+\end{equation}\)
+同理
+\(\begin{equation}
+\begin{aligned}
+I_2 &amp;= \frac{1}{\sigma \sqrt{2 \pi \tau}} \int^{+\infty}_{\ln K} - \exp(-r \tau - \frac{1}{2 \sigma^2}(r - \frac{\sigma^2}{2})^2 \tau - \frac{1}{\sigma^2}(r - \frac{\sigma^2}{2}) x) \exp(-\frac{(x-\xi)^2}{2 \sigma^2 \tau}) K e^{-\beta \xi} d\xi \\
+&amp;= -\frac{e^{-r\tau} K}{\sigma \sqrt{2 \pi \tau}} \int^{x - \ln K + (r - \frac{\sigma^2}{2}) \tau}_{-\infty} \exp(-\frac{\eta^2}{2 \sigma^2 \tau}) d\eta \\
+&amp;= -K e^{-r \tau} N(\frac{x - \ln K + (r - \frac{\sigma^2}{2}) \tau}{\sigma \sqrt{\tau}})
+\end{aligned}
+\tag{4.23}
+\end{equation}\)
+根据$x = \ln S, \tau = T-t$，最终得到$V(t, S_t)$：
+\(V(t, S_t) = S_t N(\frac{\ln \frac{S_t}{K} + (r + \frac{\sigma^2}{2}) (T-t)}{\sigma \sqrt{T-t}}) - K e^{-r (T-t)} N(\frac{\ln \frac{S_t}{K} + (r - \frac{\sigma^2}{2}) (T-t)}{\sigma \sqrt{(T-t)}})
+\tag{4.24}\)
+或者简写为：
+\(\begin{equation}
+\begin{aligned}
+V(t, S_t) &amp;= S_t N(d_1) - K e^{-r (T-t)} N(d_2) \\
+\\
+&amp; d_1 = \frac{\ln \frac{S_t}{K} + (r + \frac{\sigma^2}{2}) (T-t)}{\sigma \sqrt{T-t}} \\
+&amp; d_2 = d_1 - \sigma \sqrt{T-t} = \frac{\ln \frac{S_t}{K} + (r - \frac{\sigma^2}{2}) (T-t)}{\sigma \sqrt{(T-t)}}
+\end{aligned}
+\tag{4.25}
+\end{equation}\)
+由此，我们便求得了BSM偏微分方程的解析解，亦即欧式看涨期权定价公式。</p>
+
+<h3 id="注记">注记</h3>
+
+<p>以上便整理完了对期权定价公式的偏微分方程直接求解方法，仅做形式化推导（有些地方确实考验对常规数学分析知识的掌握及细心程度例如公式$\text{4.19-4.20}$）的推导）。对偏微分方程求解过程中所涉及的傅里叶变换的适用性不做讨论，傅里叶变换目前除了印象中可以将非病态函数分解成三角函数的叠加以外所知甚少，再者公式$\text(4.16)$第一行到第二行的转化，第二行含参变量积分的计算（曾大言不惭想直接借助分部积分推导下，后来发现没那么容易），还有就是《Stochastic Calculus for Finance》关于对伊藤积分采用黎曼分割的合理性问题等等，总之想要彻底搞清楚其中的细节，还需不忘初心，继续精进。</p>
+
+
+
+                <hr style="visibility: hidden;">
+                <ul class="pager">
+                    
+                    
+                </ul>
+                <hr style="visibility: hidden;">
+
+                
+
+                
+            </div>  
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+
+<section>
+    
+        <hr class="hidden-sm hidden-xs">
+    
+    <h5><a href="/archive/">FEATURED TAGS</a></h5>
+    <div class="tags">
+        
+        
+        
+        
+        
+    </div>
+</section>
+
+
+                <!-- Friends Blog -->
+                
+<hr>
+<h5>FRIENDS</h5>
+<ul class="list-inline">
+  
+  <li><a href="http://mida.re/">乱序（Midare）</a></li>
+  
+  <li><a href="https://sherrywoo.me/">Sherry Woo</a></li>
+  
+  <li><a href="http://kunq.me">Kun Qian</a></li>
+  
+  <li><a href="http://ebnbin.com/">Ebn Zhang</a></li>
+  
+  <li><a href="http://blog.smdcn.net">SmdCn</a></li>
+  
+  <li><a href="http://tiye.me/">JiyinYiyong</a></li>
+  
+  <li><a href="http://dhong.co">DHong Say</a></li>
+  
+  <li><a href="http://ingf.github.io/">尹峰以为</a></li>
+  
+</ul>
+
+            </div>
+        </div>
+    </div>
+</article>
+
+<!-- add support for mathjax by voleking-->
+
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'right',
+          // icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <!-- SNS Link -->
+                
+
+
+<ul class="list-inline text-center">
+
+
+  
+  
+  <li>
+    <a href="https://twitter.com/huxpro">
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+      </span>
+    </a>
+  </li>
+  
+  
+  <li>
+    <a target="_blank" href="https://www.zhihu.com/people/huxpro">
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa  fa-stack-1x fa-inverse">知</i>
+      </span>
+    </a>
+  </li>
+  
+  
+  
+  
+  <li>
+    <a target="_blank" href="https://github.com/bobcatzoo">
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+      </span>
+    </a>
+  </li>
+  
+  
+</ul>
+
+                <p class="copyright text-muted">
+                    Copyright &copy; Alex Blog 2023
+                    <br>
+                    Powered by <a href="http://huangxuan.me">Hux Blog</a> |
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="100px"
+                        height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=huxpro&repo=huxpro.github.io&type=star&count=true">
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<!-- Currently, only navbar scroll-down effect at desktop still depends on this -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+<!-- Simple Jekyll Search -->
+<script src="/js/simple-jekyll-search.min.js"></script>
+
+<!-- Service Worker -->
+
+<script src="/js/snackbar.js "></script>
+<script src="/js/sw-registration.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+        var d = document, t = 'script',
+            o = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        o.src = u;
+        if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+        s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+
+
+
+
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function () {
+        var $nav = document.querySelector("nav");
+        if ($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog(selector) {
+
+        // interop with multilangual 
+        if ('' == 'true') {
+            _containerSelector = 'div.post-container.active'
+        } else {
+            _containerSelector = 'div.post-container'
+        }
+
+        // init
+        var P = $(_containerSelector), a, n, t, l, i, c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        // clean
+        $(selector).html('')
+
+        // appending
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#" + $(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
+            l = $('<li class="' + n + '_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function (e) {
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+<!-- Multi-Lingual -->
+
+
+<!-- Simple Jekyll Search -->
+<script>
+    // https://stackoverflow.com/questions/1912501/unescape-html-entities-in-javascript
+    function htmlDecode(input) {
+        var e = document.createElement('textarea');
+        e.innerHTML = input;
+        // handle case of empty input
+        return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
+    }
+
+    SimpleJekyllSearch({
+        searchInput: document.getElementById('search-input'),
+        resultsContainer: document.getElementById('search-results'),
+        json: '/search.json',
+        searchResultTemplate: '<div class="post-preview item"><a href="{url}"><h2 class="post-title">{title}</h2><h3 class="post-subtitle">{subtitle}</h3><hr></a></div>',
+        noResultsText: 'No results',
+        limit: 50,
+        fuzzy: false,
+        // a hack to get escaped subtitle unescaped. for some reason, 
+        // post.subtitle w/o escape filter nuke entire search.
+        templateMiddleware: function (prop, value, template) {
+            if (prop === 'subtitle' || prop === 'title') {
+                if (value.indexOf("code")) {
+                    return htmlDecode(value);
+                } else {
+                    return value;
+                }
+            }
+        }
+    });
+
+    $(document).ready(function () {
+        var $searchPage = $('.search-page');
+        var $searchOpen = $('.search-icon');
+        var $searchClose = $('.search-icon-close');
+        var $searchInput = $('#search-input');
+        var $body = $('body');
+
+        $searchOpen.on('click', function (e) {
+            e.preventDefault();
+            $searchPage.toggleClass('search-active');
+            var prevClasses = $body.attr('class') || '';
+            setTimeout(function () {
+                $body.addClass('no-scroll');
+            }, 400)
+
+            if ($searchPage.hasClass('search-active')) {
+                $searchClose.on('click', function (e) {
+                    e.preventDefault();
+                    $searchPage.removeClass('search-active');
+                    $body.attr('class', prevClasses);  // from closure 
+                });
+                $searchInput.focus();
+            }
+        });
+    });
+</script>
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

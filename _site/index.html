@@ -59,6 +59,26 @@
     <!-- Google AdSense -->
     <script data-ad-client="ca-pub-6487568398225121" async
         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({
+              tex2jax: {
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+                inlineMath: [['$','$'], ['\\(','\\)']],
+                processEscapes: true
+              },
+              TeX: {
+                equationNumbers: {
+                  autoNumber: "AMS"
+                }
+              }
+            });
+          </script>
+          
+          <script type="text/javascript" async
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_CHTML">
+          </script>
+
 </head>
 
 
@@ -230,29 +250,25 @@
       col-xs-12 postlist-container">
       
 <div class="post-preview">
-    <a href="/2015/04/15/os-metro/">
+    <a href="/2023/09/29/Black-Scholes-Merton%E6%9C%9F%E6%9D%83%E5%AE%9A%E4%BB%B7%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/">
         <h2 class="post-title">
-            hUX 随想录（二）：操作系统的浪漫主义 —— Metro 篇
+            Black-Scholes-Merton期权定价公式推导
         </h2>
         
         <h3 class="post-subtitle">
-            信息、载体、抽象、UI 设计乱谈
+            BSM偏微分方程求解
         </h3>
         
         <div class="post-content-preview">
             
-                
-  操作系统的背后不只是冷冰冰的 0 和 1 ，数字时代的设计师们，如初神般刻画着新世界的秩序。信息、量子、宇宙，他们取世间万物为灵感来表达自己，那是它们对数字时代最浪漫的隐喻。
+                Black-Scholes-Merton期权定价公式推导
 
-
-前言
-
-操作系统，数字时代当之无愧的地基。当大部分从业人员都更关注它的技术与功能时，操作系统的 UI 设计师们却赋予了它无限的艺术气息：他们用充满着浪漫主义幻想色彩的设计语言，配合着物理定律般严谨的交互体系，...
+10几年前上大学期间，因为机缘巧合结识了期权，对期权的定价无疑充满了金融学和数学的集体智慧，初学时囿于知识所限，只知定价公式，无法从头开始进行推导，后来学习了《Stochastic Calculus for Finance》，对其大致过程有了初步了解，书中对期权定价公式导出的基本思路是基于无风险套利原则在货币市场和股票市场进行复制对...
             
         </div>
     </a>
     <p class="post-meta">
-        Posted by Hux on April 15, 2015
+        Posted by Alex on September 29, 2023
     </p>
 </div>
 <hr>
@@ -291,7 +307,7 @@
     <img src="/img/avatar-hux-ny.jpg" />
     
     
-    <p>黄玄，前端娱乐圈 NPC，编程语言/编译器初心者 <br> An UI/Frontend dev & designer accidentally growing into a compiler/PL hacker.</p>
+    <p>概率，数据，markdown，gis，历史</p>
     
     <!-- SNS Link -->
     

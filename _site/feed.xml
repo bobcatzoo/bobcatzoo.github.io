@@ -5,121 +5,360 @@
     <description>概率，数据，markdown，gis，历史</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 20 Aug 2023 20:22:17 +0545</pubDate>
-    <lastBuildDate>Sun, 20 Aug 2023 20:22:17 +0545</lastBuildDate>
+    <pubDate>Fri, 29 Sep 2023 07:56:37 +0545</pubDate>
+    <lastBuildDate>Fri, 29 Sep 2023 07:56:37 +0545</lastBuildDate>
     <generator>Jekyll v4.3.2</generator>
     
       <item>
-        <title>hUX 随想录（二）：操作系统的浪漫主义 —— Metro 篇</title>
-        <description>&lt;blockquote&gt;
-  &lt;p&gt;操作系统的背后不只是冷冰冰的 0 和 1 ，数字时代的设计师们，如初神般刻画着新世界的秩序。信息、量子、宇宙，他们取世间万物为灵感来表达自己，那是它们对数字时代最浪漫的隐喻。&lt;/p&gt;
+        <title>Black-Scholes-Merton期权定价公式推导</title>
+        <description>&lt;h2 id=&quot;black-scholes-merton期权定价公式推导&quot;&gt;Black-Scholes-Merton期权定价公式推导&lt;/h2&gt;
+
+&lt;p&gt;10几年前上大学期间，因为机缘巧合结识了期权，对期权的定价无疑充满了金融学和数学的集体智慧，初学时囿于知识所限，只知定价公式，无法从头开始进行推导，后来学习了《Stochastic Calculus for Finance》，对其大致过程有了初步了解，书中对期权定价公式导出的基本思路是基于无风险套利原则在货币市场和股票市场进行复制对冲未来行权风险，涉及具体方法主要分两种方法（i）导出BSM偏微分方程，然后直接求解析解（p153-159），比较可惜的是，导出偏微分方程后，未给出方程求解过程而是一笔带过直接给出了解析解，让人意犹未尽，（ii）借助风险中性测度进行推导（p210-220），相比于求解偏微分方程所涉及的技巧，该种方法相对简单直观。&lt;/p&gt;
+
+&lt;p&gt;本文主要针对方法（i），先后参考了《期权定价的数学模型和方法》（第二版）第五章，给出了BSM偏微分方程的求解过程，但美中不足是对热传导方程基本解一笔带过，少了傅里叶变换求解过程（p81）。于是又参考了《数学物理方程》（第二版）季孝达等编第四章（p137-138）对热传导方程的求解方法，虽然对其中的傅里叶变换还理解不深，但完整的思路算是齐了。以下就将散落在这三本书里的知识汇总在一起，对方法（i）做一个相对完整的注记。&lt;/p&gt;
+
+&lt;h3 id=&quot;一投资组合价值演化&quot;&gt;一、投资组合价值演化&lt;/h3&gt;
+
+&lt;p&gt;假设投资人A在初始时刻仅靠出售欧式看涨期权，获得期权费然后在货币市场和股票市场进行组合投资以对冲未来期权行权风险，即确保该组合价值在行权日等于$(S_T - K)^+$.&lt;/p&gt;
+
+&lt;p&gt;假设投资人A在时刻$t$的投资组合价值为$X_t$，该组合投资于固定利率为$r$的货币市场（比如银行存款等）和股票市场（简化为一只股票$S_t$），该股票由几何布朗运动驱动即：
+\(d S_t = \alpha S_t dt + \sigma S_t d W_t \tag{1.1}\)
+或
+\(\frac{d S_t}{S_t} = \alpha dt + \sigma d W_t \tag{1.2}\)&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;公式$\text{(1.1)}$由正收益项$\alpha S_t dt$和随机波动项$\sigma S_t dW_t$构成。可以理解为瞬时股票收益$\frac{d S_t}{S_t}$隐含一个正的收益项$\alpha dt$，同时包含一个波动项$\sigma d W_t$，两者叠加后的效果就是股票价格围绕一个向上的趋势上下波动。而且由于股票市场风险要高于货币市场，因此满足$\alpha &amp;gt; r$。&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;h2 id=&quot;前言&quot;&gt;前言&lt;/h2&gt;
+&lt;p&gt;假设在时刻$t$，投资人A持有$\Delta_t$份额的股票，$\Delta_t$可以是随机的(random)，但由布朗运动$W_t, t \geq 0$的的域流（信息流）决定，该投资组合剩余金额$X_t - \Delta_t S_t$ 投资于货币市场。&lt;/p&gt;
 
-&lt;p&gt;操作系统，数字时代当之无愧的地基。当大部分从业人员都更关注它的技术与功能时，操作系统的 UI 设计师们却赋予了它无限的艺术气息：他们用充满着浪漫主义幻想色彩的设计语言，配合着物理定律般严谨的交互体系，描绘着自己心目中的数字世界，那些界面 的背后是他们对数字世界的思考、理解、期待、抽象与隐喻，&lt;strong&gt;这些艺术思想支撑着浮在表面的设计&lt;/strong&gt;。他们用一切你熟悉或不熟悉的方式，告诉世人：&lt;/p&gt;
+&lt;p&gt;该投资组合随时间的变动$d X_t$由两部分构成：&lt;/p&gt;
 
-&lt;p&gt;&lt;em&gt;“看呐，那个虚拟又真实的世界”&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;（i）股票市场资本所得$\Delta_t (S_t + d S_t) - \Delta_t S_t = \Delta_t dS_t$ ,&lt;/p&gt;
 
-&lt;h2 id=&quot;metro&quot;&gt;Metro&lt;/h2&gt;
+&lt;p&gt;（ii）货币市场利息收益$r (X_t - \Delta_t S_t) dt$，&lt;/p&gt;
 
-&lt;p&gt;我们第一个要聊的，就是 &lt;a href=&quot;http://en.wikipedia.org/wiki/Metro_(design_language\)&quot;&gt;Metro&lt;/a&gt; 。虽然它已经改名为 Modern UI ，虽然它作为 Windows Phone 、Windows 8 甚至 Windows 10 的 UI 风格算不上成功，但是作为一个设计语言，它却是声名显赫。以它而非 Windows 来命名这一章节，就是出于对它的敬意。&lt;/p&gt;
+&lt;p&gt;即：
+\(\begin{equation}
+\begin{aligned}
+d X_t &amp;amp;= \Delta_t dS_t + r (X_t - \Delta_t S_t) dt \\
+&amp;amp;= \Delta_t (\alpha S_t dt + \sigma S_t dW_t) + r (X_t - \Delta_t S_t) dt \\
+&amp;amp;= r X_t dt + \Delta_t (\alpha - r) S_t dt + \Delta_t \sigma S_t d W_t
+\end{aligned}
+\tag{1.3}
+\end{equation}\)&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/img/in-post/post-metro-ui.jpg&quot; alt=&quot;img&quot; /&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;$d X_t$由以下三部分构成：&lt;/p&gt;
 
-&lt;p&gt;众所周知 Metro 借鉴了交通标示语言、包豪斯现代风格与瑞士国际主义平面设计，其核心思想在于剔除多余信息，专注于内容传达（Content, not chrome），所以 Metro 采用了以 Typography、Color 为主要元素的视觉语言，另外它也非常重视动效设计（Motion Design），这是同期 UI 设计的共识，Motion provides meaning，动效对于表达隐喻有着巨大得作用。&lt;/p&gt;
+  &lt;ol&gt;
+    &lt;li&gt;投资组合$X_t$基于利率$r$的隐含固定收益$r X_t dt$；&lt;/li&gt;
+    &lt;li&gt;股票市场的风险溢价(risk premium $\alpha - r$)收益$\Delta_t (\alpha - r) S_t dt$；&lt;/li&gt;
+    &lt;li&gt;$\Delta_t$份额股票的波动收益$\Delta_t \sigma S_t d W_t$；&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/blockquote&gt;
 
-&lt;p&gt;我们暂且不去讨论 Metro 在实际运用中的情况，而是尝试去猜想一下 Metro 的设计师们对数字世界的思考，以及那些隐藏在 Metro 背后的奇思妙想：&lt;/p&gt;
+&lt;p&gt;下面我们考虑下按照连续复利折现后的股价$e^{-rt} S_t$和投资组合价值$e^{-rt} X_t$的微分。&lt;/p&gt;
 
-&lt;h4 id=&quot;思考--极致抽象信息&quot;&gt;思考 —— 极致抽象信息&lt;/h4&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;假设$f(t, x) = e^{-rt}x$，则$f_t(t, x) = -r e^{-rt} x$，$f_x(t, x) = e^{-rt}$，$f_{xx}(t, x) = 0$，&lt;/p&gt;
+&lt;/blockquote&gt;
 
-&lt;p&gt;数字时代是基于信息的。这也是为什么我们称这个产业为 IT (Information Technology) ，我们每天使用 PC、Mobile 等数字设备、其实本质是主动或被动的接收、筛选、消化与产生信息。&lt;/p&gt;
+&lt;p&gt;根据伊藤公式
+\(d f(t, X_t) = f_t(t, X_t) dt + f_x(t, X_t) dX_t + \frac{1}{2} f_{xx}(t, X_t) dX_t dX_t \tag{1.4}\)&lt;/p&gt;
 
-&lt;p&gt;语言与文字的发明是人类信息革命的第一个里程碑，掌握同种语言或文字的人类从此可以高效得进行信息的交换与传播。而现在我们正在走进人机交互与万物互联的时代：人类不但要和人类通信，还要和智能设备建立连接。历史总是上演着重复因此值得借鉴，为什么不把已经发明的东西在数字世界重新发明一次呢？&lt;strong&gt;于是 Cortana 承担了微软在数字时代复刻语音的使命，而 Metro 则继承了老祖宗文字的魔力。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;可得：
+\(\begin{equation}
+\begin{aligned}
+d (e^{-rt} S_t) &amp;amp;= d f(t, S_t) \\
+&amp;amp;= f_t(t, S_t) dt + f_x(t, S_t) dS_t + \frac{1}{2}f_{xx}(t, S_t) dS_t dS_t \\
+&amp;amp;= -r e^{-rt} S_t dt + e^{-rt} dS_t \\
+&amp;amp;= -r e^{-rt} S_t dt + e^{-rt} \alpha S_t dt + e^{-rt} \sigma S_t dW_t \\
+&amp;amp;= e^{-rt} (\alpha - r) S_t dt + e^{-rt} \sigma S_t dW_t
+\end{aligned}
+\tag{1.5}
+\end{equation}\)&lt;/p&gt;
 
-&lt;p&gt;无论 Typography-based 还是 Content, not chrome ，&lt;strong&gt;Metro 试图对一切数字时代的信息进行一种非常极致的抽象 —— 我们的 UI 不需要来自真实世界的隐喻，我们只需要足够直接的信息。&lt;/strong&gt; 既然文字就是信息、图片就是信息、音视频就是信息，所以它们理所当然应该直接呈现；而所有的样式也都必须直接传达信息，于是网格和灰度表示层级，颜色的存在也更多代表着符号化的视觉传达：比如用于 VI 的品牌色，或者是刻板印象心情。&lt;/p&gt;
+\[\begin{equation}
+\begin{aligned}
+d (e^{-rt} X_t) &amp;amp;= d f(t, X_t) \\
+&amp;amp;= f_t(t, X_t) dt + f_x(t, X_t) dX_t + \frac{1}{2}f_{xx}(t, X_t) dX_t dX_t \\
+&amp;amp;= -r e^{-rt} X_t dt + e^{-rt} dX_t \\
+&amp;amp;= \left[-r e^{-rt} X_t dt + e^{-rt} r X_t dt\right] + e^{-rt} \Delta_t (\alpha - r) S_t dt + e^{-rt} \Delta_t \sigma S_t d W_t \\
+&amp;amp;= \Delta_t e^{-rt} (\alpha - r) S_t dt + \Delta_t e^{-rt} \sigma S_t d W_t \\
+&amp;amp;= \Delta_t d(e^{-rt} S_t)
+\end{aligned}
+\tag{1.6}
+\end{equation}\]
 
-&lt;p&gt;这种对信息简单粗暴的抽象使得 Metro 的首秀极具冲击，却也成为其日后发展最大的绊脚石。&lt;/p&gt;
+&lt;p&gt;由于货币市场收益也是按照连续复利进行计算，所以对其进行折现后为初始值常数，不会对折现投资组合价值变动（微分）产生影响，此即公式$\text{(1.5)}$所反映的：折现投资组合价值变动$d (e^{-rt} X_t)$仅取决于折现股票价格变动$d (e^{-rt} S_t)$。&lt;/p&gt;
 
-&lt;h4 id=&quot;载体--信息平面&quot;&gt;载体 —— 信息平面&lt;/h4&gt;
+&lt;h3 id=&quot;二期权价值价格演化&quot;&gt;二、期权价值（价格）演化&lt;/h3&gt;
 
-&lt;p&gt;信息总归需要载体，而设计师们的目的就是寻找，或者创造一种介质来承载、传递、可视化这些信息，然后呈现给用户， 最后才得以成为 UI&lt;/p&gt;
+&lt;p&gt;我们考虑在行权日期$T$支付为$(S_T - K)^+$的欧式看涨期权，假设在时刻$t$其价格由函数$c(t, S_t)$决定，下面我们分别对对$c(t, S_t)$和其折现过程$e^{-rt} c(t, S_t)$求微分：
+\(\begin{equation}
+\begin{aligned}
+d c(t, S_t) &amp;amp;= c_t(t, S_t) dt + c_x(t, S_t) dS_t + \frac{1}{2} c_{xx}(t, S_t) dS_t dS_t \\
+&amp;amp;= c_t(t, S_t) dt + c_x(t, S_t) [\alpha S_t dt + \sigma S_t dW_t] + \frac{1}{2} c_{xx}(t, S_t) \sigma^2 S_t^2 dt \\
+&amp;amp;= \big[c_t(t, S_t) + \alpha S_t c_x(t, S_t) + \frac{1}{2} \sigma^2 S_t^2 c_{xx}(t, S_t)\big]dt + \sigma S_t c_x(t, S_t) dW_t
+\end{aligned}
+\tag{2.1}
+\end{equation}\)&lt;/p&gt;
 
-&lt;p&gt;我们都看着屏幕越来越趋于一种扁平的状态，所有设计师们理所当然的想到这种介质可能是一种类似平面的东西，比如说 WebOS 具有抽象意义的“卡片纸” ，或是 iOS/OS X 改变风格前使用的“亚麻桌布”，他们尝试告诉你藏在屏幕后面的数字世界，可能是由某种类似真实世界的平面状物体来承载信息的。&lt;br /&gt;
-而 Metro 则做得更加彻底，在它看来这种拟物是强加给数字世界的不必要信息，于是它抛开了所有自然界存在的元素，又一次将信息抽象做到了极致 ：其实那就是一个单纯放置信息的平面而已，或者说，&lt;strong&gt;其实是信息组成了这个平面，数字世界的信息根本无需额外的载体——文字与图像，一方面可以看作是狭义信息的载体，另一方面也可以被看作是广义信息的一种表现形态。&lt;/strong&gt;&lt;/p&gt;
+\[\begin{equation}
+\begin{aligned}
+d e^{-rt} c(t, S_t) &amp;amp;= df\big(t, c(t, S_t)\big) \\
+&amp;amp;= f_t\big(t, c(t, S_t)\big) dt \\
+&amp;amp; + f_x\big(t, c(t, S_t)\big) dc(t, S_t) + \frac{1}{2} f_{xx}\big(t, c(t, S_t)\big) dc(t, S_t) dc(t, S_t) \\
+&amp;amp;= -r e^{-rt} c(t, S_t) dt + e^{-rt} d c(t, S_t) \\
+&amp;amp;= -r e^{-rt} c(t, S_t) dt \\
+&amp;amp; + e^{-rt} \left\{ \big[c_t(t, S_t) + \alpha S_t c_x(t, S_t) + \frac{1}{2} \sigma^2 S_t^2 c_{xx}(t, S_t)\big]dt + \sigma S_t c_x(t, S_t) dW_t \right\} \\
+&amp;amp;= e^{-rt} \big[ -rc(t, S_t) + c_t(t, S_t) + \alpha S_t c_x(t, S_t) + \frac{1}{2} \sigma^2 S_t^2 c_{xx}(t, S_t) \big]dt \\
+&amp;amp; + e^{-rt} \sigma S_t c_x(t, S_t) dW_t
+\end{aligned}
+\tag{2.2}
+\end{equation}\]
 
-&lt;p&gt;&lt;strong&gt;所以我们可以看到 Metro UI 的背景经常是一个空旷的黑色，其实那个黑色代表着 Nothing ，意味着这个平面的下方没有任何东西。&lt;/strong&gt;而如果你在下方使用了图像作为背景，你就会发现这其实是两个平面 —— 上层是一个背景透明、漂浮在图像层上的信息平面。而下层则是另一个完全由图像信息组成的信息平面，当我们去划动上层时，产生的视差移动也在告诉我们：这是两个层级。&lt;/p&gt;
+&lt;h3 id=&quot;三投资组合价值与期权价值的等价&quot;&gt;三、投资组合价值与期权价值的等价&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&quot;/img/in-post/post-metro-panorama.jpg&quot; alt=&quot;img&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;我们的投资始于在时刻$t=0$时卖出期权（short option）获得$c(0 ,S_0)$，然后投资于货币市场和股票市场形成投资组合$X_0$，满足及时立刻行权也无套利$c(0, S_0) = X_0 = (S_0 - K)^+$，同时为了保证我们的期权买卖交易在任意时刻$t, t \in (0, T]$无套利，还需要满足：&lt;/p&gt;
 
-&lt;p&gt;在所有的 Metro 组件里，我印象最深刻的叫 Panorama Panel（上图） ，Panorama 在我看来是 Metro 对信息最直接的隐喻：&lt;strong&gt;不同的信息体，聚合成了一个完整的信息平面&lt;/strong&gt;。当我们在手机屏幕上左右滑动 Panorama 时就好像在操作一个摄像机平移镜头。这种“数字报纸”区别于报纸的最大感受就好像它可以随着信息的量级在 X 轴和 Y 轴 上无限延伸下去，变成一个信息的海洋，在你的面前流动。&lt;/p&gt;
+&lt;p&gt;\(\begin{aligned}
+&amp;amp; c(t, S_t) = X_t \\\
+&amp;amp; e^{-rt}c(t, S_t) = e^{-rt} X_t
+\end{aligned}  \tag{3.1}\)&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;例如我们可以假设存在一个时空穿越者B，其时间总比现实中的投资者A快$t$，也就是他总能提前准确获知未来的信息，但其投资行为也必须满足无套利原则，则他会告诉你上式必须满足，否则市场就会存在套利。比如$c(t, S_t) \geq X_t$，那么投资者B就可以告诉投资者A在时刻$t=0$卖出看涨期权，获得$e^{-rt}c(t, S_t)$，同时抽走$e^{-rt}c(t, S_t) - e^{-rt} X_t$，仅用$\left( e^{-rt}c(t, S_t) - \left[ e^{-rt}c(t, S_t) - e^{-rt} X_t \right]\right) == e^{-rt} X_t = X_0$投资于货币市场和股票市场进行对冲卖出看涨期权的交易行为，即投资者A在时刻$t=0$获得了无风险收益$e^{-rt}c(t, S_t) - e^{-rt} X_t$。&lt;/p&gt;
+&lt;/blockquote&gt;
 
-&lt;p&gt;对啊，那不就是信息流吗。&lt;/p&gt;
+&lt;p&gt;如满足：
+\(d\left(e^{-rt} X_t\right) = d \left(e^{-rt}c(t, S_t)\right) \quad \text{ for all } t \in [0, T] \tag{3.2}\)
+则上式必然成立。展开公式$\text{(3.2)}$并约减掉两边的$e^{-rt}$得到如下公式：
+\(\begin{equation}
+\begin{aligned}
+&amp;amp; \Delta_t (\alpha - r) S_t dt + \Delta_t \sigma S_t d W_t \\
+&amp;amp; = \big[ -rc(t, S_t) + c_t(t, S_t) + \alpha S_t c_x(t, S_t) + \frac{1}{2} \sigma^2 S_t^2 c_{xx}(t, S_t) \big]dt \\
+&amp;amp; + \sigma S_t c_x(t, S_t) dW_t
+\end{aligned}
+\tag{3.3}
+\end{equation}\)&lt;/p&gt;
 
-&lt;h4 id=&quot;世界--卡片飞舞的世界&quot;&gt;世界 —— 卡片飞舞的世界&lt;/h4&gt;
+&lt;p&gt;首先令$dW_t$项系数相等，得到德尔塔对冲法则（&lt;strong&gt;&lt;em&gt;delta -hedging rule&lt;/em&gt;&lt;/strong&gt;）：
+\(\Delta_t = c_x(t, S_t) \quad \text{for all } t \in [0, T]. \tag{3.4}\)
+即在任意时刻$t$，持有股票份额$\Delta_t$等于期权价格对股价的偏导数$c_x(t, S_t)$。&lt;/p&gt;
 
-&lt;p&gt;我之所以不愿称 Metro 的信息平面为纸片，是因为它不能卷曲也不能折叠；&lt;br /&gt;
-而之所以不愿称 Metro 的信息平面为卡片，是因为它并非实体，而且尺寸无限；&lt;/p&gt;
+&lt;p&gt;然后再令$dt$项系数相等，并将公式$\text{(3.4)}$带入其中，得到：
+\(\begin{equation}
+\begin{aligned}
+&amp;amp; c_x(t,S_t) (\alpha - r) S_t = -rc(t, S_t) + c_t(t, S_t) + \alpha S_t c_x(t, S_t) \\
+&amp;amp; + \frac{1}{2} \sigma^2 S_t^2 c_{xx}(t, S_t) \quad \text{for all } t \in [0, T]. 
+\end{aligned}
+\tag{3.5}
+\end{equation}\)&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;可 Metro 的世界却又让我觉得是卡片飞舞的。&lt;/strong&gt;&lt;/p&gt;
+\[-r c_x(t,S_t) S_t = -rc(t, S_t) + c_t(t, S_t) + \frac{1}{2} \sigma^2 S_t^2 c_{xx}(t, S_t) \tag{3.6}\]
 
-&lt;p&gt;一张卡片的秩序是动态磁贴（Live Tiles），它很硬，只能翻转。却又具备魔力，好像在每一次的翻转中，信息都可以得到重组和再现。&lt;br /&gt;
-二张卡片的秩序是视差原理（Parallax），当你移动镜头时，任意两张卡片在你眼中的位移，都必须由它们距离屏幕 (Z=0) 的深度决定&lt;br /&gt;
-三张卡片的秩序就像飞来咒，原有的平面撤离，被呼唤的卡片俏皮的翻滚着从侧后方飞进视野，Metro UI 的动画设计隐喻着一切。&lt;/p&gt;
+\[rc(t, S_t) = c_t(t, S_t) + r S_t c_x(t,S_t) +  \frac{1}{2} \sigma^2 S_t^2 c_{xx}(t, S_t)  \quad \text{for all } t \in [0, T]. \tag{3.7}\]
 
-&lt;p&gt;Status Bar 和 Application Bar 就像是紧贴在屏幕上的卡片，所以不受视差影响。而 Pivot Control 则更有魔幻色彩一点，你操纵它就如操作交通枢纽，指挥一个个小的信息片，来来去去在你的面前。&lt;/p&gt;
+&lt;p&gt;将$S_t$用哑变量$x$代替，便得到了BSM偏微分方程;&lt;/p&gt;
 
-&lt;p&gt;所有这些零厚度的卡片，或近，或远，最终组成了整个 Metro 世界。&lt;strong&gt;在我的想象里，那个次元就好像，所有的信息都以片状飞在空中，而你只能看见你所需要的那些，它们有条不紊的在纵横间穿梭，就好像到处都是信息流的交通轨道，你仿佛置身于，那个数据包飞来飞去、路由器控制地址的 —— 网路世界。&lt;/strong&gt;&lt;/p&gt;
+\[\left\{
+\begin{aligned}
+&amp;amp; rc(t, x)  = c_t(t, x) + r x c_x(t,x) +  \frac{1}{2} \sigma^2 x^2 c_{xx}(t, x)   \quad \text{for all } t \in [0, T], x \geq 0.\\\
+&amp;amp; c(T, x)  = (x - K)^+.
+\end{aligned}  \tag{3.8}
+\right.\]
 
-&lt;p&gt;&lt;img src=&quot;/img/in-post/post-metro-real.jpg&quot; alt=&quot;img&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;下面我们通过适当变换将公式$\text{(3.8)}$写成常见的热传导方程形式并进行求解：
+\(\left\{
+\begin{aligned}
+&amp;amp; \frac{\partial u}{\partial t} = a^2 \frac{\partial^2 u}{\partial x^2},   \quad t &amp;gt; 0,  -\infty &amp;lt; x &amp;lt; \infty.\\\
+&amp;amp; u\vert_{t = 0} = \varphi(x).
+\end{aligned}  \tag{3.9}
+\right.\)&lt;/p&gt;
 
-&lt;h2 id=&quot;结语&quot;&gt;结语&lt;/h2&gt;
+&lt;h3 id=&quot;四bsm偏微分方程求解&quot;&gt;四、BSM偏微分方程求解&lt;/h3&gt;
 
-&lt;p&gt;Metro 对信息极致的抽象与压平，与同期的 iOS 6- 风格形成鲜明对比，引发大家对于数字世界与用户界面的新一轮思考，里程碑式的推动了 Flat Design 在新一代数字设计中的普及。不过我们也知道 Metro UI 在微软的实际运用中却其实不成功，这又是为什么呢？&lt;/p&gt;
+&lt;p&gt;我们先将BSM偏微分方程转换为常规的热传导方程形式，然后借助傅里叶变换对其进行求解。&lt;/p&gt;
 
-&lt;p&gt;笔者抛砖引玉一些自己的观点：&lt;/p&gt;
+&lt;h4 id=&quot;bsm方程转换&quot;&gt;BSM方程转换&lt;/h4&gt;
 
-&lt;p&gt;当年 Metro 第一次运用在 Zune 身上时是非常惊艳的，风格超前、细节精致、动画细腻。再看现在的 Xbox （图一），Pivot 配合磁贴组、简单大气，几乎成为电视 UI 设计的模版。可偏偏在 PC 和 Mobile 两个场景，Metro 却饱受非议。&lt;/p&gt;
+&lt;p&gt;为方便起见，将$\text{(3.8)}$作如下替换：$c(t, x)$简写成$V(t,S_t)$，并用偏导数$\frac{\partial V}{\partial S}$形式取代$c_x(t, x)$得到：
+\(\left\{
+\begin{aligned}
+&amp;amp; \frac{\partial V}{\partial t} + \frac{1}{2}\sigma^2 S^2 \frac{\partial^2 V}{\partial S^2} + r S \frac{\partial V}{\partial S} - r V = 0 \quad 0 \leq S \leq \infty,  0 \leq t \leq T.\\\ 
+&amp;amp; V\vert_{t =T} = (S_T - K)^+.
+\end{aligned}  \tag{4.1}
+\right.\)
+对$V(t,S_t)$做如下变量替换
+\(\begin{aligned}
+&amp;amp; x = \ln S \\
+&amp;amp; \tau = T-t
+\end{aligned} \tag{4.2}\)
+计算$V(\tau, x)$的各阶偏导数如下：
+\(\frac{\partial V}{\partial t} = \frac{\partial V}{\partial \tau} \frac{\partial \tau}{\partial t} = -\frac{\partial V}{\partial \tau} \tag{4.3}\\
+\frac{\partial V}{\partial S} = \frac{\partial V}{\partial x} \frac{\partial x}{\partial S} = \frac{1}{S} \frac{\partial V}{\partial x} \\
+\frac{\partial^2 V}{\partial S^2} = \frac{\partial \frac{\partial V}{\partial S}}{\partial S} = -\frac{1}{S^2} \frac{\partial V}{\partial x} + \frac{1}{S} \frac{\partial^2 V}{\partial x^2} \frac{\partial x}{\partial S} = \frac{1}{S^2} \frac{\partial^2 V}{\partial x^2} - \frac{1}{S^2} \frac{\partial V}{\partial x}\)
+将上述公式带入$\text{(4.1)}$得到：
+\(\left\{
+\begin{aligned}
+&amp;amp; \frac{\partial V}{\partial \tau} - \frac{\sigma^2}{2} \frac{\partial^2 V}{\partial x^2} - (r - \frac{\sigma^2}{2}) \frac{\partial V}{\partial x} + r V = 0 \quad 0 \leq S \leq \infty,  0 \leq t \leq T.\\\ 
+&amp;amp; V\vert_{\tau = 0} = (e^x - K)^+.
+\end{aligned}  \tag{4.4}
+\right.\)
+然后再做如下函数变化：
+\(V(\tau, x) = V = u e^{\alpha \tau + \beta x} = u(\tau, x) e^{\alpha \tau + \beta x} \tag{4.5}\)&lt;/p&gt;
 
-&lt;p&gt;在我看来 PC 和 Mobile 其实代表着两个信息密度最高的场景、PC 是传统互联网的计算中心，而 Mobile 则是移动互联网和可以预见的未来内的个人计算中心。
-&lt;strong&gt;在如此复杂的场景下，其实 Metro 作为设计语言的尺度是不够的。&lt;/strong&gt;为什么这么说呢，虽然 Metro 对信息的抽象方式不无道理，但其实还是过分理想和纯粹了。有太多的屏幕像素因此被浪费，有太多其他维度的信息表达方式因此被舍弃掉了。&lt;/p&gt;
+\[\begin{aligned}
+&amp;amp; \frac{\partial V}{\partial \tau} = e^{\alpha \tau + \beta x} \frac{\partial u}{\partial \tau} + e^{\alpha \tau + \beta x} \alpha u = e^{\alpha \tau + \beta x} (\frac{\partial u}{\partial \tau} + \alpha u) \\
+&amp;amp; \frac{\partial V}{\partial x} = e^{\alpha \tau + \beta x} (\frac{\partial u}{\partial x} + \beta u) \\
+&amp;amp; \frac{\partial^2 V}{\partial x^2} = e^{\alpha \tau + \beta x} (\frac{\partial^2 u}{\partial x^2} + 2 \beta \frac{\partial u}{\partial x} +\beta^2 u)
+\end{aligned}  \tag{4.6}\]
 
-&lt;p&gt;也就是说：Metro 这个设计语言本身是没有问题的，但是拿目前的它作为 PC/Mobile 这种操作系统级别的设计语言却是存在问题的。&lt;strong&gt;一个操作系统的设计语言与交互体系，一定不能太小，必须是一套包容性足够强又可被拓展和延伸的体系。&lt;/strong&gt;其实我们能看到 Windows Phone 的 UI 设计容纳度是非常低的，这或许就可以说明问题。&lt;/p&gt;
+&lt;p&gt;将以上公式带入$\text{(4.4)}$并消去$e^{\alpha \tau + \beta x}$得到：
+\(e^{\alpha \tau + \beta x} (\frac{\partial u}{\partial \tau} + \alpha u) - \frac{\sigma^2}{2} e^{\alpha \tau + \beta x} (\frac{\partial^2 u}{\partial x^2} + 2 \beta \frac{\partial u}{\partial x} +\beta^2 u) \\ - (r - \frac{\sigma^2}{2}) e^{\alpha \tau + \beta x} (\frac{\partial u}{\partial x} + \beta u) + r e^{\alpha \tau + \beta x} u = 0 \tag{4.7}\)&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;这也是为什么 Win 10 for PC 和 Win 10 for Mobile 都开始削弱最初的那个纯粹的 Metro 体系，转而采用一种 Metro 的视觉语言混搭非 Metro 交互逻辑的方式来设计。&lt;/strong&gt;
-期待 new Metro (Metro 2.0) 能在 Win 10 上逐步走向成熟，让我们一同见证。&lt;/p&gt;
+\[\frac{\partial u}{\partial \tau} - \frac{\sigma^2}{2} \frac{\partial^2 u}{\partial x^2} - (\beta \sigma^2 + r - \frac{\sigma^2}{2}) \frac{\partial u}{\partial x} + \left(r - \beta(r - \frac{\sigma^2}{2}) - \frac{\sigma^2}{2} \beta^2 + \alpha \right) u = 0
+\tag{4.8}\]
 
-&lt;hr /&gt;
+&lt;p&gt;通过选取适当的$\alpha$和$\beta$的值，消去$\frac{\partial u}{\partial x}$和$u$项，即：
+\((\beta \sigma^2 + r - \frac{\sigma^2}{2}) = 0 \quad \rightarrow \quad \beta = \frac{1}{2} - \frac{r}{\sigma^2} \tag{4.9}\\
+\left(r - \beta(r - \frac{\sigma^2}{2}) - \frac{\sigma^2}{2} \beta^2 + \alpha \right) = 0 \quad \rightarrow \quad \alpha = -r + \beta(r - \frac{\sigma^2}{2}) + \frac{\sigma^2}{2} \beta^2 = -r - \frac{1}{2 \sigma^2}(r - \frac{\sigma^2}{2})^2\)
+则$\text{(4.8)}$变换为$\text{(4.10)}$形式的的常规热传导方程：
+\(\left\{
+\begin{aligned}
+&amp;amp; \frac{\partial u}{\partial \tau} = \frac{\sigma^2}{2} \frac{\partial^2 u}{\partial x^2},   \quad 0 \leq \tau \leq T,  0 &amp;lt; x &amp;lt; \infty.\\\
+&amp;amp; u\vert_{\tau = 0} = e ^{-\beta x} V \vert_{\tau = 0} = e ^{-\beta x} (e ^x - K)
+ ^+ .
+ \end{aligned}  \tag{4.10}
+\right.\)
+接下来便是求解该方程得到$u(\tau, x)$的解析表达式，然后利用$V(\tau, x) = u(\tau, x) e^{\alpha \tau + \beta x}$求得$V(\tau, x)$。&lt;/p&gt;
 
-&lt;p&gt;本文是“操作系统的浪漫主义”系列的第一篇文章，如果您喜欢，请继续关注我的博客 ;)&lt;/p&gt;
+&lt;h4 id=&quot;bsm方程求解&quot;&gt;BSM方程求解&lt;/h4&gt;
 
-&lt;p&gt;尽请期待：&lt;/p&gt;
+&lt;p&gt;在偏微分方程（或者叫数学物理方程）理论中，有成熟的傅里叶变换方法可以求解上述热传导方程，为了简化傅里叶变换公式的呈现，我们将边界条件进行简写如下：
+\(\begin{equation}
+\begin{aligned}
+u(\tau, x)\vert_{\tau = 0} &amp;amp;= e ^{-\beta x} V \vert_{\tau = 0} \\
+&amp;amp;= e ^{-\beta x} (e ^x - K)^+ \\
+&amp;amp;= \varphi(x).
+\end{aligned} \tag{4.11}
+\end{equation}\)
+记$\mathcal{F}$为傅里叶变换算符，$\mathcal{F^\text{-1}}$为傅里叶逆变换算符，$u(\tau, x)$的傅里叶变换为：
+\(\widehat{u}(\tau, \lambda) = \mathcal{F}[u(\tau, x)] = \int^{+\infty}_{-\infty} u(\tau, x) e^{-i \lambda x} dx \tag{4.12}\)
+对$\text{(4.10)}$方程两边进行傅里叶变换得到&lt;strong&gt;像函数&lt;/strong&gt;$\widehat u(\tau, \lambda)$满足的常微分方程初值问题：
+\(\left\{
+\begin{aligned}
+&amp;amp; \frac{\text{d} \widehat{u}}{\text{d}\tau} = \frac{\sigma^2}{2} (i \lambda)^2 \widehat{u} = -\frac{\sigma^2}{2} \lambda^2 \widehat{u},   \quad 0 \leq \tau \leq T,  0 &amp;lt; x &amp;lt; \infty.\\\
+&amp;amp; \widehat{u}\vert_{\tau = 0} = \widehat \varphi(\lambda).
+\end{aligned}  \tag{4.13}
+\right.\)
+上述傅里叶变换将偏微分方程变成关于$\widehat u(\tau, \lambda)$的常微分方程。求解此方程可得像函数：
+\(\widehat u(\tau, \lambda) = \widehat \varphi (\lambda) e ^{-\frac{\sigma^2}{2} \lambda^2 \tau} \tag{4.14}\)
+对上述像函数进行傅里叶逆变换，并进行卷积运算可得：
+\(\begin{equation}
+\begin{aligned}
+u(\tau, x) &amp;amp;= \mathcal{F^\text{-1}} [\widehat \varphi (\lambda) e^{-\frac{\sigma^2}{2} \lambda^2 \tau}] \\
+&amp;amp;= \mathcal{F^\text{-1}} [\widehat \varphi (\lambda)] * \mathcal{F^\text{-1}} [e^{-\frac{\sigma^2}{2} \lambda^2 \tau}]  \\
+&amp;amp;= \varphi(x) * \frac{1}{\sigma \sqrt{2 \pi \tau}} \exp(-\frac{x^2}{2 \sigma^2 \tau}) \\
+&amp;amp;= \frac{1}{\sigma \sqrt{2 \pi \tau}} \int^{+\infty}_{-\infty} \varphi(\xi) \exp(-\frac{(x-\xi)^2}{2 \sigma^2 \tau}) d\xi
+\end{aligned}
+\tag{4.15}
+\end{equation}\)
+其中：
+\(\begin{equation}
+\begin{aligned}
+\mathcal{F^\text{-1}} [e^{-\frac{\sigma^2}{2} \lambda^2 \tau}] &amp;amp;= \frac{1}{2 \pi} \int^{\infty}_{-\infty} e^{-\frac{\sigma^2}{2} \lambda^2 \tau} e^{i \lambda x} d\lambda \\
+&amp;amp;= \frac{1}{\pi} \int^{+\infty}_{0} e^{-\frac{\sigma^2}{2} \lambda^2 \tau} \cos(\lambda x) d\lambda \\
+&amp;amp;= \frac{1}{\sigma \sqrt{2 \pi \tau}} \exp(-\frac{x^2}{2 \sigma^2 \tau})
+\end{aligned} \tag{4.16}
+\end{equation}\)
+将初值$\varphi(\xi)= e ^{-\beta \xi} (e ^\xi - K)^+$带入$\text{(4.15)}$得到：
+\(\begin{equation}
+\begin{aligned}
+u(\tau, x) &amp;amp;= \frac{1}{\sigma \sqrt{2 \pi \tau}} \int^{+\infty}_{-\infty} \exp(-\frac{(x-\xi)^2}{2 \sigma^2 \tau}) \left[e ^{-\beta \xi} (e ^\xi - K)^+ \right] d\xi \\
+&amp;amp;= \frac{1}{\sigma \sqrt{2 \pi \tau}} \int^{+\infty}_{\ln K} \exp(-\frac{(x-\xi)^2}{2 \sigma^2 \tau}) \left[e ^{(1-\beta) \xi} - K e^{-\beta \xi} \right] d\xi
+\end{aligned}
+\tag{4.17}
+\end{equation}\)&lt;/p&gt;
 
-&lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;Android 篇&lt;/strong&gt;
-    &lt;ul&gt;
-      &lt;li&gt;思考 —— 从卡片的层叠说起&lt;/li&gt;
-      &lt;li&gt;载体 —— 量子纸&lt;/li&gt;
-      &lt;li&gt;世界 —— 魔法材质统一世界&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;iOS 篇&lt;/strong&gt;
-    &lt;ul&gt;
-      &lt;li&gt;思考 —— 盒子里的蒸汽朋克&lt;/li&gt;
-      &lt;li&gt;载体 —— 景深的无穷近与无穷远&lt;/li&gt;
-      &lt;li&gt;世界 —— 小宇宙里的小宇宙&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;然后将$\alpha = -r - \frac{1}{2 \sigma^2}(r - \frac{\sigma^2}{2})^2$和$\beta = \frac{1}{2} - \frac{r}{\sigma^2}$带入$V(\tau, x) = u(\tau, x) e^{\alpha \tau + \beta x}$得到：
+\(\begin{equation}
+\begin{aligned}
+V(\tau, x) &amp;amp;= \exp(-r \tau - \frac{1}{2 \sigma^2}(r - \frac{\sigma^2}{2})^2 \tau - \frac{1}{\sigma^2}(r - \frac{\sigma^2}{2}) x) u(\tau, x) \\
+&amp;amp;= I_1 + I_2
+\end{aligned}
+\tag{4.18}
+\end{equation}\)
+其中：
+\(\begin{equation}
+\begin{aligned}
+I_1 &amp;amp;= \frac{1}{\sigma \sqrt{2 \pi \tau}} \int^{+\infty}_{\ln K} \exp(-r \tau - \frac{1}{2 \sigma^2}(r - \frac{\sigma^2}{2})^2 \tau - \frac{1}{\sigma^2}(r - \frac{\sigma^2}{2}) x) \exp(-\frac{(x-\xi)^2}{2 \sigma^2 \tau}) \exp \bigg( {(1-\beta) \xi} \bigg) d\xi \\
+&amp;amp;= \frac{1}{\sigma \sqrt{2 \pi \tau}} \int^{+\infty}_{\ln K} \exp(-r \tau - \frac{1}{2 \sigma^2}(r - \frac{\sigma^2}{2})^2 \tau - \frac{1}{\sigma^2}(r - \frac{\sigma^2}{2}) x) \exp(-\frac{(x-\xi)^2}{2 \sigma^2 \tau}) \exp \bigg( \left[ 1+\frac{1}{\sigma^2}(r - \frac{\sigma^2}{2}) \right] \xi \bigg) d\xi \\
+&amp;amp;= \frac{e^{-r \tau}}{\sigma \sqrt{2 \pi \tau}} \int^{+\infty}_{\ln K} \exp( - \frac{1}{2 \sigma^2}(r - \frac{\sigma^2}{2})^2 \tau - \frac{1}{\sigma^2}(r - \frac{\sigma^2}{2}) x -\frac{(x-\xi)^2}{2 \sigma^2 \tau} + \left[ \xi +\frac{1}{\sigma^2}(r - \frac{\sigma^2}{2}) \xi \right] )d\xi \\
+&amp;amp;= \frac{e^{-r \tau}}{\sigma \sqrt{2 \pi \tau}} \int^{+\infty}_{\ln K} \exp(-\frac{(x-\xi)^2}{2 \sigma^2 \tau} - \frac{1}{\sigma^2}(r - \frac{\sigma^2}{2})(x - \xi) - \frac{1}{2 \sigma^2}(r - \frac{\sigma^2}{2})^2 \tau + \xi) d\xi \\
+&amp;amp;= \frac{e^{-r \tau}}{\sigma \sqrt{2 \pi \tau}} \int^{+\infty}_{\ln K} \exp(-\frac{1}{2 \sigma^2 \tau} \left[(x-\xi)^2 + 2 (r - \frac{\sigma^2}{2}) \tau (x - \xi) + (r - \frac{\sigma^2}{2})^2 \tau^2 \right] + \xi) d\xi \\
+&amp;amp;= \frac{e^{-r \tau}}{\sigma \sqrt{2 \pi \tau}} \int^{+\infty}_{\ln K} \exp(-\frac{1}{2 \sigma^2 \tau} \left[(x-\xi) + (r - \frac{\sigma^2}{2}) \tau \right] + \xi) d\xi \\
+\end{aligned}
+\tag{4.19}
+\end{equation}\)
+令$\eta = x-\xi + (r - \frac{\sigma^2}{2}) \tau$并带入$\text{(4.19)}$：
+\(\begin{equation}
+\begin{aligned}
+I_1 &amp;amp;= \frac{e^{-r \tau}}{\sigma \sqrt{2 \pi \tau}} \int^{-\infty}_{x - \ln K + (r - \frac{\sigma^2}{2}) \tau} - \exp(-\frac{\eta^2}{2 \sigma^2 \tau} + (x - \eta + (r - \frac{\sigma^2}{2}) \tau)) d\eta \\
+&amp;amp;= \frac{1}{\sigma \sqrt{2 \pi \tau}} \int^{x - \ln K + (r - \frac{\sigma^2}{2}) \tau}_{-\infty} e^x \exp(-\frac{\eta^2}{2 \sigma^2 \tau} - \eta - \frac{\sigma^2}{2} \tau) d\eta \\
+&amp;amp;= \frac{1}{\sigma \sqrt{2 \pi \tau}} \int^{x - \ln K + (r - \frac{\sigma^2}{2}) \tau}_{-\infty} e^x \exp(-\frac{\eta^2 + 2 \sigma^2 \tau \eta + (\sigma^2 \tau)^2}{2 \sigma^2 \tau}) d\eta \\
+&amp;amp;= \frac{e^x}{\sigma \sqrt{2 \pi \tau}} \int^{x - \ln K + (r - \frac{\sigma^2}{2}) \tau}_{-\infty} \exp(-\frac{(\eta + \sigma^2 \eta)^2}{2 \sigma^2 \tau}) d\eta
+\end{aligned}
+\tag{4.20}
+\end{equation}\)
+令
+\(\omega = \frac{\eta + \sigma^2 \tau}{\sigma \sqrt{\tau}} \tag{4.21}\\
+N(x) = \frac{1}{\sqrt{2\pi}} \int^{x}_{-\infty} \exp(-\frac{\omega^2}{2}) d\omega\)
+带入$\text{(4.20)}$，求得：
+\(\begin{equation}
+\begin{aligned}
+I_1 &amp;amp;= \frac{e^x}{\sigma \sqrt{2 \pi \tau}} \int^{\frac{x - \ln K + (r + \frac{\sigma^2}{2}) \tau}{\sigma \sqrt{\tau}}}_{-\infty} \sigma \sqrt{\tau} \exp(-\frac{\omega^2}{2}) d\omega \\
+&amp;amp;= e^x N(\frac{x - \ln K + (r + \frac{\sigma^2}{2}) \tau}{\sigma \sqrt{\tau}})
+\end{aligned}
+\tag{4.22}
+\end{equation}\)
+同理
+\(\begin{equation}
+\begin{aligned}
+I_2 &amp;amp;= \frac{1}{\sigma \sqrt{2 \pi \tau}} \int^{+\infty}_{\ln K} - \exp(-r \tau - \frac{1}{2 \sigma^2}(r - \frac{\sigma^2}{2})^2 \tau - \frac{1}{\sigma^2}(r - \frac{\sigma^2}{2}) x) \exp(-\frac{(x-\xi)^2}{2 \sigma^2 \tau}) K e^{-\beta \xi} d\xi \\
+&amp;amp;= -\frac{e^{-r\tau} K}{\sigma \sqrt{2 \pi \tau}} \int^{x - \ln K + (r - \frac{\sigma^2}{2}) \tau}_{-\infty} \exp(-\frac{\eta^2}{2 \sigma^2 \tau}) d\eta \\
+&amp;amp;= -K e^{-r \tau} N(\frac{x - \ln K + (r - \frac{\sigma^2}{2}) \tau}{\sigma \sqrt{\tau}})
+\end{aligned}
+\tag{4.23}
+\end{equation}\)
+根据$x = \ln S, \tau = T-t$，最终得到$V(t, S_t)$：
+\(V(t, S_t) = S_t N(\frac{\ln \frac{S_t}{K} + (r + \frac{\sigma^2}{2}) (T-t)}{\sigma \sqrt{T-t}}) - K e^{-r (T-t)} N(\frac{\ln \frac{S_t}{K} + (r - \frac{\sigma^2}{2}) (T-t)}{\sigma \sqrt{(T-t)}})
+\tag{4.24}\)
+或者简写为：
+\(\begin{equation}
+\begin{aligned}
+V(t, S_t) &amp;amp;= S_t N(d_1) - K e^{-r (T-t)} N(d_2) \\
+\\
+&amp;amp; d_1 = \frac{\ln \frac{S_t}{K} + (r + \frac{\sigma^2}{2}) (T-t)}{\sigma \sqrt{T-t}} \\
+&amp;amp; d_2 = d_1 - \sigma \sqrt{T-t} = \frac{\ln \frac{S_t}{K} + (r - \frac{\sigma^2}{2}) (T-t)}{\sigma \sqrt{(T-t)}}
+\end{aligned}
+\tag{4.25}
+\end{equation}\)
+由此，我们便求得了BSM偏微分方程的解析解，亦即欧式看涨期权定价公式。&lt;/p&gt;
+
+&lt;h3 id=&quot;注记&quot;&gt;注记&lt;/h3&gt;
+
+&lt;p&gt;以上便整理完了对期权定价公式的偏微分方程直接求解方法，仅做形式化推导（有些地方确实考验对常规数学分析知识的掌握及细心程度例如公式$\text{4.19-4.20}$）的推导）。对偏微分方程求解过程中所涉及的傅里叶变换的适用性不做讨论，傅里叶变换目前除了印象中可以将非病态函数分解成三角函数的叠加以外所知甚少，再者公式$\text(4.16)$第一行到第二行的转化，第二行含参变量积分的计算（曾大言不惭想直接借助分部积分推导下，后来发现没那么容易），还有就是《Stochastic Calculus for Finance》关于对伊藤积分采用黎曼分割的合理性问题等等，总之想要彻底搞清楚其中的细节，还需不忘初心，继续精进。&lt;/p&gt;
 
 </description>
-        <pubDate>Wed, 15 Apr 2015 00:00:00 +0545</pubDate>
-        <link>http://localhost:4000/2015/04/15/os-metro/</link>
-        <guid isPermaLink="true">http://localhost:4000/2015/04/15/os-metro/</guid>
+        <pubDate>Fri, 29 Sep 2023 00:00:00 +0545</pubDate>
+        <link>http://localhost:4000/2023/09/29/Black-Scholes-Merton%E6%9C%9F%E6%9D%83%E5%AE%9A%E4%BB%B7%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/</link>
+        <guid isPermaLink="true">http://localhost:4000/2023/09/29/Black-Scholes-Merton%E6%9C%9F%E6%9D%83%E5%AE%9A%E4%BB%B7%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/</guid>
         
-        <category>hUX 随想录</category>
+        <category>金融数学</category>
         
-        <category>UX/UI</category>
+        <category>期权定价</category>
         
         
       </item>
