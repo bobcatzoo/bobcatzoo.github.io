@@ -17,8 +17,4 @@ d_2 = d_1 - \sigma \sqrt{T-t} \\
 P(\theta \vert X) = \frac{P(\theta) P(X \vert \theta)}{P(X)}
 $$
 
-
-
-![](/img/in-post/interests.jpg)
-
 关于拜占庭及奥斯曼土耳其两大帝国史的一切。
