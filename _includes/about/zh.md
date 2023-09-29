@@ -3,6 +3,8 @@
 
 #### 兴趣点
 
+- 以下可复制进[Typora](https://typora.io)等[markdown](https://www.markdownguide.org)编辑器解密或裸眼脑补。
+
 $$
 \int^{}_{D} d \omega = \int^{}_{\partial D} \omega \\
 \\
@@ -17,4 +19,4 @@ d_2 = d_1 - \sigma \sqrt{T-t} \\
 P(\theta \vert X) = \frac{P(\theta) P(X \vert \theta)}{P(X)}
 $$
 
-关于拜占庭及奥斯曼土耳其两大帝国史的一切。
+- 关于拜占庭及奥斯曼土耳其两大帝国史的一切。
