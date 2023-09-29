@@ -5,13 +5,13 @@
     <description>概率，数据，markdown，gis，历史</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 29 Sep 2023 08:00:18 +0545</pubDate>
-    <lastBuildDate>Fri, 29 Sep 2023 08:00:18 +0545</lastBuildDate>
+    <pubDate>Fri, 29 Sep 2023 13:10:09 +0545</pubDate>
+    <lastBuildDate>Fri, 29 Sep 2023 13:10:09 +0545</lastBuildDate>
     <generator>Jekyll v4.3.2</generator>
     
       <item>
         <title>Black-Scholes-Merton期权定价公式推导</title>
-        <description>&lt;p&gt;10几年前上大学期间，因为机缘巧合结识了期权，对期权的定价无疑充满了金融学和数学的集体智慧，初学时囿于知识所限，只知定价公式，无法从头开始进行推导，后来学习了《Stochastic Calculus for Finance》，对其大致过程有了初步了解，书中对期权定价公式导出的基本思路是基于无风险套利原则在货币市场和股票市场进行复制对冲未来行权风险，涉及具体方法主要分两种方法（i）导出BSM偏微分方程，然后直接求解析解（p153-159），比较可惜的是，导出偏微分方程后，未给出方程求解过程而是一笔带过直接给出了解析解，让人意犹未尽，（ii）借助风险中性测度进行推导（p210-220），相比于求解偏微分方程所涉及的技巧，该种方法相对简单直观。&lt;/p&gt;
+        <description>&lt;p&gt;十几年前上大学期间，因为机缘巧合结识了期权，对期权的定价无疑充满了金融学和数学的集体智慧，初学时囿于知识所限，只知定价公式，无法从头开始进行推导，后来学习了《Stochastic Calculus for Finance》，对其大致过程有了初步了解，书中对期权定价公式导出的基本思路是基于无风险套利原则在货币市场和股票市场进行复制对冲未来行权风险，涉及具体方法主要分两种方法（i）导出BSM偏微分方程，然后直接求解析解（p153-159），比较可惜的是，导出偏微分方程后，未给出方程求解过程而是一笔带过直接给出了解析解，让人意犹未尽，（ii）借助风险中性测度进行推导（p210-220），相比于求解偏微分方程所涉及的技巧，该种方法相对简单直观。&lt;/p&gt;
 
 &lt;p&gt;本文主要针对方法（i），先后参考了《期权定价的数学模型和方法》（第二版）第五章，给出了BSM偏微分方程的求解过程，但美中不足是对热传导方程基本解一笔带过，少了傅里叶变换求解过程（p81）。于是又参考了《数学物理方程》（第二版）季孝达等编第四章（p137-138）对热传导方程的求解方法，虽然对其中的傅里叶变换还理解不深，但完整的思路算是齐了。以下就将散落在这三本书里的知识汇总在一起，对方法（i）做一个相对完整的注记。&lt;/p&gt;
 
@@ -47,7 +47,7 @@ d X_t &amp;amp;= \Delta_t dS_t + r (X_t - \Delta_t S_t) dt \\
 \end{equation}\)&lt;/p&gt;
 
 &lt;blockquote&gt;
-  &lt;p&gt;$d X_t$由以下三部分构成：&lt;/p&gt;
+  &lt;p&gt;经过整理后，$d X_t$由以下三部分构成：&lt;/p&gt;
 
   &lt;ol&gt;
     &lt;li&gt;投资组合$X_t$基于利率$r$的隐含固定收益$r X_t dt$；&lt;/li&gt;
@@ -82,7 +82,8 @@ d (e^{-rt} S_t) &amp;amp;= d f(t, S_t) \\
 d (e^{-rt} X_t) &amp;amp;= d f(t, X_t) \\
 &amp;amp;= f_t(t, X_t) dt + f_x(t, X_t) dX_t + \frac{1}{2}f_{xx}(t, X_t) dX_t dX_t \\
 &amp;amp;= -r e^{-rt} X_t dt + e^{-rt} dX_t \\
-&amp;amp;= \left[-r e^{-rt} X_t dt + e^{-rt} r X_t dt\right] + e^{-rt} \Delta_t (\alpha - r) S_t dt + e^{-rt} \Delta_t \sigma S_t d W_t \\
+&amp;amp;= \left[-r e^{-rt} X_t dt + e^{-rt} r X_t dt\right] + e^{-rt} \Delta_t (\alpha - r) S_t dt \\
+&amp;amp; \quad + e^{-rt} \Delta_t \sigma S_t d W_t \\
 &amp;amp;= \Delta_t e^{-rt} (\alpha - r) S_t dt + \Delta_t e^{-rt} \sigma S_t d W_t \\
 &amp;amp;= \Delta_t d(e^{-rt} S_t)
 \end{aligned}
@@ -97,8 +98,10 @@ d (e^{-rt} X_t) &amp;amp;= d f(t, X_t) \\
 \(\begin{equation}
 \begin{aligned}
 d c(t, S_t) &amp;amp;= c_t(t, S_t) dt + c_x(t, S_t) dS_t + \frac{1}{2} c_{xx}(t, S_t) dS_t dS_t \\
-&amp;amp;= c_t(t, S_t) dt + c_x(t, S_t) [\alpha S_t dt + \sigma S_t dW_t] + \frac{1}{2} c_{xx}(t, S_t) \sigma^2 S_t^2 dt \\
-&amp;amp;= \big[c_t(t, S_t) + \alpha S_t c_x(t, S_t) + \frac{1}{2} \sigma^2 S_t^2 c_{xx}(t, S_t)\big]dt + \sigma S_t c_x(t, S_t) dW_t
+&amp;amp;= c_t(t, S_t) dt + c_x(t, S_t) [\alpha S_t dt + \sigma S_t dW_t] \\
+&amp;amp; \quad \ + \frac{1}{2} c_{xx}(t, S_t) \sigma^2 S_t^2 dt \\
+&amp;amp;= \big[c_t(t, S_t) + \alpha S_t c_x(t, S_t) + \frac{1}{2} \sigma^2 S_t^2 c_{xx}(t, S_t)\big]dt \\
+&amp;amp; \quad \ + \sigma S_t c_x(t, S_t) dW_t
 \end{aligned}
 \tag{2.1}
 \end{equation}\)&lt;/p&gt;
@@ -107,12 +110,12 @@ d c(t, S_t) &amp;amp;= c_t(t, S_t) dt + c_x(t, S_t) dS_t + \frac{1}{2} c_{xx}(t,
 \begin{aligned}
 d e^{-rt} c(t, S_t) &amp;amp;= df\big(t, c(t, S_t)\big) \\
 &amp;amp;= f_t\big(t, c(t, S_t)\big) dt \\
-&amp;amp; + f_x\big(t, c(t, S_t)\big) dc(t, S_t) + \frac{1}{2} f_{xx}\big(t, c(t, S_t)\big) dc(t, S_t) dc(t, S_t) \\
+&amp;amp; \quad \ + f_x\big(t, c(t, S_t)\big) dc(t, S_t) + \frac{1}{2} f_{xx}\big(t, c(t, S_t)\big) dc(t, S_t) dc(t, S_t) \\
 &amp;amp;= -r e^{-rt} c(t, S_t) dt + e^{-rt} d c(t, S_t) \\
 &amp;amp;= -r e^{-rt} c(t, S_t) dt \\
-&amp;amp; + e^{-rt} \left\{ \big[c_t(t, S_t) + \alpha S_t c_x(t, S_t) + \frac{1}{2} \sigma^2 S_t^2 c_{xx}(t, S_t)\big]dt + \sigma S_t c_x(t, S_t) dW_t \right\} \\
+&amp;amp; \quad \ + e^{-rt} \left\{ \big[c_t(t, S_t) + \alpha S_t c_x(t, S_t) + \frac{1}{2} \sigma^2 S_t^2 c_{xx}(t, S_t)\big]dt + \sigma S_t c_x(t, S_t) dW_t \right\} \\
 &amp;amp;= e^{-rt} \big[ -rc(t, S_t) + c_t(t, S_t) + \alpha S_t c_x(t, S_t) + \frac{1}{2} \sigma^2 S_t^2 c_{xx}(t, S_t) \big]dt \\
-&amp;amp; + e^{-rt} \sigma S_t c_x(t, S_t) dW_t
+&amp;amp; \quad \ + e^{-rt} \sigma S_t c_x(t, S_t) dW_t
 \end{aligned}
 \tag{2.2}
 \end{equation}\]
@@ -130,39 +133,40 @@ d e^{-rt} c(t, S_t) &amp;amp;= df\big(t, c(t, S_t)\big) \\
 &lt;/blockquote&gt;
 
 &lt;p&gt;如满足：
-\(d\left(e^{-rt} X_t\right) = d \left(e^{-rt}c(t, S_t)\right) \quad \text{ for all } t \in [0, T] \tag{3.2}\)
+\(d\left(e^{-rt} X_t\right) = d \left(e^{-rt}c(t, S_t)\right) \quad t \in [0, T] \tag{3.2}\)
 则上式必然成立。展开公式$\text{(3.2)}$并约减掉两边的$e^{-rt}$得到如下公式：
 \(\begin{equation}
 \begin{aligned}
 &amp;amp; \Delta_t (\alpha - r) S_t dt + \Delta_t \sigma S_t d W_t \\
 &amp;amp; = \big[ -rc(t, S_t) + c_t(t, S_t) + \alpha S_t c_x(t, S_t) + \frac{1}{2} \sigma^2 S_t^2 c_{xx}(t, S_t) \big]dt \\
-&amp;amp; + \sigma S_t c_x(t, S_t) dW_t
+&amp;amp; \quad \ + \sigma S_t c_x(t, S_t) dW_t
 \end{aligned}
 \tag{3.3}
 \end{equation}\)&lt;/p&gt;
 
 &lt;p&gt;首先令$dW_t$项系数相等，得到德尔塔对冲法则（&lt;strong&gt;&lt;em&gt;delta -hedging rule&lt;/em&gt;&lt;/strong&gt;）：
-\(\Delta_t = c_x(t, S_t) \quad \text{for all } t \in [0, T]. \tag{3.4}\)
+\(\Delta_t = c_x(t, S_t) \quad t \in [0, T]. \tag{3.4}\)
 即在任意时刻$t$，持有股票份额$\Delta_t$等于期权价格对股价的偏导数$c_x(t, S_t)$。&lt;/p&gt;
 
 &lt;p&gt;然后再令$dt$项系数相等，并将公式$\text{(3.4)}$带入其中，得到：
 \(\begin{equation}
 \begin{aligned}
 &amp;amp; c_x(t,S_t) (\alpha - r) S_t = -rc(t, S_t) + c_t(t, S_t) + \alpha S_t c_x(t, S_t) \\
-&amp;amp; + \frac{1}{2} \sigma^2 S_t^2 c_{xx}(t, S_t) \quad \text{for all } t \in [0, T]. 
+&amp;amp; + \frac{1}{2} \sigma^2 S_t^2 c_{xx}(t, S_t) \quad t \in [0, T]. 
 \end{aligned}
 \tag{3.5}
 \end{equation}\)&lt;/p&gt;
 
 \[-r c_x(t,S_t) S_t = -rc(t, S_t) + c_t(t, S_t) + \frac{1}{2} \sigma^2 S_t^2 c_{xx}(t, S_t) \tag{3.6}\]
 
-\[rc(t, S_t) = c_t(t, S_t) + r S_t c_x(t,S_t) +  \frac{1}{2} \sigma^2 S_t^2 c_{xx}(t, S_t)  \quad \text{for all } t \in [0, T]. \tag{3.7}\]
+\[rc(t, S_t) = c_t(t, S_t) + r S_t c_x(t,S_t) +  \frac{1}{2} \sigma^2 S_t^2 c_{xx}(t, S_t) \\
+\quad t \in [0, T]. \tag{3.7}\]
 
 &lt;p&gt;将$S_t$用哑变量$x$代替，便得到了BSM偏微分方程;&lt;/p&gt;
 
 \[\left\{
 \begin{aligned}
-&amp;amp; rc(t, x)  = c_t(t, x) + r x c_x(t,x) +  \frac{1}{2} \sigma^2 x^2 c_{xx}(t, x)   \quad \text{for all } t \in [0, T], x \geq 0.\\\
+&amp;amp; rc(t, x)  = c_t(t, x) + r x c_x(t,x) +  \frac{1}{2} \sigma^2 x^2 c_{xx}(t, x) \quad t \in [0, T], x \geq 0.\\\
 &amp;amp; c(T, x)  = (x - K)^+.
 \end{aligned}  \tag{3.8}
 \right.\]
@@ -177,7 +181,7 @@ d e^{-rt} c(t, S_t) &amp;amp;= df\big(t, c(t, S_t)\big) \\
 
 &lt;h3 id=&quot;四bsm偏微分方程求解&quot;&gt;四、BSM偏微分方程求解&lt;/h3&gt;
 
-&lt;p&gt;我们先将BSM偏微分方程转换为常规的热传导方程形式，然后借助傅里叶变换对其进行求解。&lt;/p&gt;
+&lt;p&gt;我们先将BSM偏微分方程转换为常见的的热传导方程形式，然后借助傅里叶变换对其进行求解。&lt;/p&gt;
 
 &lt;h4 id=&quot;bsm方程转换&quot;&gt;BSM方程转换&lt;/h4&gt;
 
@@ -194,9 +198,11 @@ d e^{-rt} c(t, S_t) &amp;amp;= df\big(t, c(t, S_t)\big) \\
 &amp;amp; \tau = T-t
 \end{aligned} \tag{4.2}\)
 计算$V(\tau, x)$的各阶偏导数如下：
-\(\frac{\partial V}{\partial t} = \frac{\partial V}{\partial \tau} \frac{\partial \tau}{\partial t} = -\frac{\partial V}{\partial \tau} \tag{4.3}\\
-\frac{\partial V}{\partial S} = \frac{\partial V}{\partial x} \frac{\partial x}{\partial S} = \frac{1}{S} \frac{\partial V}{\partial x} \\
-\frac{\partial^2 V}{\partial S^2} = \frac{\partial \frac{\partial V}{\partial S}}{\partial S} = -\frac{1}{S^2} \frac{\partial V}{\partial x} + \frac{1}{S} \frac{\partial^2 V}{\partial x^2} \frac{\partial x}{\partial S} = \frac{1}{S^2} \frac{\partial^2 V}{\partial x^2} - \frac{1}{S^2} \frac{\partial V}{\partial x}\)
+\(\begin{aligned}
+&amp;amp; \frac{\partial V}{\partial t} = \frac{\partial V}{\partial \tau} \frac{\partial \tau}{\partial t} = -\frac{\partial V}{\partial \tau} \\
+&amp;amp; \frac{\partial V}{\partial S} = \frac{\partial V}{\partial x} \frac{\partial x}{\partial S} = \frac{1}{S} \frac{\partial V}{\partial x} \\
+&amp;amp; \frac{\partial^2 V}{\partial S^2} = \frac{\partial \frac{\partial V}{\partial S}}{\partial S} = -\frac{1}{S^2} \frac{\partial V}{\partial x} + \frac{1}{S}  \frac{\partial^2 V}{\partial x^2} \frac{\partial x}{\partial S} = \frac{1}{S^2} \frac{\partial^2 V}{\partial x^2} - \frac{1}{S^2} \frac{\partial V}{\partial x}
+\end{aligned} \tag{4.3}\)
 将上述公式带入$\text{(4.1)}$得到：
 \(\left\{
 \begin{aligned}
@@ -214,15 +220,25 @@ d e^{-rt} c(t, S_t) &amp;amp;= df\big(t, c(t, S_t)\big) \\
 \end{aligned}  \tag{4.6}\]
 
 &lt;p&gt;将以上公式带入$\text{(4.4)}$并消去$e^{\alpha \tau + \beta x}$得到：
-\(e^{\alpha \tau + \beta x} (\frac{\partial u}{\partial \tau} + \alpha u) - \frac{\sigma^2}{2} e^{\alpha \tau + \beta x} (\frac{\partial^2 u}{\partial x^2} + 2 \beta \frac{\partial u}{\partial x} +\beta^2 u) \\ - (r - \frac{\sigma^2}{2}) e^{\alpha \tau + \beta x} (\frac{\partial u}{\partial x} + \beta u) + r e^{\alpha \tau + \beta x} u = 0 \tag{4.7}\)&lt;/p&gt;
+\(e^{\alpha \tau + \beta x} \left[ (\frac{\partial u}{\partial \tau} + \alpha u) - \frac{\sigma^2}{2}  (\frac{\partial^2 u}{\partial x^2} + 2 \beta \frac{\partial u}{\partial x} +\beta^2 u) \\ - (r - \frac{\sigma^2}{2}) (\frac{\partial u}{\partial x} + \beta u) + r u \right] = 0 \tag{4.7}\)&lt;/p&gt;
 
-\[\frac{\partial u}{\partial \tau} - \frac{\sigma^2}{2} \frac{\partial^2 u}{\partial x^2} - (\beta \sigma^2 + r - \frac{\sigma^2}{2}) \frac{\partial u}{\partial x} + \left(r - \beta(r - \frac{\sigma^2}{2}) - \frac{\sigma^2}{2} \beta^2 + \alpha \right) u = 0
+\[\frac{\partial u}{\partial \tau} - \frac{\sigma^2}{2} \frac{\partial^2 u}{\partial x^2} - (\beta \sigma^2 + r - \frac{\sigma^2}{2}) \frac{\partial u}{\partial x} \\
++ \left(r - \beta(r - \frac{\sigma^2}{2}) - \frac{\sigma^2}{2} \beta^2 + \alpha \right) u = 0
 \tag{4.8}\]
 
 &lt;p&gt;通过选取适当的$\alpha$和$\beta$的值，消去$\frac{\partial u}{\partial x}$和$u$项，即：
-\((\beta \sigma^2 + r - \frac{\sigma^2}{2}) = 0 \quad \rightarrow \quad \beta = \frac{1}{2} - \frac{r}{\sigma^2} \tag{4.9}\\
-\left(r - \beta(r - \frac{\sigma^2}{2}) - \frac{\sigma^2}{2} \beta^2 + \alpha \right) = 0 \quad \rightarrow \quad \alpha = -r + \beta(r - \frac{\sigma^2}{2}) + \frac{\sigma^2}{2} \beta^2 = -r - \frac{1}{2 \sigma^2}(r - \frac{\sigma^2}{2})^2\)
-则$\text{(4.8)}$变换为$\text{(4.10)}$形式的的常规热传导方程：
+\(\begin{equation}
+\begin{aligned}
+&amp;amp; (\beta \sigma^2 + r - \frac{\sigma^2}{2}) = 0 \\
+&amp;amp; \rightarrow \quad \beta = \frac{1}{2} - \frac{r}{\sigma^2} \\
+\\
+&amp;amp; \left(r - \beta(r - \frac{\sigma^2}{2}) - \frac{\sigma^2}{2} \beta^2 + \alpha \right) = 0 \\
+&amp;amp; \rightarrow \quad \alpha = -r + \beta(r - \frac{\sigma^2}{2}) + \frac{\sigma^2}{2} \beta^2 \\
+&amp;amp; \qquad \quad \ = -r - \frac{1}{2 \sigma^2}(r - \frac{\sigma^2}{2})^2
+\end{aligned}
+\tag{4.9}
+\end{equation}\)
+则$\text{(4.4)}$变换为$\text{(4.10)}$形式的的常规热传导方程：
 \(\left\{
 \begin{aligned}
 &amp;amp; \frac{\partial u}{\partial \tau} = \frac{\sigma^2}{2} \frac{\partial^2 u}{\partial x^2},   \quad 0 \leq \tau \leq T,  0 &amp;lt; x &amp;lt; \infty.\\\
@@ -288,64 +304,81 @@ V(\tau, x) &amp;amp;= \exp(-r \tau - \frac{1}{2 \sigma^2}(r - \frac{\sigma^2}{2}
 \end{aligned}
 \tag{4.18}
 \end{equation}\)
-其中：
+令:
 \(\begin{equation}
 \begin{aligned}
-I_1 &amp;amp;= \frac{1}{\sigma \sqrt{2 \pi \tau}} \int^{+\infty}_{\ln K} \exp(-r \tau - \frac{1}{2 \sigma^2}(r - \frac{\sigma^2}{2})^2 \tau - \frac{1}{\sigma^2}(r - \frac{\sigma^2}{2}) x) \exp(-\frac{(x-\xi)^2}{2 \sigma^2 \tau}) \exp \bigg( {(1-\beta) \xi} \bigg) d\xi \\
-&amp;amp;= \frac{1}{\sigma \sqrt{2 \pi \tau}} \int^{+\infty}_{\ln K} \exp(-r \tau - \frac{1}{2 \sigma^2}(r - \frac{\sigma^2}{2})^2 \tau - \frac{1}{\sigma^2}(r - \frac{\sigma^2}{2}) x) \exp(-\frac{(x-\xi)^2}{2 \sigma^2 \tau}) \exp \bigg( \left[ 1+\frac{1}{\sigma^2}(r - \frac{\sigma^2}{2}) \right] \xi \bigg) d\xi \\
-&amp;amp;= \frac{e^{-r \tau}}{\sigma \sqrt{2 \pi \tau}} \int^{+\infty}_{\ln K} \exp( - \frac{1}{2 \sigma^2}(r - \frac{\sigma^2}{2})^2 \tau - \frac{1}{\sigma^2}(r - \frac{\sigma^2}{2}) x -\frac{(x-\xi)^2}{2 \sigma^2 \tau} + \left[ \xi +\frac{1}{\sigma^2}(r - \frac{\sigma^2}{2}) \xi \right] )d\xi \\
-&amp;amp;= \frac{e^{-r \tau}}{\sigma \sqrt{2 \pi \tau}} \int^{+\infty}_{\ln K} \exp(-\frac{(x-\xi)^2}{2 \sigma^2 \tau} - \frac{1}{\sigma^2}(r - \frac{\sigma^2}{2})(x - \xi) - \frac{1}{2 \sigma^2}(r - \frac{\sigma^2}{2})^2 \tau + \xi) d\xi \\
-&amp;amp;= \frac{e^{-r \tau}}{\sigma \sqrt{2 \pi \tau}} \int^{+\infty}_{\ln K} \exp(-\frac{1}{2 \sigma^2 \tau} \left[(x-\xi)^2 + 2 (r - \frac{\sigma^2}{2}) \tau (x - \xi) + (r - \frac{\sigma^2}{2})^2 \tau^2 \right] + \xi) d\xi \\
-&amp;amp;= \frac{e^{-r \tau}}{\sigma \sqrt{2 \pi \tau}} \int^{+\infty}_{\ln K} \exp(-\frac{1}{2 \sigma^2 \tau} \left[(x-\xi) + (r - \frac{\sigma^2}{2}) \tau \right] + \xi) d\xi \\
+I_0 &amp;amp;= \exp \left( -r \tau - \frac{(r - \frac{\sigma^2}{2})^2 }{2 \sigma^2} \tau - \frac{(r - \frac{\sigma^2}{2})}{\sigma^2} x \right) \exp \left(-\frac{(x-\xi)^2}{2 \sigma^2 \tau} \right) \exp \bigg( {(1-\beta) \xi} \bigg) \\
+&amp;amp;= \exp \left(-r \tau - \frac{(r - \frac{\sigma^2}{2})^2}{2 \sigma^2} \tau - \frac{(r - \frac{\sigma^2}{2})}{\sigma^2} x \right) \exp \left(-\frac{(x-\xi)^2}{2 \sigma^2 \tau} \right) \exp \bigg \{ \left[ 1+\frac{(r - \frac{\sigma^2}{2})}{\sigma^2} \right] \xi \bigg \} \\
+&amp;amp;= e^{-r \tau} \exp \bigg \{ - \frac{(r - \frac{\sigma^2}{2})^2}{2 \sigma^2}\tau - \frac{(r - \frac{\sigma^2}{2})}{\sigma^2}x -\frac{(x-\xi)^2}{2 \sigma^2 \tau} + \left[ \xi +\frac{(r - \frac{\sigma^2}{2}) \xi}{\sigma^2} \right] \bigg \} \\
+&amp;amp;= e^{-r \tau} \exp \left(-\frac{(x-\xi)^2}{2 \sigma^2 \tau} - \frac{(r - \frac{\sigma^2}{2})}{\sigma^2} (x - \xi) - \frac{(r - \frac{\sigma^2}{2})^2 \tau}{2 \sigma^2} + \xi \right) \\
+&amp;amp;= e^{-r \tau} \exp \bigg \{-\frac{\left[(x-\xi)^2 + 2 (r - \frac{\sigma^2}{2}) \tau (x - \xi) + (r - \frac{\sigma^2}{2})^2 \tau^2 \right]}{2 \sigma^2 \tau} + \xi \bigg \} \\
+&amp;amp;= e^{-r \tau} \exp \bigg \{ -\frac{\left[(x-\xi) + (r - \frac{\sigma^2}{2}) \tau \right]^2}{2 \sigma^2 \tau} + \xi \bigg \} \\
 \end{aligned}
 \tag{4.19}
+\end{equation}\)&lt;/p&gt;
+
+&lt;p&gt;其中：
+\(\begin{equation}
+\begin{aligned}
+I_1 &amp;amp;= \frac{1}{\sigma \sqrt{2 \pi \tau}} \int^{+\infty}_{\ln K} I_0 d\xi \\
+&amp;amp;= \frac{e^{-r \tau}}{\sigma \sqrt{2 \pi \tau}} \int^{+\infty}_{\ln K} \exp \bigg \{ (-\frac{\left[(x-\xi) + (r - \frac{\sigma^2}{2}) \tau \right]^2}{2 \sigma^2 \tau} + \xi \bigg \} d\xi \\
+\end{aligned}
+\tag{4.20}
 \end{equation}\)
-令$\eta = x-\xi + (r - \frac{\sigma^2}{2}) \tau$并带入$\text{(4.19)}$：
+令$\eta = x-\xi + (r - \frac{\sigma^2}{2}) \tau$并带入$\text{(4.20)}$：
 \(\begin{equation}
 \begin{aligned}
 I_1 &amp;amp;= \frac{e^{-r \tau}}{\sigma \sqrt{2 \pi \tau}} \int^{-\infty}_{x - \ln K + (r - \frac{\sigma^2}{2}) \tau} - \exp(-\frac{\eta^2}{2 \sigma^2 \tau} + (x - \eta + (r - \frac{\sigma^2}{2}) \tau)) d\eta \\
 &amp;amp;= \frac{1}{\sigma \sqrt{2 \pi \tau}} \int^{x - \ln K + (r - \frac{\sigma^2}{2}) \tau}_{-\infty} e^x \exp(-\frac{\eta^2}{2 \sigma^2 \tau} - \eta - \frac{\sigma^2}{2} \tau) d\eta \\
 &amp;amp;= \frac{1}{\sigma \sqrt{2 \pi \tau}} \int^{x - \ln K + (r - \frac{\sigma^2}{2}) \tau}_{-\infty} e^x \exp(-\frac{\eta^2 + 2 \sigma^2 \tau \eta + (\sigma^2 \tau)^2}{2 \sigma^2 \tau}) d\eta \\
-&amp;amp;= \frac{e^x}{\sigma \sqrt{2 \pi \tau}} \int^{x - \ln K + (r - \frac{\sigma^2}{2}) \tau}_{-\infty} \exp(-\frac{(\eta + \sigma^2 \eta)^2}{2 \sigma^2 \tau}) d\eta
+&amp;amp;= \frac{e^x}{\sigma \sqrt{2 \pi \tau}} \int^{x - \ln K + (r - \frac{\sigma^2}{2}) \tau}_{-\infty} \exp(-\frac{(\eta + \sigma^2 \tau)^2}{2 \sigma^2 \tau}) d\eta
 \end{aligned}
-\tag{4.20}
+\tag{4.21}
 \end{equation}\)
 令
-\(\omega = \frac{\eta + \sigma^2 \tau}{\sigma \sqrt{\tau}} \tag{4.21}\\
+\(\omega = \frac{\eta + \sigma^2 \tau}{\sigma \sqrt{\tau}} \tag{4.22}\\
 N(x) = \frac{1}{\sqrt{2\pi}} \int^{x}_{-\infty} \exp(-\frac{\omega^2}{2}) d\omega\)
-带入$\text{(4.20)}$，求得：
+带入$\text{(4.21)}$，求得：
 \(\begin{equation}
 \begin{aligned}
 I_1 &amp;amp;= \frac{e^x}{\sigma \sqrt{2 \pi \tau}} \int^{\frac{x - \ln K + (r + \frac{\sigma^2}{2}) \tau}{\sigma \sqrt{\tau}}}_{-\infty} \sigma \sqrt{\tau} \exp(-\frac{\omega^2}{2}) d\omega \\
 &amp;amp;= e^x N(\frac{x - \ln K + (r + \frac{\sigma^2}{2}) \tau}{\sigma \sqrt{\tau}})
 \end{aligned}
-\tag{4.22}
+\tag{4.23}
 \end{equation}\)
-同理
-\(\begin{equation}
+同理令
+\(I&apos;_0 = - \exp \left( -r \tau - \frac{(r - \frac{\sigma^2}{2})^2}{2 \sigma^2} \tau - \frac{(r - \frac{\sigma^2}{2})}{\sigma^2} x \right) \exp(-\frac{(x-\xi)^2}{2 \sigma^2 \tau}) K e^{-\beta \xi} \tag{4.24}\)&lt;/p&gt;
+
+&lt;p&gt;\(\begin{equation}
 \begin{aligned}
-I_2 &amp;amp;= \frac{1}{\sigma \sqrt{2 \pi \tau}} \int^{+\infty}_{\ln K} - \exp(-r \tau - \frac{1}{2 \sigma^2}(r - \frac{\sigma^2}{2})^2 \tau - \frac{1}{\sigma^2}(r - \frac{\sigma^2}{2}) x) \exp(-\frac{(x-\xi)^2}{2 \sigma^2 \tau}) K e^{-\beta \xi} d\xi \\
+I_2 &amp;amp;= \frac{1}{\sigma \sqrt{2 \pi \tau}} \int^{+\infty}_{\ln K} {I&apos;_0} d\xi \\
 &amp;amp;= -\frac{e^{-r\tau} K}{\sigma \sqrt{2 \pi \tau}} \int^{x - \ln K + (r - \frac{\sigma^2}{2}) \tau}_{-\infty} \exp(-\frac{\eta^2}{2 \sigma^2 \tau}) d\eta \\
 &amp;amp;= -K e^{-r \tau} N(\frac{x - \ln K + (r - \frac{\sigma^2}{2}) \tau}{\sigma \sqrt{\tau}})
 \end{aligned}
-\tag{4.23}
+\tag{4.25}
 \end{equation}\)
 根据$x = \ln S, \tau = T-t$，最终得到$V(t, S_t)$：
-\(V(t, S_t) = S_t N(\frac{\ln \frac{S_t}{K} + (r + \frac{\sigma^2}{2}) (T-t)}{\sigma \sqrt{T-t}}) - K e^{-r (T-t)} N(\frac{\ln \frac{S_t}{K} + (r - \frac{\sigma^2}{2}) (T-t)}{\sigma \sqrt{(T-t)}})
-\tag{4.24}\)
+\(\begin{equation}
+\begin{aligned}
+V(t, S_t) &amp;amp;= S_t N(\frac{\ln \frac{S_t}{K} + (r + \frac{\sigma^2}{2}) (T-t)}{\sigma \sqrt{T-t}}) \\
+ &amp;amp; \quad - K e^{-r (T-t)} N(\frac{\ln \frac{S_t}{K} + (r - \frac{\sigma^2}{2}) (T-t)}{\sigma \sqrt{(T-t)}})
+ \end{aligned}
+\tag{4.26}
+\end{equation}\)
 或者简写为：
 \(\begin{equation}
 \begin{aligned}
 V(t, S_t) &amp;amp;= S_t N(d_1) - K e^{-r (T-t)} N(d_2) \\
 \\
 &amp;amp; d_1 = \frac{\ln \frac{S_t}{K} + (r + \frac{\sigma^2}{2}) (T-t)}{\sigma \sqrt{T-t}} \\
-&amp;amp; d_2 = d_1 - \sigma \sqrt{T-t} = \frac{\ln \frac{S_t}{K} + (r - \frac{\sigma^2}{2}) (T-t)}{\sigma \sqrt{(T-t)}}
+&amp;amp; d_2 = d_1 - \sigma \sqrt{T-t} \\
+&amp;amp; \ \ \ \  = \frac{\ln \frac{S_t}{K} + (r - \frac{\sigma^2}{2}) (T-t)}{\sigma \sqrt{(T-t)}}
 \end{aligned}
-\tag{4.25}
+\tag{4.27}
 \end{equation}\)
 由此，我们便求得了BSM偏微分方程的解析解，亦即欧式看涨期权定价公式。&lt;/p&gt;
 
-&lt;h3 id=&quot;注记&quot;&gt;注记&lt;/h3&gt;
+&lt;h3 id=&quot;五注记&quot;&gt;五、注记&lt;/h3&gt;
 
 &lt;p&gt;以上便整理完了对期权定价公式的偏微分方程直接求解方法，仅做形式化推导（有些地方确实考验对常规数学分析知识的掌握及细心程度例如公式$\text{4.19-4.20}$）的推导）。对偏微分方程求解过程中所涉及的傅里叶变换的适用性不做讨论，傅里叶变换目前除了印象中可以将非病态函数分解成三角函数的叠加以外所知甚少，再者公式$\text(4.16)$第一行到第二行的转化，第二行含参变量积分的计算（曾大言不惭想直接借助分部积分推导下，后来发现没那么容易），还有就是《Stochastic Calculus for Finance》关于对伊藤积分采用黎曼分割的合理性问题等等，总之想要彻底搞清楚其中的细节，还需不忘初心，继续精进。&lt;/p&gt;
 
