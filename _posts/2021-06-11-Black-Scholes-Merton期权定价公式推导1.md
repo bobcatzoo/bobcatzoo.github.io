@@ -291,21 +291,21 @@ $$
 其中
 
 $$
-N(x) = \frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{x} e^ {-\frac{t^2}{2}} d t \tag{5.4}
+N(x) = \frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{x} e^ {-\frac{t^2}{2}} d t \tag{4.10}
 $$
 
 $$
-d_+(\tau, x) = \frac{1}{\sigma \sqrt{\tau}}\left[\log \frac{x}{K}+\left(r+\frac{1}{2} \sigma^{2}\right) \tau\right] \tag{4.10}
+d_+(\tau, x) = \frac{1}{\sigma \sqrt{\tau}}\left[\log \frac{x}{K}+\left(r+\frac{1}{2} \sigma^{2}\right) \tau\right] \tag{4.11}
 $$
 
 $$
-d_-(\tau, x) = d_+(\tau, x) - \sigma \sqrt{\tau} \tag{4.11}
+d_-(\tau, x) = d_+(\tau, x) - \sigma \sqrt{\tau} \tag{4.12}
 $$
 
 由此我们得到了欧式看涨期权定价公式
 
 $$
-\text{BSM}(\tau, x, K, r, \sigma) = x N\left(d_{+}(\tau, x)\right) - K e^{-r \tau} N\left(d_{-}(\tau, x)\right) \tag{4.12}
+\text{BSM}(\tau, x, K, r, \sigma) = x N\left(d_{+}(\tau, x)\right) - K e^{-r \tau} N\left(d_{-}(\tau, x)\right) \tag{4.13}
 $$
 
 
@@ -313,7 +313,7 @@ $$
 
 ### 5.1 实现$N(x)$函数 - *From Scratch to Boost Library*
 
-定价公式$(1)$-$(5)$中涉及$N(x)$、$\exp(x)$和$\log(x)$等3个函数，其中$\exp(x)$和$\log(x)$已在标准库`<cmath>`中实现，可以直接使用。因此只剩$N(x)$需要我们在标准库外自己实现或寻求其他库的支持。我们按照如下三种方式分别进行实现：
+定价公式$(4.13)$中涉及$N(x)$、$\exp(x)$和$\log(x)$等3个函数，其中$\exp(x)$和$\log(x)$已在标准库`<cmath>`中实现，可以直接使用。因此只剩$N(x)$需要我们在标准库外自己实现或寻求其他库的支持。我们按照如下三种方式分别进行实现：
 
 - 多项式逼近法
 - 数值积分法
@@ -323,8 +323,7 @@ $$
 
 如$x > 0$，定义$k = 1/(1 + 0.2316419x)$，则$N(x)$可用如下关于$k$多项式进行逼近
 $$
-\small 1 − \frac{1}{\sqrt{2 \pi}} \exp(-\frac{x^2} {2}) k(0.319381530 \\
-+ k(−0.356563782 + k(1.781477937 + k(−1.821255978 + 1.330274429k)))) \tag{5.1}
+\small 1 − \frac{1}{\sqrt{2 \pi}} \exp(-\frac{x^2} {2}) k(0.319381530 + k(−0.356563782 + k(1.781477937 + k(−1.821255978 + 1.330274429k)))) \tag{5.1}
 $$
 
 借助$N(x) + N(-x) = 1$可以求得$N(-x)$即$x < 0$时$N(x)$的值。
