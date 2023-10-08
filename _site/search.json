@@ -6,6 +6,14 @@
       "tags"     : "金融数学, 期权定价",
       "url"      : "/2023/09/29/Black-Scholes-Merton%E6%9C%9F%E6%9D%83%E5%AE%9A%E4%BB%B7%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/",
       "date"     : "2023-09-29 00:00:00 +0545"
+    } ,
+  
+    {
+      "title"    : "Black-Scholes-Merton期权定价公式推导",
+      "subtitle" : "风险中性测度方法",
+      "tags"     : "金融数学, 期权定价, C++, Python",
+      "url"      : "/2021/06/11/Black-Scholes-Model/",
+      "date"     : "2021-06-11 00:00:00 +0545"
     } 
   
 ]
